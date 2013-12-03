@@ -20,6 +20,6 @@ local venv_info='$(virtualenv_prompt_info)'
 
 
 PROMPT="
-%{$terminfo[bold]$fg[blue]%}%n@$(box_name):%{$fg[black]%}${current_dir} \
+%{$fg[green]%}%n@$(box_name):%{$reset_color%}${current_dir} \
 ${git_info}${venv_info}
-%{$fg[red]%}$ %{$reset_color%}"
+%{$fg[green]%}$ %{$reset_color%}"
