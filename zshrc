@@ -42,12 +42,12 @@ DISABLE_AUTO_TITLE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git fabric brew pip python virtualenv virtualenvwrapper vi-mode)
 
-source $ZSH/oh-my-zsh.sh
-
-# Customize to your needs...
 export PATH="$HOME/bin:/usr/local/bin:/usr/local/share/npm/bin:$PATH"
-export MANPATH="$HOME/man:/usr/local/man:$MANPATH"
+export MANPATH="/usr/local/man:$MANPATH"
 export PYTHONPATH="/usr/local/lib/python:$PYTHONPATH"
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Code
+
+source .zshrc.local 2> /dev/null
+source $ZSH/oh-my-zsh.sh
 
