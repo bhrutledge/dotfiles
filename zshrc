@@ -40,13 +40,16 @@ DISABLE_AUTO_TITLE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git fabric brew pip python virtualenv virtualenvwrapper vi-mode)
+plugins=(git fabric brew pip python vi-mode)
 
 export PATH="$HOME/bin:/usr/local/bin:/usr/local/share/npm/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export PYTHONPATH="/usr/local/lib/python:$PYTHONPATH"
+
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Code
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+source virtualenvwrapper_lazy.sh
 
 source .zshrc.local 2> /dev/null
 source $ZSH/oh-my-zsh.sh

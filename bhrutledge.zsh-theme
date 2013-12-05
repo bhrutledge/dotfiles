@@ -29,6 +29,6 @@ function virtualenv_prompt_info(){
 local venv_info='$(virtualenv_prompt_info)'
 
 PROMPT="
-${ob}%n@$(box_name)${cb}${ob}${current_dir}${cb}${git_info}${venv_info}
+${ob}%n@$(box_name)${cb}${ob}${current_dir}${cb} ${git_info}${venv_info}
 $ "
 
