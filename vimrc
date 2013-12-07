@@ -135,9 +135,10 @@ nnoremap <leader>. :lcd %:p:h<CR>
 " ==========================================================
 " Colors
 " ==========================================================
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 
-highlight ExtraWhitespace ctermbg=lightgrey guibg=lightgrey
+highlight ColorColumn ctermbg=LightGrey guifg=LightGrey
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
+highlight ExtraWhitespace ctermbg=LightGrey guibg=LightGrey
 
 match ExtraWhitespace '\s\+$'
 
