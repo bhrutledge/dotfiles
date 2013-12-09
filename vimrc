@@ -6,11 +6,15 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
+"Bundle 'scrooloose/nerdtree'
+"Bundle 'tpope/vim-fugitive'
+"Bundle 'scrooloose/syntastic'
 Bundle 'plasticboy/vim-markdown'
 Bundle 'othree/html5.vim'
 Bundle 'hdima/python-syntax'
 Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'altercation/vim-colors-solarized'
+"Bundle 'chriskempson/base16-vim'
 
 let g:netrw_winsize=80
 let g:netrw_altv=1
@@ -62,7 +66,6 @@ set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
 set formatoptions=tcroql    " Setting text and comment formatting to auto
 set textwidth=80            " Lines are automatically wrapped after 80 columns
-set colorcolumn=81          " Beware of long lines
 
 """" Reading/Writing
 set noautowrite             " Never write a file unless I request it.
@@ -133,12 +136,15 @@ nnoremap <leader>rws :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>. :lcd %:p:h<CR>
 
 " ==========================================================
-" Colors
+" Colors and Fonts
 " ==========================================================
+"
+set cursorline              " Highlight current line
+set colorcolumn=+1          " Hightlight textwidth to avoid long lines
+set listchars=tab:▸\ ,eol:¬ " Show hidden characters (using :set list)
+set guifont=Menlo\ Regular:h12
 
-highlight ColorColumn ctermbg=LightGrey guifg=LightGrey
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
-highlight ExtraWhitespace ctermbg=LightGrey guibg=LightGrey
-
-match ExtraWhitespace '\s\+$'
+set background=dark
+let g:solarized_hitrail=1
+colorscheme solarized
 
