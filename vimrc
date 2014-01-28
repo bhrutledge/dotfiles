@@ -12,6 +12,8 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'plasticboy/vim-markdown'
 Bundle 'othree/html5.vim'
 Bundle 'hdima/python-syntax'
+"Bundle 'davidhalter/jedi-vim'
+"Bundle 'klen/python-mode'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'altercation/vim-colors-solarized'
 "Bundle 'chriskempson/base16-vim'
@@ -21,6 +23,9 @@ let g:netrw_altv=1
 let g:netrw_liststyle=3
 let g:vim_markdown_folding_disabled=1
 let g:indent_guides_guide_size=1
+let python_highlight_all=1
+
+autocmd FileType python setlocal completeopt-=preview
 
 " Started from https://github.com/jeffknupp/config_files/blob/master/.vimrc
 
@@ -48,7 +53,6 @@ set wildignore+=*.egg-info/**
 "autocmd FileType * setlocal colorcolumn=0
 
 """ Moving Around/Editing
-"set cursorline              " have a line indicate the cursor location
 set ruler                   " show the cursor position all the time
 set nostartofline           " Avoid moving cursor to BOL when jumping around
 set virtualedit=block       " Let cursor move past the last char in <C-v> mode
@@ -58,7 +62,7 @@ set showmatch               " Briefly jump to a paren once it's balanced
 set wrap                    " Wrap text
 set linebreak               " don't wrap textin the middle of a word
 set autoindent              " always set autoindenting on
-set smartindent             " use smart indent if there is no indent file
+"set smartindent             " use smart indent if there is no indent file
 set tabstop=4               " <tab> inserts 4 spaces
 set shiftwidth=4            " but an indent level is 2 spaces wide.
 set softtabstop=4           " <BS> over an autoindent deletes both spaces.
@@ -95,7 +99,7 @@ set relativenumber             " Display relative line numbers
 " ==========================================================
 " Shortcuts
 " ==========================================================
-let mapleader=","             " change the leader to be a comma vs slash
+" let mapleader=","             " change the leader to be a comma vs slash
 
 " sudo write this
 cmap W! w !sudo tee % >/dev/null
@@ -110,18 +114,19 @@ map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimr
 nmap <leader>c :copen<CR>
 nmap <leader>cc :cclose<CR>
 
+" TODO: Use leader to avoid interfering with other netrw, etc.
 " ctrl-jklh  changes to that split
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
+"map <c-j> <c-w>j
+"map <c-k> <c-w>k
+"map <c-l> <c-w>l
+"map <c-h> <c-w>h
 
 " Open a new vertical split and switch to it
-nnoremap <leader>w <C-w>v<C-w>l
+"nnoremap <leader>w <C-w>v<C-w>l
 
 " and lets make these all work in insert mode too ( <C-O> makes next cmd
 "  happen as if in command mode )
-imap <C-W> <C-O><C-W>
+"imap <C-W> <C-O><C-W>
 
 " Quit window on <leader>q
 nnoremap <leader>q :q<CR>
@@ -138,8 +143,6 @@ nnoremap <leader>. :lcd %:p:h<CR>
 " ==========================================================
 " Colors and Fonts
 " ==========================================================
-"
-set cursorline              " Highlight current line
 set colorcolumn=+1          " Hightlight textwidth to avoid long lines
 set listchars=tab:▸\ ,eol:¬ " Show hidden characters (using :set list)
 set guifont=Menlo\ Regular:h12
