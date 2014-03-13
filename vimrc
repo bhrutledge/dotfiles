@@ -6,7 +6,9 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
-"Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-commentary'
 Bundle 'plasticboy/vim-markdown'
 Bundle 'othree/html5.vim'
 Bundle 'hdima/python-syntax'
@@ -18,7 +20,6 @@ Bundle 'hynek/vim-python-pep8-indent'
 "Bundle 'scrooloose/syntastic'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'altercation/vim-colors-solarized'
-"Bundle 'chriskempson/base16-vim'
 
 let g:netrw_winsize=80
 let g:netrw_altv=1
@@ -131,7 +132,10 @@ nmap <leader>cc :cclose<CR>
 "imap <C-W> <C-O><C-W>
 
 " Quit window on <leader>q
-nnoremap <leader>q :q<CR>
+nnoremap <leader>q :conf q<CR>
+
+" Revert file
+nnoremap <leader>R :e!<CR>
 
 " hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
