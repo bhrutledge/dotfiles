@@ -15,9 +15,9 @@ Bundle 'hdima/python-syntax'
 Bundle 'hynek/vim-python-pep8-indent'
 "Bundle 'davidhalter/jedi-vim'
 "Bundle 'klen/python-mode'
+"Bundle 'scrooloose/syntastic'
 "Bundle 'Valloric/YouCompleteMe'
 "Bundle 'tpope/vim-fugitive'
-"Bundle 'scrooloose/syntastic'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'altercation/vim-colors-solarized'
 
@@ -96,7 +96,7 @@ set hlsearch                " Highlight searches by default.
 set incsearch               " Incrementally search while typing a /regex
 
 """ Line Numbers
-"set number                    " Display line numbers
+set nonumber                    " Display line numbers
 set relativenumber             " Display relative line numbers
 
 " ==========================================================
@@ -145,6 +145,13 @@ nnoremap <leader>rws :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
+
+" Toggle line numbers
+nnoremap <leader>n :set nu! rnu!<CR>
+
+" Preserve last substitution flags
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 
 " ==========================================================
 " Colors and Fonts
