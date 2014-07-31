@@ -1,4 +1,7 @@
-# Archives
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/archives.gitignore
+
+# It's better to unpack these files and commit the raw source because
+# git has its own built in compression methods.
 *.7z
 *.jar
 *.rar
@@ -8,6 +11,7 @@
 *.bz2
 *.xz
 *.lzma
+*.cab
 
 #packing-only formats
 *.iso
@@ -20,12 +24,34 @@
 *.egg
 *.deb
 *.rpm
+*.msi
+*.msm
+*.msp
 
-# OSX
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/cloud9.gitignore
+
+# Cloud9 IDE - http://c9.io
+.c9revisions
+.c9
+
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/linux.gitignore
+
+*~
+
+# KDE directory preferences
+.directory
+
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/osx.gitignore
+
 .DS_Store
 .AppleDouble
 .LSOverride
-Icon
+
+# Icon must end with two \r
+Icon
 
 # Thumbnails
 ._*
@@ -34,21 +60,55 @@ Icon
 .Spotlight-V100
 .Trashes
 
-# TextMate
-*.tmproj
-*.tmproject
-tmtags
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/tags.gitignore
+
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+!TAGS/
+tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
+
+
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/vagrant.gitignore
+
+.vagrant/
+
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/virtualenv.gitignore
 
 # Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 .Python
 [Bb]in
 [Ii]nclude
 [Ll]ib
 [Ss]cripts
 
-# vim
-.*.s[a-w][a-z]
+
+### https://raw.github.com/github/gitignore/14b7566ce157ce95b07006466bacee160f242284/Global/vim.gitignore
+
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
 *.un~
 Session.vim
 .netrwhist
 *~
+
+
