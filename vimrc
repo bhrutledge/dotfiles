@@ -4,6 +4,8 @@ filetype off                  " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+set encoding=utf-8
+
 Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tmhedberg/matchit'
