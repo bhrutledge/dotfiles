@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Updating dotfiles"
 
@@ -12,10 +12,10 @@ fi
 echo "Updating prezto"
 
 if [[ ! -d ~/.zprezto ]]; then
-    git clone https://github.com/bhrutledge/prezto.git ~/.zprezto
+    git clone --recurse-submodules https://github.com/bhrutledge/prezto.git ~/.zprezto
 else
     cd ~/.zprezto
-    git pull
+    git pull --recurse-submodules
 fi
 
 for dir in ~/.dotfiles ~/.zprezto/runcoms; do
