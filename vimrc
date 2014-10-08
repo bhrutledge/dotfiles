@@ -14,6 +14,7 @@ Bundle 'voithos/vim-python-matchit'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-abolish'
 "Bundle 'tpope/vim-commentary'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'tpope/vim-fugitive'
@@ -23,9 +24,8 @@ Bundle 'mattn/emmet-vim'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'hdima/python-syntax'
 Bundle 'hynek/vim-python-pep8-indent'
-"Bundle 'davidhalter/jedi-vim'
+"Bundle 'nvie/vim-flake8'
 "Bundle 'klen/python-mode'
-"Bundle 'Valloric/YouCompleteMe'
 "Bundle 'scrooloose/syntastic'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'altercation/vim-colors-solarized'
@@ -81,7 +81,7 @@ set softtabstop=4           " <BS> over an autoindent deletes both spaces.
 set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
 set formatoptions=tcroql    " Setting text and comment formatting to auto
-set textwidth=80            " Lines are automatically wrapped after 80 columns
+set textwidth=79            " Lines are automatically wrapped after 79 columns
 
 """" Reading/Writing
 set noautowrite             " Never write a file unless I request it.
@@ -97,6 +97,7 @@ set report=0                " : commands always print changed line count.
 set shortmess+=a            " Use [+]/[RO]/[w] for modified/readonly/written.
 set ruler                   " Show some info, even without statuslines.
 set laststatus=2            " Always show statusline, even if only 1 window.
+set spelllang=en_us         " Set spell check language
 
 """ Searching and Patterns
 set ignorecase              " Default to using case insensitive searches,
@@ -120,25 +121,14 @@ cmap W! w !sudo tee % >/dev/null
 cmap w!! w !sudo tee % >/dev/null
 
 " Reload Vimrc
-map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+nmap <silent> <leader>V 
+            \:source ~/.vimrc<CR>
+            \:filetype detect<CR>
+            \:exe ":echo 'vimrc reloaded'"<CR>
 
 " open/close the quickfix window
 nmap <leader>c :copen<CR>
 nmap <leader>cc :cclose<CR>
-
-" TODO: Use leader to avoid interfering with other netrw, etc.
-" ctrl-jklh  changes to that split
-"map <c-j> <c-w>j
-"map <c-k> <c-w>k
-"map <c-l> <c-w>l
-"map <c-h> <c-w>h
-
-" Open a new vertical split and switch to it
-"nnoremap <leader>w <C-w>v<C-w>l
-
-" and lets make these all work in insert mode too ( <C-O> makes next cmd
-"  happen as if in command mode )
-"imap <C-W> <C-O><C-W>
 
 " Quit window on <leader>q
 nnoremap <leader>q :conf q<CR>
@@ -161,6 +151,9 @@ nnoremap <leader>n :set nu! rnu!<CR>
 " Preserve last substitution flags
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
+
+" Toggle spell check
+nnoremap <leader>s :setlocal spell!<CR>
 
 " ==========================================================
 " Colors and Fonts
