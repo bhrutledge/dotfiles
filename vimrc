@@ -8,7 +8,9 @@ set encoding=utf-8
 
 Bundle 'gmarik/vundle'
 Bundle 'mileszs/ack.vim'
+Bundle 'rking/ag.vim'
 Bundle 'kien/ctrlp.vim'
+Bundle 'taglist.vim'
 Bundle 'tmhedberg/matchit'
 Bundle 'voithos/vim-python-matchit'
 Bundle 'tpope/vim-surround'
@@ -30,9 +32,14 @@ Bundle 'nvie/vim-flake8'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'altercation/vim-colors-solarized'
 
-let g:netrw_winsize=80
-let g:netrw_altv=1
+" ==========================================================
+" Plugin Settings
+" ==========================================================
+
 let g:netrw_liststyle=3
+let g:ctrlp_root_markers = ['tags'] " TODO: b:var, or localvimrc?
+let Tlist_WinWidth=70
+let Tlist_Use_Right_Window = 1
 let g:vim_markdown_folding_disabled=1
 let g:indent_guides_guide_size=1
 let python_highlight_all=1
@@ -154,6 +161,12 @@ xnoremap & :&&<CR>
 
 " Toggle spell check
 nnoremap <leader>s :setlocal spell!<CR>
+
+" Quickly search for functions, classes, etc.
+nnoremap <leader><c-p> :CtrlPTag<CR>
+
+" Display taglist
+nnoremap <leader><c-t> :TlistToggle<CR>
 
 " ==========================================================
 " Colors and Fonts
