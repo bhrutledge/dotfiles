@@ -146,13 +146,13 @@ nmap <silent> <leader>V
 nmap <leader>co :copen<CR>
 nmap <leader>cc :cclose<CR>
 
-" Quit window on <leader>q
+" Quit window
 nnoremap <leader>q :conf q<CR>
 
-" Hide matches on <leader>space
+" Hide matches
 nnoremap <leader><space> :nohlsearch<cr>
 
-" Remove trailing whitespace on <leader>rws
+" Remove trailing whitespace
 nnoremap <leader>rws :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
