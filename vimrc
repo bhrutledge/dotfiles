@@ -6,11 +6,12 @@ call vundle#rc()
 
 set encoding=utf-8
 
+" TODO: :%s/Bundle/Plugin/g
 Bundle 'gmarik/vundle'
-Bundle 'mileszs/ack.vim'
+Bundle 'localvimrc'
 Bundle 'rking/ag.vim'
 Bundle 'kien/ctrlp.vim'
-Bundle 'taglist.vim'
+Bundle 'majutsushi/tagbar'
 Bundle 'tmhedberg/matchit'
 Bundle 'voithos/vim-python-matchit'
 Bundle 'tpope/vim-surround'
@@ -31,18 +32,27 @@ Bundle 'nvie/vim-flake8'
 "Bundle 'scrooloose/syntastic'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'bling/vim-airline'
 
 " ==========================================================
 " Plugin Settings
 " ==========================================================
 
 let g:netrw_liststyle=3
-let g:ctrlp_root_markers = ['tags'] " TODO: b:var, or localvimrc?
-let Tlist_WinWidth=70
-let Tlist_Use_Right_Window = 1
+" TODO: b:var, or localvimrc?
+let g:ctrlp_root_markers = ['tags']
+let g:ctrlp_working_path_mode = 'rw'
+let g:tagbar_width=60
+let g:tagbar_sort=0
+let g:tagbar_show_linenumbers=-1
+" Update tagbar every second
+set updatetime=1000
 let g:vim_markdown_folding_disabled=1
 let g:indent_guides_guide_size=1
+let g:localvimrc_persistent=1
 let python_highlight_all=1
+" Don't duplicate Insert/Replace/Visual with Airline
+set noshowmode
 
 autocmd FileType python setlocal completeopt-=preview
 
@@ -60,19 +70,19 @@ set wildmode=full             " <Tab> cycles between all matching choices.
 
 " don't bell or blink
 set noerrorbells
-set vb t_vb=
+set visualbell t_vb=
 
 " Ignore these files when completing
 set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
+set wildignore+=tags
 
 " Disable the colorcolumn when switching modes.  Make sure this is the
 " first autocmd for the filetype here
 "autocmd FileType * setlocal colorcolumn=0
 
 """ Moving Around/Editing
-set ruler                   " show the cursor position all the time
 set nostartofline           " Avoid moving cursor to BOL when jumping around
 set virtualedit=block       " Let cursor move past the last char in <C-v> mode
 set scrolloff=3             " Keep 3 context lines above and below the cursor
@@ -89,6 +99,8 @@ set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
 set formatoptions=tcroql    " Setting text and comment formatting to auto
 set textwidth=79            " Lines are automatically wrapped after 79 columns
+set splitright              " Open new vertical windows to the right
+set splitbelow              " Open new horizontal windows on the bottom
 
 """" Reading/Writing
 set noautowrite             " Never write a file unless I request it.
@@ -97,8 +109,6 @@ set noautoread              " Don't automatically re-read changed files.
 set modelines=0             " Don't allow modelines
 
 """" Messages, Info, Status
-set ls=2                    " allways show status line
-set vb t_vb=                " Disable all bells.  I hate ringing/flashing.
 set showcmd                 " Show incomplete normal mode commands as I type.
 set report=0                " : commands always print changed line count.
 set shortmess+=a            " Use [+]/[RO]/[w] for modified/readonly/written.
@@ -119,7 +129,6 @@ set relativenumber             " Display relative line numbers
 " ==========================================================
 " Shortcuts
 " ==========================================================
-" let mapleader=","             " change the leader to be a comma vs slash
 
 " sudo write this
 cmap W! w !sudo tee % >/dev/null
@@ -129,21 +138,18 @@ cmap w!! w !sudo tee % >/dev/null
 
 " Reload Vimrc
 nmap <silent> <leader>V 
-            \:source ~/.vimrc<CR>
+           \:source ~/.vimrc<CR>
             \:filetype detect<CR>
             \:exe ":echo 'vimrc reloaded'"<CR>
 
-" open/close the quickfix window
-nmap <leader>c :copen<CR>
+" Open/close the quickfix window
+nmap <leader>co :copen<CR>
 nmap <leader>cc :cclose<CR>
 
 " Quit window on <leader>q
 nnoremap <leader>q :conf q<CR>
 
-" Revert file
-nnoremap <leader>R :e!<CR>
-
-" hide matches on <leader>space
+" Hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
 
 " Remove trailing whitespace on <leader>rws
@@ -159,14 +165,17 @@ nnoremap <leader>n :set nu! rnu!<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
+" Toggle current-line highlight
+nnoremap <leader>cl :set cursorline!<CR>
+
 " Toggle spell check
-nnoremap <leader>s :setlocal spell!<CR>
+nnoremap <leader>sc :setlocal spell!<CR>
 
 " Quickly search for functions, classes, etc.
 nnoremap <leader><c-p> :CtrlPTag<CR>
 
-" Display taglist
-nnoremap <leader><c-t> :TlistToggle<CR>
+" Display tag list
+nnoremap <leader><c-t> :TagbarToggle<CR>
 
 " ==========================================================
 " Colors and Fonts
