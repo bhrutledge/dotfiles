@@ -1,10 +1,9 @@
 set nocompatible              " be iMproved
 filetype off                  " required!
+set encoding=utf-8
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-set encoding=utf-8
+call vundle#begin()
 
 " TODO: :%s/Bundle/Plugin/g
 Bundle 'gmarik/vundle'
@@ -21,6 +20,7 @@ Bundle 'tpope/vim-abolish'
 "Bundle 'tpope/vim-commentary'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'plasticboy/vim-markdown'
 Bundle 'othree/html5.vim'
 Bundle 'mattn/emmet-vim'
@@ -31,8 +31,13 @@ Bundle 'nvie/vim-flake8'
 "Bundle 'klen/python-mode'
 "Bundle 'scrooloose/syntastic'
 Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'altercation/vim-colors-solarized'
+" Bundle 'altercation/vim-colors-solarized'
+" Bundle 'blueyed/vim-colors-solarized'
+Bundle 'BlackIkeEagle/vim-colors-solarized'
+Bundle 'bling/vim-bufferline'
 Bundle 'bling/vim-airline'
+
+call vundle#end()
 
 " ==========================================================
 " Plugin Settings
@@ -51,8 +56,24 @@ let g:vim_markdown_folding_disabled=1
 let g:indent_guides_guide_size=1
 let g:localvimrc_persistent=1
 let python_highlight_all=1
+let g:bufferline_echo = 0
+let g:bufferline_rotate = 1
+let g:bufferline_fixed_index = 0
 " Don't duplicate Insert/Replace/Visual with Airline
 set noshowmode
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '◀'
+let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#tagbar#flags = 'f'
+let g:airline#extensions#whitespace#trailing_format = 'ws[%s]'
+let g:airline#extensions#whitespace#mixed_indent_format = 'in[%s]'
+
+function! AirlineInit()
+    let g:airline_section_b = airline#section#create(['%{expand("%:h")}'])
+    let g:airline_section_x = airline#section#create(['hunks', 'branch'])
+    let g:airline_section_y = airline#section#create(['tagbar'])
+endfunction
+autocmd VimEnter * call AirlineInit()
 
 autocmd FileType python setlocal completeopt-=preview
 
@@ -62,7 +83,6 @@ autocmd FileType python setlocal completeopt-=preview
 " Basic Settings
 " ==========================================================
 syntax on                     " syntax highlighing
-filetype on                   " try to detect filetypes
 filetype plugin indent on     " enable loading indent file for filetype
 "set title                     " show title in console title bar
 set wildmenu                  " Menu completion in command mode on <Tab>
@@ -130,17 +150,16 @@ set relativenumber             " Display relative line numbers
 " Shortcuts
 " ==========================================================
 
-" sudo write this
+" Sudo write this
 cmap W! w !sudo tee % >/dev/null
 
-" for when we forget to use sudo to open/edit a file
+" For when we forget to use sudo to open/edit a file
 cmap w!! w !sudo tee % >/dev/null
 
 " Reload Vimrc
-nmap <silent> <leader>V 
-           \:source ~/.vimrc<CR>
+nmap <silent> <leader>sv :source $MYVIMRC<CR>
             \:filetype detect<CR>
-            \:exe ":echo 'vimrc reloaded'"<CR>
+            \:echo $MYVIMRC . ' reloaded'<CR>
 
 " Open/close the quickfix window
 nmap <leader>co :copen<CR>
@@ -149,33 +168,27 @@ nmap <leader>cc :cclose<CR>
 " Quit window
 nnoremap <leader>q :conf q<CR>
 
-" Hide matches
-nnoremap <leader><space> :nohlsearch<cr>
-
 " Remove trailing whitespace
 nnoremap <leader>rws :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
+nnoremap <leader>. :lcd %:p:h \| pwd<CR>
 
 " Toggle line numbers
-nnoremap <leader>n :set nu! rnu!<CR>
+nnoremap coN :set nu! rnu!<CR>
 
 " Preserve last substitution flags
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-" Toggle current-line highlight
-nnoremap <leader>cl :set cursorline!<CR>
-
-" Toggle spell check
-nnoremap <leader>sc :setlocal spell!<CR>
-
 " Quickly search for functions, classes, etc.
 nnoremap <leader><c-p> :CtrlPTag<CR>
 
 " Display tag list
-nnoremap <leader><c-t> :TagbarToggle<CR>
+nnoremap <leader>tb :TagbarToggle<CR>
+
+" Copy current file path to clipboard
+nnoremap <leader>cf :let @+=@% \| echo @+<CR>
 
 " ==========================================================
 " Colors and Fonts
@@ -188,3 +201,58 @@ set background=dark
 let g:solarized_hitrail=1
 colorscheme solarized
 
+" ==========================================================
+" tmux.vim - Set xterm input codes passed by tmux
+" http://sourceforge.net/p/tmux/tmux-code/ci/master/tree/examples/xterm-keys.vim
+" Author:        Mark Oteiza
+" License:       Public domain
+" Description:   Simple plugin that assigns some xterm(1)-style keys to escape
+" sequences passed by tmux when "xterm-keys" is set to "on".  Inspired by an
+" example given by Chris Johnsen at:
+"     https://stackoverflow.com/a/15471820
+"
+" Documentation: help:xterm-modifier-keys man:tmux(1)
+" ==========================================================
+
+if exists("g:loaded_tmux") || &cp
+  finish
+endif
+let g:loaded_tmux = 1
+
+function! s:SetXtermCapabilities()
+  set ttymouse=sgr
+
+  execute "set <xUp>=\e[1;*A"
+  execute "set <xDown>=\e[1;*B"
+  execute "set <xRight>=\e[1;*C"
+  execute "set <xLeft>=\e[1;*D"
+
+  execute "set <xHome>=\e[1;*H"
+  execute "set <xEnd>=\e[1;*F"
+
+  execute "set <Insert>=\e[2;*~"
+  execute "set <Delete>=\e[3;*~"
+  execute "set <PageUp>=\e[5;*~"
+  execute "set <PageDown>=\e[6;*~"
+
+  execute "set <xF1>=\e[1;*P"
+  execute "set <xF2>=\e[1;*Q"
+  execute "set <xF3>=\e[1;*R"
+  execute "set <xF4>=\e[1;*S"
+
+  execute "set <F5>=\e[15;*~"
+  execute "set <F6>=\e[17;*~"
+  execute "set <F7>=\e[18;*~"
+  execute "set <F8>=\e[19;*~"
+  execute "set <F9>=\e[20;*~"
+  execute "set <F10>=\e[21;*~"
+  execute "set <F11>=\e[23;*~"
+  execute "set <F12>=\e[24;*~"
+
+  execute "set t_kP=^[[5;*~"
+  execute "set t_kN=^[[6;*~"
+endfunction
+
+if exists('$TMUX')
+  call s:SetXtermCapabilities()
+endif
