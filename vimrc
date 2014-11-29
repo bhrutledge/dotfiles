@@ -159,23 +159,19 @@ cmap w!! w !sudo tee % >/dev/null
 " Reload Vimrc
 nmap <silent> <leader>sv :source $MYVIMRC<CR>
             \:filetype detect<CR>
-            \:echo $MYVIMRC . ' reloaded'<CR>
-
-" Open/close the quickfix window
-nmap <leader>co :copen<CR>
-nmap <leader>cc :cclose<CR>
+            \:echo 'sourced ' . $MYVIMRC<CR>
 
 " Quit window
 nnoremap <leader>q :conf q<CR>
 
 " Remove trailing whitespace
-nnoremap <leader>rws :%s/\s\+$//<cr>:let @/=''<CR>
+nnoremap <leader>ws :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h \| pwd<CR>
 
 " Toggle line numbers
-nnoremap coN :set nu! rnu!<CR>
+nnoremap com :set number! relativenumber!<CR>
 
 " Preserve last substitution flags
 nnoremap & :&&<CR>
