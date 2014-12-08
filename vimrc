@@ -12,7 +12,6 @@ Bundle 'rking/ag.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'tmhedberg/matchit'
-Bundle 'voithos/vim-python-matchit'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-unimpaired'
@@ -28,6 +27,7 @@ Bundle 'hail2u/vim-css3-syntax'
 Bundle 'hdima/python-syntax'
 Bundle 'hynek/vim-python-pep8-indent'
 Bundle 'nvie/vim-flake8'
+Bundle 'voithos/vim-python-matchit'
 "Bundle 'klen/python-mode'
 "Bundle 'scrooloose/syntastic'
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -47,6 +47,8 @@ let g:netrw_liststyle=3
 " TODO: b:var, or localvimrc?
 let g:ctrlp_root_markers = ['tags']
 let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_map = '<c-p><c-p>'
+let g:ctrlp_cmd = 'CtrlPLastMode'
 let g:tagbar_width=60
 let g:tagbar_sort=0
 let g:tagbar_show_linenumbers=-1
@@ -143,8 +145,11 @@ set hlsearch                " Highlight searches by default.
 set incsearch               " Incrementally search while typing a /regex
 
 """ Line Numbers
-set nonumber                    " Display line numbers
-set relativenumber             " Display relative line numbers
+set nonumber                " Display line numbers
+set relativenumber          " Display relative line numbers
+
+""" GUI
+set guioptions=             " Disable all scrollbars, menus, etc.
 
 " ==========================================================
 " Shortcuts
@@ -164,6 +169,9 @@ nmap <silent> <leader>sv :source $MYVIMRC<CR>
 " Quit window
 nnoremap <leader>q :conf q<CR>
 
+" Hide matches
+nnoremap <leader>/ :nohlsearch<CR>
+
 " Remove trailing whitespace
 nnoremap <leader>ws :%s/\s\+$//<cr>:let @/=''<CR>
 
@@ -177,14 +185,21 @@ nnoremap com :set number! relativenumber!<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-" Quickly search for functions, classes, etc.
-nnoremap <leader><c-p> :CtrlPTag<CR>
+" Quickly search for files, functions, classes, etc.
+nnoremap <c-p><c-f> :CtrlP<CR>
+nnoremap <c-p><c-b> :CtrlPBuffer<CR>
+nnoremap <c-p><c-r> :CtrlPMRU<CR>
+nnoremap <c-p><c-t> :CtrlPTag<CR>
+nnoremap <c-p><c-l> :CtrlPLine<CR>
 
 " Display tag list
 nnoremap <leader>tb :TagbarToggle<CR>
 
 " Copy current file path to clipboard
 nnoremap <leader>cf :let @+=@% \| echo @+<CR>
+
+" Copy current tag to clipboard
+nnoremap <leader>ct :let @+=tagbar#currenttag('%s', '', 'f') \| echo @+<CR>
 
 " ==========================================================
 " Colors and Fonts
