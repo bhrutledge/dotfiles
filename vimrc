@@ -34,7 +34,7 @@ Bundle 'nathanaelkane/vim-indent-guides'
 " Bundle 'altercation/vim-colors-solarized'
 " Bundle 'blueyed/vim-colors-solarized'
 Bundle 'BlackIkeEagle/vim-colors-solarized'
-Bundle 'bling/vim-bufferline'
+" Bundle 'bling/vim-bufferline'
 Bundle 'bling/vim-airline'
 
 call vundle#end()
@@ -58,9 +58,9 @@ let g:vim_markdown_folding_disabled=1
 let g:indent_guides_guide_size=1
 let g:localvimrc_persistent=1
 let python_highlight_all=1
-let g:bufferline_echo = 0
-let g:bufferline_rotate = 1
-let g:bufferline_fixed_index = 0
+" let g:bufferline_echo = 0
+" let g:bufferline_rotate = 1
+" let g:bufferline_fixed_index = 0
 " Don't duplicate Insert/Replace/Visual with Airline
 set noshowmode
 let g:airline_left_sep = '▶'
@@ -71,9 +71,9 @@ let g:airline#extensions#whitespace#trailing_format = 'ws[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'in[%s]'
 
 function! AirlineInit()
-    let g:airline_section_b = airline#section#create(['%{expand("%:h")}'])
+    let g:airline_section_b = airline#section#create(['file'])
+    let g:airline_section_c = airline#section#create(['tagbar'])
     let g:airline_section_x = airline#section#create(['hunks', 'branch'])
-    let g:airline_section_y = airline#section#create(['tagbar'])
 endfunction
 autocmd VimEnter * call AirlineInit()
 
