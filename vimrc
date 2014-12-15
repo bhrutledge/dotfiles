@@ -201,6 +201,18 @@ nnoremap <leader>cf :let @+=@% \| echo @+<CR>
 " Copy current tag to clipboard
 nnoremap <leader>ct :let @+=tagbar#currenttag('%s', '', 'f') \| echo @+<CR>
 
+" Force case-sensitive search for tags
+fun! MatchCaseTag()
+    let ic = &ic
+    set noic
+    try
+        exe 'tjump ' . expand('<cword>')
+    finally
+       let &ic = ic
+    endtry
+endfun
+nnoremap <silent> <c-]> :call MatchCaseTag()<CR>
+
 " ==========================================================
 " Colors and Fonts
 " ==========================================================
