@@ -139,8 +139,8 @@ set laststatus=2            " Always show statusline, even if only 1 window.
 set spelllang=en_us         " Set spell check language
 
 """ Searching and Patterns
-set ignorecase              " Default to using case insensitive searches,
-set smartcase               " unless uppercase letters are used in the regex.
+" set ignorecase              " Default to using case insensitive searches,
+" set smartcase               " unless uppercase letters are used in the regex.
 set hlsearch                " Highlight searches by default.
 set incsearch               " Incrementally search while typing a /regex
 
@@ -202,16 +202,16 @@ nnoremap <leader>cf :let @+=@% \| echo @+<CR>
 nnoremap <leader>ct :let @+=tagbar#currenttag('%s', '', 'f') \| echo @+<CR>
 
 " Force case-sensitive search for tags
-fun! MatchCaseTag()
-    let ic = &ic
-    set noic
-    try
-        exe 'tjump ' . expand('<cword>')
-    finally
-       let &ic = ic
-    endtry
-endfun
-nnoremap <silent> <c-]> :call MatchCaseTag()<CR>
+" fun! MatchCaseTag()
+"     let ic = &ic
+"     set noic
+"     try
+"         exe 'tjump ' . expand('<cword>')
+"     finally
+"        let &ic = ic
+"     endtry
+" endfun
+" nnoremap <silent> <c-]> :call MatchCaseTag()<CR>
 
 " ==========================================================
 " Colors and Fonts
