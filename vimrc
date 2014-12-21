@@ -225,6 +225,10 @@ nnoremap <leader>cf :let @+=@% \| echo @+<CR>
 " Copy current tag to clipboard
 nnoremap <leader>ct :let @+=tagbar#currenttag('%s', '', 'f') \| echo @+<CR>
 
+" Open vertical windows
+nnoremap <silent> <c-w>v :vnew<CR>
+nnoremap <leader>v :vertical 
+
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()
 "     let ic = &ic
