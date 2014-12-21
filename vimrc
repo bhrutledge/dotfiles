@@ -2,64 +2,87 @@ set nocompatible              " be iMproved
 filetype off                  " required!
 set encoding=utf-8
 
+" ==========================================================
+" Plugins
+" ==========================================================
+
+" Plugin loading
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
-
 Plugin 'gmarik/vundle'
+
+" Per-project vim settings
 Plugin 'localvimrc'
+let g:localvimrc_persistent=2
+
+" Fast and smart grep replacement
 Plugin 'rking/ag.vim'
+
+" Fuzzy file/buffer/tag search
 Plugin 'kien/ctrlp.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'tmhedberg/matchit'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-abolish'
-"Plugin 'tpope/vim-commentary'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'othree/html5.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'hdima/python-syntax'
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'nvie/vim-flake8'
-Plugin 'voithos/vim-python-matchit'
-"Plugin 'klen/python-mode'
-"Plugin 'scrooloose/syntastic'
-Plugin 'nathanaelkane/vim-indent-guides'
-" Plugin 'altercation/vim-colors-solarized'
-" Plugin 'blueyed/vim-colors-solarized'
-Plugin 'BlackIkeEagle/vim-colors-solarized'
-" Plugin 'bling/vim-bufferline'
-Plugin 'bling/vim-airline'
-
-call vundle#end()
-
-" ==========================================================
-" Plugin Settings
-" ==========================================================
-
-let g:netrw_liststyle=3
 " TODO: b:var, or localvimrc?
 let g:ctrlp_root_markers = ['tags']
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_map = '<c-p><c-p>'
 let g:ctrlp_cmd = 'CtrlPLastMode'
+
+" Class/method/function sidebar
+Plugin 'majutsushi/tagbar'
 let g:tagbar_width=60
 let g:tagbar_sort=0
 let g:tagbar_show_linenumbers=-1
 " Update tagbar every second
 set updatetime=1000
-let g:vim_markdown_folding_disabled=1
+
+" Extend % matching to if/else, <div></div>, etc.
+Plugin 'tmhedberg/matchit'
+Plugin 'voithos/vim-python-matchit'
+
+Plugin 'tpope/vim-repeat'
+
+" Insert/change/delete surrounding text pairs
+Plugin 'tpope/vim-surround'
+
+" Handy [,] shortcuts and toggles
+Plugin 'tpope/vim-unimpaired'
+
+" Find and subsitute word (eg., case) variations
+Plugin 'tpope/vim-abolish'
+
+" Git commands
+Plugin 'tpope/vim-fugitive'
+
+" Git diff status in gutter
+Plugin 'airblade/vim-gitgutter'
+
+" Easy commenting
+Plugin 'tomtom/tcomment_vim'
+
+" Display indent levels
+Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_guide_size=1
-let g:localvimrc_persistent=1
+
+" Fast HTML generation
+Plugin 'mattn/emmet-vim'
+
+Plugin 'othree/html5.vim'
+
+Plugin 'hail2u/vim-css3-syntax'
+
+Plugin 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled=1
+
+Plugin 'hdima/python-syntax'
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'nvie/vim-flake8'
+"Plugin 'klen/python-mode'
 let python_highlight_all=1
-" let g:bufferline_echo = 0
-" let g:bufferline_rotate = 1
-" let g:bufferline_fixed_index = 0
+
+" Color scheme
+Plugin 'BlackIkeEagle/vim-colors-solarized'
+
+" Super-charged status line
+Plugin 'bling/vim-airline'
 " Don't duplicate Insert/Replace/Visual with Airline
 set noshowmode
 let g:airline_left_sep = '▶'
@@ -76,7 +99,9 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit()
 
-autocmd FileType python setlocal completeopt-=preview
+call vundle#end()
+
+let g:netrw_liststyle=3
 
 " Started from https://github.com/jeffknupp/config_files/blob/master/.vimrc
 
