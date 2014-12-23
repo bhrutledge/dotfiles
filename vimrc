@@ -38,6 +38,7 @@ set updatetime=1000
 Plugin 'tmhedberg/matchit'
 Plugin 'voithos/vim-python-matchit'
 
+" Smarter use of '.' with plugins
 Plugin 'tpope/vim-repeat'
 
 " Insert/change/delete surrounding text pairs
@@ -75,7 +76,11 @@ let g:vim_markdown_folding_disabled=1
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
-"Plugin 'klen/python-mode'
+
+" Plugin 'klen/python-mode'
+" let g:pymode_lint=0
+" let g:pymode_rope_autoimport=0
+
 let python_highlight_all=1
 
 " Color scheme
@@ -123,6 +128,9 @@ set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 set wildignore+=tags
+
+" No extra info during auto-complete
+set completeopt-=preview
 
 " Disable the colorcolumn when switching modes.  Make sure this is the
 " first autocmd for the filetype here
