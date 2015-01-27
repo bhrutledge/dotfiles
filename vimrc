@@ -18,6 +18,9 @@ let g:localvimrc_persistent=2
 " Fast and smart grep replacement
 Plugin 'rking/ag.vim'
 
+" Populate argument list from quickfix list
+Plugin 'nelstrom/vim-qargs'
+
 " Fuzzy file/buffer/tag search
 Plugin 'kien/ctrlp.vim'
 " TODO: b:var, or localvimrc?
@@ -235,7 +238,12 @@ nnoremap <leader>ct :let @+=tagbar#currenttag('%s', '', 'f') \| echo @+<CR>
 
 " Open vertical windows
 nnoremap <silent> <c-w>v :vnew<CR>
-nnoremap <leader>v :vertical 
+nnoremap <leader>v :vertical<space>
+
+nnoremap <leader>ag :Ag<space>
+nnoremap <leader>ap :Ag -G \.py<space>
+nnoremap <leader>ah :Ag -G \.html<space>
+nnoremap <leader>as :Ag -G \.scss<space>
 
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()
