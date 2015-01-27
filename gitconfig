@@ -22,3 +22,5 @@
 	default = simple
 [include]
     path = .gitconfig.local
+[github]
+	user = bhrutledge
