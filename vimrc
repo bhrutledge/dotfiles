@@ -73,6 +73,8 @@ Plugin 'othree/html5.vim'
 
 Plugin 'hail2u/vim-css3-syntax'
 
+Plugin 'chase/vim-ansible-yaml'
+
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
@@ -85,6 +87,9 @@ Plugin 'nvie/vim-flake8'
 " let g:pymode_rope_autoimport=0
 
 let python_highlight_all=1
+
+" Offline docs
+Plugin 'rizzatti/dash.vim'
 
 " Color scheme
 Plugin 'BlackIkeEagle/vim-colors-solarized'
@@ -208,10 +213,14 @@ nnoremap <leader>q :conf q<CR>
 nnoremap <leader>/ :nohlsearch<CR>
 
 " Remove trailing whitespace
-nnoremap <leader>ws :%s/\s\+$//<cr>:let @/=''<CR>
+nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h \| pwd<CR>
+
+" Edit and save files to directory of current file
+nnoremap <leader>e :e %:p:h/
+nnoremap <leader>w :sav %:p:h/
 
 " Toggle line numbers
 nnoremap com :set number! relativenumber!<CR>
@@ -244,6 +253,9 @@ nnoremap <leader>ag :Ag<space>
 nnoremap <leader>ap :Ag -G \.py<space>
 nnoremap <leader>ah :Ag -G \.html<space>
 nnoremap <leader>as :Ag -G \.scss<space>
+nnoremap <leader>ay :Ag -G \.yml<space>
+
+nmap <silent> <leader>d <Plug>DashSearch
 
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()
@@ -267,6 +279,8 @@ set guifont=Menlo\ Regular:h12
 set background=dark
 let g:solarized_hitrail=1
 colorscheme solarized
+
+autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
 
 " ==========================================================
 " tmux.vim - Set xterm input codes passed by tmux
