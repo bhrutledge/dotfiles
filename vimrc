@@ -72,6 +72,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'othree/html5.vim'
 
 Plugin 'hail2u/vim-css3-syntax'
+Plugin 'cakebaker/scss-syntax.vim'
 
 Plugin 'chase/vim-ansible-yaml'
 
@@ -251,6 +252,7 @@ nnoremap <leader>v :vertical<space>
 
 nnoremap <leader>ag :Ag<space>
 nnoremap <leader>ap :Ag -G \.py<space>
+nnoremap <leader>au :Ag -G urls\.py<space>
 nnoremap <leader>ah :Ag -G \.html<space>
 nnoremap <leader>as :Ag -G \.scss<space>
 nnoremap <leader>ay :Ag -G \.yml<space>
