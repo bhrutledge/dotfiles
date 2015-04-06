@@ -83,6 +83,11 @@ let g:vim_markdown_folding_disabled=1
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'davidhalter/jedi-vim'
+
+let g:jedi#use_tabs_not_buffers=0
+" let g:jedi#use_splits_not_buffers='winwidth'
 
 " Plugin 'klen/python-mode'
 " let g:pymode_lint=0
@@ -243,7 +248,7 @@ nnoremap <c-p><c-t> :CtrlPTag<CR>
 nnoremap <c-p><c-l> :CtrlPLine<CR>
 
 " Display tag list
-nnoremap <leader>tb :TagbarToggle<CR>
+noremap <leader>t :TagbarToggle<CR>
 
 " Copy current file path to clipboard
 nnoremap <leader>cf :let @+=@% \| echo @+<CR>
