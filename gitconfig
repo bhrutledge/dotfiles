@@ -9,7 +9,6 @@
     safecrlf = true
     excludesfile = ~/.gitignore
     editor = vim
-    page = less -r
 [alias]
     co = checkout
     ci = commit
