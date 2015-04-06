@@ -16,6 +16,7 @@
     br = branch
     diffw = diff --color-words
     hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    local = log --branches --not --remotes --oneline --decorate --simplify-by-decoration
     type = cat-file -t
     dump = cat-file -p
     root = rev-parse --show-toplevel
