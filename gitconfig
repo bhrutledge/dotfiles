@@ -1,32 +1,38 @@
 [user]
-	name = Brian Rutledge
-	email = bhrutledge@gmail.com
+    name = Brian Rutledge
+    email = bhrutledge@gmail.com
 [color]
-	diff = auto
-	status = auto
-	branch = auto
+    ui = auto
+    interactive = auto
 [core]
-	autocrlf = input
-	safecrlf = true
-	excludesfile = ~/.gitignore
-	editor = vim
+    autocrlf = input
+    safecrlf = true
+    excludesfile = ~/.gitignore
+    editor = vim
+    page = less -r
 [alias]
     co = checkout
     ci = commit
-    st = status
+    st = status -s -b
     br = branch
-    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+    diffw = diff --color-words
+    hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     type = cat-file -t
     dump = cat-file -p
+    root = rev-parse --show-toplevel
 [push]
-	default = current
+    default = current
 [include]
     path = .gitconfig.local
 [github]
-	user = bhrutledge
+    user = bhrutledge
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [difftool]
-	prompt = false
+    prompt = false
+[filter "hawser"]
+    clean = git hawser clean %f
+    smudge = git hawser smudge %f
+    required = true
