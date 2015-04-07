@@ -4,6 +4,8 @@ set encoding=utf-8
 
 " ==========================================================
 " Plugins
+" http://vimawesome.com/
+" TODO: Look at NeoBundle and VimPlug
 " ==========================================================
 
 " Plugin loading
@@ -48,7 +50,7 @@ Plugin 'tpope/vim-repeat'
 " Insert/change/delete surrounding text pairs
 Plugin 'tpope/vim-surround'
 
-" Handy [,] shortcuts and toggles
+" Handy '[' ']' shortcuts and toggles
 Plugin 'tpope/vim-unimpaired'
 
 " Find and subsitute word (eg., case) variations
@@ -70,19 +72,23 @@ let g:indent_guides_guide_size=1
 " Fast HTML generation
 Plugin 'mattn/emmet-vim'
 
+" Syntax highlighting
+Plugin 'pangloss/vim-javascript'
 Plugin 'othree/html5.vim'
-
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
-
 Plugin 'chase/vim-ansible-yaml'
-
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'davidhalter/jedi-vim'
+
+let g:jedi#use_tabs_not_buffers=0
+" let g:jedi#use_splits_not_buffers='winwidth'
 
 " Plugin 'klen/python-mode'
 " let g:pymode_lint=0
@@ -113,6 +119,9 @@ function! AirlineInit()
     let g:airline_section_x = airline#section#create(['hunks', 'branch'])
 endfunction
 autocmd VimEnter * call AirlineInit()
+
+" Toggle quickfix
+Plugin 'milkypostman/vim-togglelist'
 
 call vundle#end()
 
@@ -171,6 +180,7 @@ set noautowrite             " Never write a file unless I request it.
 set noautowriteall          " NEVER.
 set noautoread              " Don't automatically re-read changed files.
 set modelines=0             " Don't allow modelines
+set confirm                 " Always confirm when :q, :w, etc. fails
 
 """" Messages, Info, Status
 set showcmd                 " Show incomplete normal mode commands as I type.
@@ -208,8 +218,8 @@ nmap <silent> <leader>sv :source $MYVIMRC<CR>
             \:filetype detect<CR>
             \:echo 'sourced ' . $MYVIMRC<CR>
 
-" Quit window
-nnoremap <leader>q :conf q<CR>
+" Refresh syntax highlighting
+nnoremap <leader>ss :syntax sync fromstart<CR>
 
 " Hide matches
 nnoremap <leader>/ :nohlsearch<CR>
@@ -239,7 +249,7 @@ nnoremap <c-p><c-t> :CtrlPTag<CR>
 nnoremap <c-p><c-l> :CtrlPLine<CR>
 
 " Display tag list
-nnoremap <leader>tb :TagbarToggle<CR>
+noremap <leader>t :TagbarToggle<CR>
 
 " Copy current file path to clipboard
 nnoremap <leader>cf :let @+=@% \| echo @+<CR>
@@ -257,6 +267,7 @@ nnoremap <leader>au :Ag -G urls\.py<space>
 nnoremap <leader>ah :Ag -G \.html<space>
 nnoremap <leader>as :Ag -G \.scss<space>
 nnoremap <leader>ay :Ag -G \.yml<space>
+nnoremap <leader>aj :Ag -G \.js<space>
 
 nmap <silent> <leader>d <Plug>DashSearch
 
