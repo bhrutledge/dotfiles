@@ -30,6 +30,7 @@ let g:ctrlp_root_markers = ['tags']
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_map = '<c-p><c-p>'
 let g:ctrlp_cmd = 'CtrlPLastMode'
+let g:ctrlp_follow_symlinks = 1
 
 " Class/method/function sidebar
 Plugin 'majutsushi/tagbar'
