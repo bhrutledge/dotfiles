@@ -43,6 +43,9 @@ set updatetime=1000
 Plugin 'tmhedberg/matchit'
 Plugin 'voithos/vim-python-matchit'
 
+" Move through variable_names and ClassNames
+Plugin 'bkad/CamelCaseMotion'
+
 " Smarter use of '.' with plugins
 Plugin 'tpope/vim-repeat'
 
@@ -84,8 +87,10 @@ Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
 Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'davidhalter/jedi-vim'
 
+" TODO: Slow!
+Plugin 'davidhalter/jedi-vim'
+let g:jedi#show_call_signatures=0
 let g:jedi#use_tabs_not_buffers=0
 " let g:jedi#use_splits_not_buffers='winwidth'
 
@@ -269,6 +274,11 @@ nnoremap <leader>ay :Ag -G \.yml<space>
 nnoremap <leader>aj :Ag -G \.js<space>
 
 nmap <silent> <leader>d <Plug>DashSearch
+
+nnoremap <leader>fi :setlocal foldmethod=indent foldenable<CR>
+nnoremap <leader>fs :setlocal foldmethod=syntax foldenable<CR>
+nnoremap <leader>fe :setlocal foldenable<CR>
+nnoremap <leader>fn :setlocal nofoldenable<CR>
 
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()
