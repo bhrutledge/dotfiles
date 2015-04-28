@@ -16,6 +16,7 @@ Plugin 'gmarik/vundle'
 " Per-project vim settings
 Plugin 'localvimrc'
 let g:localvimrc_persistent=2
+" let g:localvimrc_sandbox=0
 
 " Fast and smart grep replacement
 Plugin 'rking/ag.vim'
@@ -59,6 +60,9 @@ Plugin 'tpope/vim-unimpaired'
 " Find and subsitute word (eg., case) variations
 Plugin 'tpope/vim-abolish'
 
+" Unix shell commands (:Remove, :Rename, etc.)
+Plugin 'tpope/vim-eunuch'
+
 " Git commands
 Plugin 'tpope/vim-fugitive'
 
@@ -81,8 +85,12 @@ Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
+
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
+
+Plugin 'shime/vim-livedown'
+Plugin 'itspriddle/vim-marked'
 
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
