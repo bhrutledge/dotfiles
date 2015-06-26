@@ -86,6 +86,9 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
 
+" Plugin 'reedes/vim-pencil'
+" TODO: Shiftwidth
+" Plugin 'gabrielelana/vim-markdown'
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
@@ -242,10 +245,7 @@ nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h \| pwd<CR>
-
-" Edit and save files to directory of current file
-nnoremap <leader>e :e %:p:h/
-nnoremap <leader>w :sav %:p:h/
+cmap <leader>. %:p:h/
 
 " Toggle line numbers
 nnoremap com :set number! relativenumber!<CR>
