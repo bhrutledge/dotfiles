@@ -29,7 +29,7 @@ for dir in ~/.dotfiles ~/.zprezto/runcoms; do
         fi
 
         echo "Linking $dest_file"
-        ln -sf $src_file $dest_file
+        ln -sfh $src_file $dest_file
     done
 done
 

@@ -245,7 +245,7 @@ nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h \| pwd<CR>
-cmap <leader>. %:p:h/
+cmap <c-\>. %:p:h/
 
 " Toggle line numbers
 nnoremap com :set number! relativenumber!<CR>

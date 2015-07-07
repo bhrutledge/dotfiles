@@ -1,0 +1,49 @@
+# ~/.tmuxinator/default.yml
+
+name: es
+root: ~/Code/es
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+pre: vagrant up
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+pre_window: workon es && clear
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+windows:
+    - vim: vim
+    - zsh:
+        # layout: main-vertical
+        layout: 115a,272x72,0,0[272x49,0,0,1,272x22,0,50{135x22,0,50,4,136x22,136,50,7}]
+        panes:
+            - cd es-site && clear
+            - browser-sync:
+                - cd es-site/es/es
+                - browser-sync start --proxy http://127.0.0.1:8000 --files "static/css/**/*.css, templates/**/*.html" --no-open
+            - compass:
+                - cd es-site/es/es/static
+                - compass watch
+    - server:
+        layout: even-vertical
+        panes:
+            - runserver:
+                - vagrant ssh
+                - runserver
+            - log:
+                - vagrant ssh
+                - tail -f local_es.log
+    - test:
+        layout: even-vertical
+        panes:
+            - esenv:
+                - vagrant ssh
+                - esenv
+            - vagrant ssh
