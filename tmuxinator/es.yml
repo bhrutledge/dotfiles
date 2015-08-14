@@ -27,7 +27,7 @@ windows:
             - cd es-site && clear
             - browser-sync:
                 - cd es-site/es/es
-                - browser-sync start --proxy http://127.0.0.1:8000 --files "static/css/**/*.css, templates/**/*.html" --no-open
+                - browser-sync start --proxy http://127.0.0.1:8000 --files "static/css/**/*.css, static/js/*.js, templates/**/*.html" --no-open
             - compass:
                 - cd es-site/es/es/static
                 - compass watch

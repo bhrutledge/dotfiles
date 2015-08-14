@@ -18,6 +18,10 @@ Plugin 'localvimrc'
 let g:localvimrc_persistent=2
 " let g:localvimrc_sandbox=0
 
+" Auto-save and load folds and cursor position
+Plugin 'vim-scripts/restore_view.vim'
+set viewoptions=cursor,folds,slash,unix
+
 " Fast and smart grep replacement
 Plugin 'rking/ag.vim'
 
@@ -86,11 +90,19 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
 
-" Plugin 'reedes/vim-pencil'
+Plugin 'reedes/vim-pencil'
+let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
+
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init({'wrap': 'hard'})
+augroup END
+
 " TODO: Shiftwidth
 " Plugin 'gabrielelana/vim-markdown'
-Plugin 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled=1
+" Plugin 'plasticboy/vim-markdown'
+" let g:vim_markdown_folding_disabled=1
 
 Plugin 'shime/vim-livedown'
 Plugin 'itspriddle/vim-marked'
@@ -264,11 +276,17 @@ nnoremap <c-p><c-l> :CtrlPLine<CR>
 " Display tag list
 noremap <leader>t :TagbarToggle<CR>
 
-" Copy current file path to clipboard
-nnoremap <leader>cf :let @+=@% \| echo @+<CR>
+" Yank current file path (relative to :pwd)
+nnoremap <leader>yf :let @"=@% \| echo @"<CR>
 
-" Copy current tag to clipboard
-nnoremap <leader>ct :let @+=tagbar#currenttag('%s', '', 'f') \| echo @+<CR>
+" Yank current file directory
+nnoremap <leader>y. :let @"=expand("%:p:h") \| echo @"<CR>
+
+" Yank current tag
+nnoremap <leader>yt :let @"=tagbar#currenttag('%s', '', 'f') \| echo @"<CR>
+
+" Copy unnamed register to clipboard
+nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 
 " Open vertical windows
 nnoremap <silent> <c-w>v :vnew<CR>
