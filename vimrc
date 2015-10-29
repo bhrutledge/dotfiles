@@ -90,6 +90,12 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
 
+" TODO: Shiftwidth
+" Plugin 'tpope/vim-markdown'
+" Plugin 'gabrielelana/vim-markdown'
+Plugin 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled=1
+
 Plugin 'reedes/vim-pencil'
 let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
 
@@ -98,11 +104,6 @@ augroup pencil
   autocmd FileType markdown,mkd call pencil#init()
   autocmd FileType text         call pencil#init({'wrap': 'hard'})
 augroup END
-
-" TODO: Shiftwidth
-" Plugin 'gabrielelana/vim-markdown'
-" Plugin 'plasticboy/vim-markdown'
-" let g:vim_markdown_folding_disabled=1
 
 Plugin 'shime/vim-livedown'
 Plugin 'itspriddle/vim-marked'
@@ -331,6 +332,8 @@ let g:solarized_hitrail=1
 colorscheme solarized
 
 autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
+" TODO: Isolate this to a directory
+autocmd BufNewFile,BufRead *.html set filetype=htmldjango
 
 " ==========================================================
 " tmux.vim - Set xterm input codes passed by tmux
