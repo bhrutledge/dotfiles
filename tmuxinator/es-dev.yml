@@ -1,6 +1,6 @@
 # ~/.tmuxinator/default.yml
 
-name: es
+name: es-dev
 root: ~/Code/es
 
 # Optional tmux socket
@@ -21,20 +21,19 @@ pre_window: workon es && clear
 windows:
     - vim: vim
     - zsh:
-        # layout: main-vertical
         layout: 115a,272x72,0,0[272x49,0,0,1,272x22,0,50{135x22,0,50,4,136x22,136,50,7}]
         panes:
             - cd es-site && clear
             - browser-sync:
                 - cd es-site/es/es
                 - browser-sync start --no-open --port 3000 --ui-port 3001
-                  --proxy http://127.0.0.1:8100
+                  --proxy http://127.0.0.1:8000
                   --files "static/css/**/*.css, static/js/*.js, templates/**/*.html"
             - compass:
                 - cd es-site/es/es/static
                 - compass watch
     - server:
-        layout: even-vertical
+        layout: 115a,272x72,0,0[272x49,0,0,1,272x22,0,50{135x22,0,50,4,136x22,136,50,7}]
         panes:
             - runserver:
                 - vagrant ssh
@@ -42,10 +41,7 @@ windows:
             - log:
                 - vagrant ssh
                 - tail -f local_es.log
-    - test:
-        layout: even-vertical
-        panes:
-            - esenv:
-                - vagrant ssh
-                - esenv
             - vagrant ssh
+    - test:
+        - vagrant ssh
+        - esenv

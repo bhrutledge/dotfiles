@@ -97,7 +97,8 @@ Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
 Plugin 'reedes/vim-pencil'
-let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
+" default is 'hard'
+let g:pencil#wrapModeDefault = 'soft'
 
 augroup pencil
   autocmd!
@@ -115,8 +116,9 @@ Plugin 'jmcantrell/vim-virtualenv'
 
 " TODO: Slow!
 Plugin 'davidhalter/jedi-vim'
-let g:jedi#show_call_signatures=0
-let g:jedi#use_tabs_not_buffers=0
+let g:jedi#show_call_signatures = 0
+let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#smart_auto_mappings = 0
 " let g:jedi#use_splits_not_buffers='winwidth'
 
 " Plugin 'klen/python-mode'
@@ -307,6 +309,8 @@ nnoremap <leader>fi :setlocal foldmethod=indent foldenable<CR>
 nnoremap <leader>fs :setlocal foldmethod=syntax foldenable<CR>
 nnoremap <leader>fe :setlocal foldenable<CR>
 nnoremap <leader>fn :setlocal nofoldenable<CR>
+
+call camelcasemotion#CreateMotionMappings('<leader>')
 
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()

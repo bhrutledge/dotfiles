@@ -21,7 +21,6 @@ pre_window: workon es-django && clear
 windows:
     - vim: vim
     - zsh:
-        # layout: main-vertical
         layout: 115a,272x72,0,0[272x49,0,0,1,272x22,0,50{135x22,0,50,4,136x22,136,50,7}]
         panes:
             - cd es-site && clear
@@ -34,7 +33,7 @@ windows:
                 - cd es-site/es/es/static
                 - compass watch
     - server:
-        layout: even-vertical
+        layout: 115a,272x72,0,0[272x49,0,0,1,272x22,0,50{135x22,0,50,4,136x22,136,50,7}]
         panes:
             - runserver:
                 - vagrant ssh
@@ -42,10 +41,7 @@ windows:
             - log:
                 - vagrant ssh
                 - tail -f local_es.log
-    - test:
-        layout: even-vertical
-        panes:
-            - esenv:
+            - solr:
                 - vagrant ssh
-                - esenv
-            - vagrant ssh
+                - solrserver
+    - test: vagrant ssh
