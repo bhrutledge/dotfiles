@@ -90,6 +90,8 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
 
+Plugin 'dbext.vim'
+
 " TODO: Shiftwidth
 " Plugin 'tpope/vim-markdown'
 " Plugin 'gabrielelana/vim-markdown'
@@ -116,10 +118,9 @@ Plugin 'jmcantrell/vim-virtualenv'
 
 " TODO: Slow!
 Plugin 'davidhalter/jedi-vim'
-let g:jedi#show_call_signatures = 0
-let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#show_call_signatures = 2
+let g:jedi#popup_on_dot = 0
 let g:jedi#smart_auto_mappings = 0
-" let g:jedi#use_splits_not_buffers='winwidth'
 
 " Plugin 'klen/python-mode'
 " let g:pymode_lint=0
@@ -180,7 +181,7 @@ set wildignore+=*.egg-info/**
 set wildignore+=tags
 
 " No extra info during auto-complete
-set completeopt-=preview
+" set completeopt-=preview
 
 " Disable the colorcolumn when switching modes.  Make sure this is the
 " first autocmd for the filetype here
@@ -303,7 +304,7 @@ nnoremap <leader>as :Ag -G \.scss<space>
 nnoremap <leader>ay :Ag -G \.yml<space>
 nnoremap <leader>aj :Ag -G \.js<space>
 
-nmap <silent> <leader>d <Plug>DashSearch
+nmap <silent> <leader>D <Plug>DashSearch
 
 nnoremap <leader>fi :setlocal foldmethod=indent foldenable<CR>
 nnoremap <leader>fs :setlocal foldmethod=syntax foldenable<CR>
