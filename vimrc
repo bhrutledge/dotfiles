@@ -4,7 +4,7 @@ set encoding=utf-8
 
 " ==========================================================
 " Plugins
-" http://vimawesome.com/
+" TODO: http://vimawesome.com/
 " TODO: Look at NeoBundle and VimPlug
 " ==========================================================
 
@@ -19,7 +19,7 @@ let g:localvimrc_persistent=2
 " let g:localvimrc_sandbox=0
 
 " Auto-save and load folds and cursor position
-Plugin 'vim-scripts/restore_view.vim'
+Plugin 'restore_view.vim'
 set viewoptions=cursor,folds,slash,unix
 
 " Fast and smart grep replacement
@@ -52,6 +52,9 @@ Plugin 'voithos/vim-python-matchit'
 " Move through variable_names and ClassNames
 Plugin 'bkad/CamelCaseMotion'
 
+" Enhance netrw
+Plugin 'tpope/vim-vinegar'
+
 " Smarter use of '.' with plugins
 Plugin 'tpope/vim-repeat'
 
@@ -83,14 +86,15 @@ let g:indent_guides_guide_size=1
 " Fast HTML generation
 Plugin 'mattn/emmet-vim'
 
+" SQL execution/completion
+Plugin 'dbext.vim'
+
 " Syntax highlighting
 Plugin 'pangloss/vim-javascript'
 Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
-
-Plugin 'dbext.vim'
 
 " TODO: Shiftwidth
 " Plugin 'tpope/vim-markdown'
