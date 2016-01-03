@@ -23,10 +23,13 @@ Plugin 'restore_view.vim'
 set viewoptions=cursor,folds,slash,unix
 
 " Fast and smart grep replacement
-Plugin 'rking/ag.vim'
+" Plugin 'rking/ag.vim'
 
 " Populate argument list from quickfix list
-Plugin 'nelstrom/vim-qargs'
+" Plugin 'nelstrom/vim-qargs'
+
+" Enhanced multi-file search for Vim
+Plugin 'wincent/ferret'
 
 " Fuzzy file/buffer/tag search
 Plugin 'kien/ctrlp.vim'
@@ -36,6 +39,14 @@ let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_map = '<c-p><c-p>'
 let g:ctrlp_cmd = 'CtrlPLastMode'
 let g:ctrlp_follow_symlinks = 1
+
+" http://web.archive.org/web/20151006024133/http://blog.patspam.com/2014/super-fast-ctrlp
+" TODO: Redundant ignore lines?
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ -g ""'
+
+Plugin 'FelikZ/ctrlp-py-matcher'
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
 " Class/method/function sidebar
 Plugin 'majutsushi/tagbar'
@@ -51,6 +62,10 @@ Plugin 'voithos/vim-python-matchit'
 
 " Move through variable_names and ClassNames
 Plugin 'bkad/CamelCaseMotion'
+
+" Asynchronous build and test dispatcher
+" TODO mkdir: /tmp/: Operation not permitted
+" Plugin 'tpope/vim-dispatch'
 
 " Enhance netrw
 Plugin 'tpope/vim-vinegar'
@@ -300,13 +315,17 @@ nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 nnoremap <silent> <c-w>v :vnew<CR>
 nnoremap <leader>v :vertical<space>
 
-nnoremap <leader>ag :Ag<space>
-nnoremap <leader>ap :Ag -G \.py<space>
-nnoremap <leader>au :Ag -G urls\.py<space>
-nnoremap <leader>ah :Ag -G \.html<space>
-nnoremap <leader>as :Ag -G \.scss<space>
-nnoremap <leader>ay :Ag -G \.yml<space>
-nnoremap <leader>aj :Ag -G \.js<space>
+nmap <leader>ag <Plug>(FerretAck)
+nmap <leader>aw <Plug>(FerretAckWord)
+nmap <leader>ar <Plug>(FerretAcks)
+nmap <leader>al <Plug>(FerretLack)
+
+nnoremap <leader>ap :Ack -G \.py<space>
+nnoremap <leader>au :Ack -G urls\.py<space>
+nnoremap <leader>ah :Ack -G \.html<space>
+nnoremap <leader>as :Ack -G \.scss<space>
+nnoremap <leader>ay :Ack -G \.yml<space>
+nnoremap <leader>aj :Ack -G \.js<space>
 
 nmap <silent> <leader>D <Plug>DashSearch
 
