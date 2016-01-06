@@ -46,7 +46,8 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ -g ""'
 
 Plugin 'FelikZ/ctrlp-py-matcher'
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+" TODO: Case sensitivity and ordering, esp. w/ tags
+" let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
 " Class/method/function sidebar
 Plugin 'majutsushi/tagbar'
@@ -157,9 +158,14 @@ Plugin 'BlackIkeEagle/vim-colors-solarized'
 Plugin 'bling/vim-airline'
 " Don't duplicate Insert/Replace/Visual with Airline
 set noshowmode
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '◀'
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tagbar#flags = 'f'
 let g:airline#extensions#whitespace#trailing_format = 'ws[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'in[%s]'
