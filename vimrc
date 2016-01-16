@@ -19,8 +19,9 @@ let g:localvimrc_persistent=2
 " let g:localvimrc_sandbox=0
 
 " Auto-save and load folds and cursor position
-Plugin 'restore_view.vim'
-set viewoptions=cursor,folds,slash,unix
+" TODO: Setting cwd when it shouldn't
+" Plugin 'restore_view.vim'
+" set viewoptions=cursor,folds,slash,unix
 
 " Fast and smart grep replacement
 " Plugin 'rking/ag.vim'
@@ -162,18 +163,12 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#virtualenv#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tagbar#flags = 'f'
 let g:airline#extensions#whitespace#trailing_format = 'ws[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'in[%s]'
 
 function! AirlineInit()
-    let g:airline_section_b = airline#section#create(['file'])
-    let g:airline_section_c = airline#section#create(['tagbar'])
-    let g:airline_section_x = airline#section#create(['hunks', 'branch'])
+    let g:airline_section_c = airline#section#create(['%{pathshorten(fnamemodify(getcwd(), ":~"))}', ' > ', 'file'])
 endfunction
 autocmd VimEnter * call AirlineInit()
 
