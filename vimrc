@@ -119,6 +119,8 @@ Plugin 'chase/vim-ansible-yaml'
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
+autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
+
 Plugin 'reedes/vim-pencil'
 " default is 'hard'
 let g:pencil#wrapModeDefault = 'soft'
