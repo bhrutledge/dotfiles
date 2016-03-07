@@ -34,4 +34,4 @@ windows:
                   --files "static/css/**/*.css, static/js/*.js, templates/**/*.html"
             - sass:
                 - cd hth
-                - sass --watch sass:static/css
+                - rbbe sass --watch sass:static/css
