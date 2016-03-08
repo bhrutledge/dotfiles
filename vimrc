@@ -105,6 +105,7 @@ Plugin 'mattn/emmet-vim'
 
 " SQL execution/completion
 Plugin 'dbext.vim'
+let g:sql_type_default = 'mysql'
 
 " Syntax highlighting
 Plugin 'pangloss/vim-javascript'
@@ -112,6 +113,7 @@ Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
+Plugin 'chrisbra/csv.vim'
 
 " TODO: Shiftwidth
 " Plugin 'tpope/vim-markdown'
@@ -158,7 +160,8 @@ Plugin 'rizzatti/dash.vim'
 Plugin 'BlackIkeEagle/vim-colors-solarized'
 
 " Super-charged status line
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " Don't duplicate Insert/Replace/Visual with Airline
 set noshowmode
 let g:airline_left_sep = ''
@@ -338,6 +341,9 @@ nnoremap <leader>fe :setlocal foldenable<CR>
 nnoremap <leader>fn :setlocal nofoldenable<CR>
 
 call camelcasemotion#CreateMotionMappings('<leader>')
+
+" Quickly create TODO
+imap <c-_>t TODO<space>
 
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()
