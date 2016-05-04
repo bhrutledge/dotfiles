@@ -1,0 +1,37 @@
+# ~/.tmuxinator/default.yml
+
+name: es-mac
+root: ~/Code/es
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: vagrant up
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+pre_window: workon es && clear
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+windows:
+    - vim: vim
+    - zsh:
+        layout: 3fb8,272x82,0,0[272x54,0,0,1,272x27,0,55{72x27,0,55,4,82x27,73,55,5,116x27,156,55,9}]
+        panes:
+            - cd es-site && clear
+            - browser-sync:
+                - cd es-site/es/es
+                - browser-sync start --no-open --port 3000 --ui-port 3001
+                  --proxy http://127.0.0.1:8000
+                  --files "static/css/**/*.css, static/js/*.js, templates/**/*.html"
+            - compass:
+                - cd es-site/es/es/static
+                - compass watch
+            - notebook:
+                - cd ~/Dropbox/jupyter
+                - ~/Code/es/es-site/es/manage.py shell_plus --notebook --settings=config.local_prod_default --no-browser
