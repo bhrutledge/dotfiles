@@ -1,0 +1,38 @@
+# ~/.tmuxinator/default.yml
+
+name: es-vm
+root: ~
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: vagrant up
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: esenv && clear
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+windows:
+    - servers:
+        layout: c253,272x82,0,0[272x20,0,0,0,272x35,0,21,3,272x25,0,57{136x25,0,57,2,135x25,137,57,4}]
+        panes:
+            - log:
+                - tail -f local_es.log
+            - runserver:
+                - esenv && clear
+                - python manage.py runserver_plus 0.0.0.0:8000
+            - mail:
+                - maildev -w 8025
+            - notebook:
+                - esenv && clear
+                - cd ~/config/jupyter
+                - ~/es-site/es/manage.py shell_plus --notebook --no-browser
+    - shell:
+        - esenv && clear
+
