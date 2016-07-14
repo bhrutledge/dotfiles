@@ -21,7 +21,7 @@ pre_window: workon es && clear
 windows:
     - vim: vim
     - zsh:
-        layout: 3fb8,272x82,0,0[272x54,0,0,1,272x27,0,55{72x27,0,55,4,82x27,73,55,5,116x27,156,55,9}]
+        layout: f5ef,272x82,0,0[272x59,0,0,23,272x22,0,60{135x22,0,60,24,136x22,136,60,25}]
         panes:
             - cd es-site && clear
             - browser-sync:
@@ -32,6 +32,3 @@ windows:
             - compass:
                 - cd es-site/es/es/static
                 - compass watch
-            - notebook:
-                - cd ~/Dropbox/jupyter
-                - ~/Code/es/es-site/es/manage.py shell_plus --notebook --settings=config.local_prod_default --no-browser

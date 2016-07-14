@@ -6,7 +6,7 @@
     interactive = auto
 [core]
     autocrlf = input
-    safecrlf = true
+    safecrlf = false
     excludesfile = ~/.gitignore
     editor = vim
 [alias]
@@ -38,6 +38,8 @@
     smudge = git hawser smudge %f
     required = true
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
+    clean = git lfs clean %f
+    smudge = git lfs smudge %f
+    required = true
+[mergetool]
+    keepBackup = false
