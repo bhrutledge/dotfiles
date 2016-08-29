@@ -291,6 +291,7 @@ nnoremap <leader>ss :syntax sync fromstart<CR>
 
 " Highlight syntax errors
 nnoremap <leader>sc :SyntasticCheck<CR>
+nnoremap <leader>sr :SyntasticReset<CR>
 
 " Hide matches
 nnoremap <leader>/ :nohlsearch<CR>

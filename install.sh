@@ -11,11 +11,13 @@ fi
 
 echo "Updating prezto"
 
+# TODO: Add prezto as a submodule to dotfiles?
 if [[ ! -d ~/.zprezto ]]; then
     git clone --recurse-submodules https://github.com/bhrutledge/prezto.git ~/.zprezto
 else
     cd ~/.zprezto
-    git pull --recurse-submodules
+    git pull
+    git submodule update --init --recursive
 fi
 
 for dir in ~/.dotfiles ~/.zprezto/runcoms; do
@@ -29,7 +31,12 @@ for dir in ~/.dotfiles ~/.zprezto/runcoms; do
         fi
 
         echo "Linking $dest_file"
-        ln -sfh $src_file $dest_file
+
+        if ln --version 2>/dev/null | grep -q 'coreutils'; then
+            ln -sfT $src_file $dest_file
+        else
+            ln -sfh $src_file $dest_file
+        fi
     done
 done
 
@@ -44,4 +51,3 @@ else
 fi
 
 vim +PluginInstall! +qall
-
