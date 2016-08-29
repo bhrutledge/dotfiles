@@ -15,7 +15,8 @@ if [[ ! -d ~/.zprezto ]]; then
     git clone --recurse-submodules https://github.com/bhrutledge/prezto.git ~/.zprezto
 else
     cd ~/.zprezto
-    git pull --recurse-submodules
+    git pull
+    git submodule update --init --recursive
 fi
 
 for dir in ~/.dotfiles ~/.zprezto/runcoms; do
@@ -44,4 +45,3 @@ else
 fi
 
 vim +PluginInstall! +qall
-
