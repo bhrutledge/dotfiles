@@ -32,7 +32,7 @@ windows:
             - notebook:
                 - esenv && clear
                 - cd ~/config/jupyter
-                - ~/es-site/es/manage.py shell_plus --notebook --no-browser
+                # - ~/es-site/es/manage.py shell_plus --notebook --no-browser
     - shell:
         - esenv && clear
 
