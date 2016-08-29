@@ -1,0 +1,10 @@
+tags
+.git
+.fseventsd
+*.db
+*.min.*
+*.map
+*.pyc
+*.gif
+*.png
+*.jpg

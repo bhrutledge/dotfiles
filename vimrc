@@ -43,8 +43,7 @@ let g:ctrlp_follow_symlinks = 1
 
 " http://web.archive.org/web/20151006024133/http://blog.patspam.com/2014/super-fast-ctrlp
 " TODO: Redundant ignore lines?
-let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-      \ -g ""'
+let g:ctrlp_user_command = 'ag %s -i -l --nocolor --nogroup --hidden -g ""'
 
 Plugin 'FelikZ/ctrlp-py-matcher'
 " TODO: Case sensitivity and ordering, esp. w/ tags
@@ -114,6 +113,15 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'chrisbra/csv.vim'
+Plugin 'wannesm/wmgraphviz.vim'
+
+" Syntax checking
+Plugin 'scrooloose/syntastic'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = { "mode": "passive" }
 
 " TODO: Shiftwidth
 " Plugin 'tpope/vim-markdown'
@@ -131,7 +139,7 @@ let g:pencil#conceallevel = 0
 augroup pencil
   autocmd!
   autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init({'wrap': 'hard'})
+  " autocmd FileType text         call pencil#init({'wrap': 'hard'})
 augroup END
 
 Plugin 'shime/vim-livedown'
@@ -139,7 +147,7 @@ Plugin 'itspriddle/vim-marked'
 
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'nvie/vim-flake8'
+" Plugin 'nvie/vim-flake8'
 Plugin 'jmcantrell/vim-virtualenv'
 
 " TODO: Slow!
@@ -281,6 +289,9 @@ nmap <silent> <leader>sv :source $MYVIMRC<CR>
 " Refresh syntax highlighting
 nnoremap <leader>ss :syntax sync fromstart<CR>
 
+" Highlight syntax errors
+nnoremap <leader>sc :SyntasticCheck<CR>
+
 " Hide matches
 nnoremap <leader>/ :nohlsearch<CR>
 
@@ -329,12 +340,12 @@ nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>ar <Plug>(FerretAcks)
 nmap <leader>al <Plug>(FerretLack)
 
-nnoremap <leader>ap :Ack -G \.py<space>
-nnoremap <leader>au :Ack -G urls\.py<space>
-nnoremap <leader>ah :Ack -G \.html<space>
-nnoremap <leader>as :Ack -G \.scss<space>
-nnoremap <leader>ay :Ack -G \.yml<space>
-nnoremap <leader>aj :Ack -G \.js<space>
+" nnoremap <leader>ap :Ack -G \.py<space>
+" nnoremap <leader>au :Ack -G urls\.py<space>
+" nnoremap <leader>ah :Ack -G \.html<space>
+" nnoremap <leader>as :Ack -G \.scss<space>
+" nnoremap <leader>ay :Ack -G \.yml<space>
+" nnoremap <leader>aj :Ack -G \.js<space>
 
 nmap <silent> <leader>D <Plug>DashSearch
 
