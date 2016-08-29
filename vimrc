@@ -126,6 +126,7 @@ autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
 Plugin 'reedes/vim-pencil'
 " default is 'hard'
 let g:pencil#wrapModeDefault = 'soft'
+let g:pencil#conceallevel = 0
 
 augroup pencil
   autocmd!
@@ -179,6 +180,8 @@ autocmd VimEnter * call AirlineInit()
 
 " Toggle quickfix
 Plugin 'milkypostman/vim-togglelist'
+
+autocmd FileType crontab setlocal nobackup nowritebackup
 
 call vundle#end()
 

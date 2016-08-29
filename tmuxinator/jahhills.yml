@@ -33,5 +33,5 @@ windows:
                   --proxy http://127.0.0.1:8000
                   --files "static/css/**/*.css, static/js/*.js, templates/**/*.html"
             - sass:
-                - cd hth
-                - rbbe sass --watch sass:static/css
+                - cd hth/static
+                - bundle exec sass --watch sass:css
