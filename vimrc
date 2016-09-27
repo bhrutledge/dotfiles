@@ -95,6 +95,9 @@ Plugin 'airblade/vim-gitgutter'
 " Easy commenting
 Plugin 'tomtom/tcomment_vim'
 
+" Detect `shiftwidth`, etc.
+" Plugin 'tpope/vim-sleuth'
+
 " Display indent levels
 Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_guide_size=1
@@ -128,8 +131,6 @@ let g:syntastic_mode_map = { "mode": "passive" }
 " Plugin 'gabrielelana/vim-markdown'
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
-
-autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
 
 Plugin 'reedes/vim-pencil'
 " default is 'hard'
@@ -189,8 +190,6 @@ autocmd VimEnter * call AirlineInit()
 " Toggle quickfix
 Plugin 'milkypostman/vim-togglelist'
 
-autocmd FileType crontab setlocal nobackup nowritebackup
-
 call vundle#end()
 
 let g:netrw_liststyle=3
@@ -230,12 +229,12 @@ set scrolloff=3             " Keep 3 context lines above and below the cursor
 set backspace=2             " Allow backspacing over autoindent, EOL, and BOL
 set showmatch               " Briefly jump to a paren once it's balanced
 set wrap                    " Wrap text
-set linebreak               " don't wrap textin the middle of a word
+set linebreak               " don't wrap text in the middle of a word
 set autoindent              " always set autoindenting on
-"set smartindent             " use smart indent if there is no indent file
-set tabstop=4               " <tab> inserts 4 spaces
-set shiftwidth=4            " but an indent level is 2 spaces wide.
-set softtabstop=4           " <BS> over an autoindent deletes both spaces.
+" set smartindent             " use smart indent if there is no indent file
+set tabstop=4               " Render <Tab> characters as 4 spaces
+set shiftwidth=4            " but an indent level is 4 spaces wide
+set softtabstop=4           " and typing <Tab> or <BS> indents 4 spaces.
 set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
 set formatoptions=tcroql    " Setting text and comment formatting to auto
@@ -270,6 +269,16 @@ set relativenumber          " Display relative line numbers
 
 """ GUI
 set guioptions=             " Disable all scrollbars, menus, etc.
+
+" ==========================================================
+" Filetypes
+" ==========================================================
+
+autocmd FileType crontab setlocal nobackup nowritebackup
+autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
+autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
+" TODO: Isolate this to a directory
+autocmd BufNewFile,BufRead *.html set filetype=htmldjango
 
 " ==========================================================
 " Shortcuts
@@ -382,10 +391,6 @@ set guifont=Menlo\ Regular:h12
 set background=dark
 let g:solarized_hitrail=1
 colorscheme solarized
-
-autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
-" TODO: Isolate this to a directory
-autocmd BufNewFile,BufRead *.html set filetype=htmldjango
 
 " ==========================================================
 " tmux.vim - Set xterm input codes passed by tmux
