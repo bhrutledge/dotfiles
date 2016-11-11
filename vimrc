@@ -33,7 +33,7 @@ let g:localvimrc_persistent=2
 Plugin 'wincent/ferret'
 
 " Fuzzy file/buffer/tag search
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 " TODO: b:var, or localvimrc?
 let g:ctrlp_root_markers = ['tags']
 let g:ctrlp_working_path_mode = 'rw'
@@ -131,6 +131,7 @@ let g:syntastic_mode_map = { "mode": "passive" }
 " Plugin 'gabrielelana/vim-markdown'
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_conceal = 0
 
 Plugin 'reedes/vim-pencil'
 " default is 'hard'
@@ -140,10 +141,9 @@ let g:pencil#conceallevel = 0
 augroup pencil
   autocmd!
   autocmd FileType markdown,mkd call pencil#init()
-  " autocmd FileType text         call pencil#init({'wrap': 'hard'})
+  " autocmd FileType text call pencil#init({'wrap': 'hard'})
 augroup END
 
-Plugin 'shime/vim-livedown'
 Plugin 'itspriddle/vim-marked'
 
 Plugin 'hdima/python-syntax'
@@ -204,6 +204,7 @@ filetype plugin indent on     " enable loading indent file for filetype
 "set title                     " show title in console title bar
 set wildmenu                  " Menu completion in command mode on <Tab>
 set wildmode=full             " <Tab> cycles between all matching choices.
+set path=.,,**
 
 " don't bell or blink
 set noerrorbells
@@ -276,9 +277,11 @@ set guioptions=             " Disable all scrollbars, menus, etc.
 
 autocmd FileType crontab setlocal nobackup nowritebackup
 autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
+autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
-" TODO: Isolate this to a directory
-autocmd BufNewFile,BufRead *.html set filetype=htmldjango
+" TODO Isolate to a directory, maybe by presence of manage.py
+autocmd BufNewFile,BufRead ~/Code/*/templates/*.html set filetype=htmldjango
+autocmd BufNewFile,BufRead ~/Code/*/templates/*.txt set filetype=django
 
 " ==========================================================
 " Shortcuts
@@ -329,8 +332,11 @@ nnoremap <c-p><c-l> :CtrlPLine<CR>
 " Display tag list
 noremap <leader>t :TagbarToggle<CR>
 
+" Yank current file name
+nnoremap <leader>yf :let @"=expand("%:t") \| echo @"<CR>
+
 " Yank current file path (relative to :pwd)
-nnoremap <leader>yf :let @"=@% \| echo @"<CR>
+nnoremap <leader>yp :let @"=@% \| echo @"<CR>
 
 " Yank current file directory
 nnoremap <leader>y. :let @"=expand("%:p:h") \| echo @"<CR>
@@ -349,6 +355,9 @@ nmap <leader>ag <Plug>(FerretAck)
 nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>ar <Plug>(FerretAcks)
 nmap <leader>al <Plug>(FerretLack)
+" TODO Escape spaces, trim whitespace
+nmap <leader>ay :Ack <c-r>"
+" TODO Visual selection
 
 " nnoremap <leader>ap :Ack -G \.py<space>
 " nnoremap <leader>au :Ack -G urls\.py<space>

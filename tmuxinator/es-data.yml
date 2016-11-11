@@ -20,6 +20,7 @@ pre_window: workon es-data-tools && clear
 
 windows:
     - zsh:
+        - cdproject
     - servers:
-        - cd ~/Dropbox\ \(EnergySage\)/jupyter
+        - cd ~/Code/es-data-tools/jupyter
         - prodenv ~/Code/es-data-tools/manage.py shell_plus --notebook --no-browser

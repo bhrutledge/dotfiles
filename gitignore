@@ -110,5 +110,6 @@ cscope.po.out
 Session.vim
 .netrwhist
 *~
+.lvimrc
 
 
