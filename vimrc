@@ -190,6 +190,13 @@ autocmd VimEnter * call AirlineInit()
 " Toggle quickfix
 Plugin 'milkypostman/vim-togglelist'
 
+" Personal wiki
+Plugin 'vimwiki/vimwiki'
+let g:vimwiki_list = [{
+            \ 'diary_index': 'index',
+            \ 'list_margin': 0,
+            \ }]
+
 call vundle#end()
 
 let g:netrw_liststyle=3
@@ -375,9 +382,6 @@ nnoremap <leader>fn :setlocal nofoldenable<CR>
 
 call camelcasemotion#CreateMotionMappings('<leader>')
 
-" Quickly create TODO
-imap <c-_>t TODO<space>
-
 " Force case-sensitive search for tags
 " fun! MatchCaseTag()
 "     let ic = &ic
@@ -389,6 +393,14 @@ imap <c-_>t TODO<space>
 "     endtry
 " endfun
 " nnoremap <silent> <c-]> :call MatchCaseTag()<CR>
+
+iabbrev td TODO
+
+" Monday 28 November 2016
+iabbrev dt <c-r>=strftime("%A %d %B %Y")<cr>
+
+" 15:14
+iabbrev tm <c-r>=strftime("%H:%M")<cr>
 
 " ==========================================================
 " Colors and Fonts
