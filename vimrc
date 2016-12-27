@@ -316,11 +316,12 @@ nnoremap <leader>sr :SyntasticReset<CR>
 nnoremap <leader>/ :nohlsearch<CR>
 
 " Remove trailing whitespace
-nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
+nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h \| pwd<CR>
-cmap <c-\>. %:p:h/
+" cmap <c-\>. %:p:h/
+cabbrev ph <c-r>=expand("%:p:h")<CR>
 
 " Toggle line numbers
 nnoremap com :set number! relativenumber!<CR>
@@ -396,18 +397,19 @@ call camelcasemotion#CreateMotionMappings('<leader>')
 
 iabbrev td TODO
 
-" Monday 28 November 2016
-iabbrev dt <c-r>=strftime("%A %d %B %Y")<cr>
+" Monday, November 28, 2016
+iabbrev dt <c-r>=strftime("%A, %B %d, %Y")<CR>
+cabbrev dt <c-r>=strftime("%Y-%m-%d")<CR>
 
 " 15:14
-iabbrev tm <c-r>=strftime("%H:%M")<cr>
+iabbrev tm <c-r>=strftime("%H:%M")<CR>
 
 " ==========================================================
 " Colors and Fonts
 " ==========================================================
 set colorcolumn=+1          " Hightlight textwidth to avoid long lines
 set listchars=tab:▸\ ,eol:¬ " Show hidden characters (using :set list)
-set guifont=Menlo\ Regular:h12
+set guifont=Hack:h12
 
 set background=dark
 let g:solarized_hitrail=1
