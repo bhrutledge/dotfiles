@@ -1106,13 +1106,15 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>1232 209 539 247 0 0 1920 1080 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>940 465 606 456 0 0 1920 1057 </string>
+	<string>940 581 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 498 620 392 0 0 1920 1057 </string>
+	<string>650 499 620 392 0 0 1920 1057 </string>
+	<key>NSWindow Frame SharedPreferences</key>
+	<string>259 202 1016 502 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>3 78 640 699 0 0 1920 1057 </string>
+	<string>138 351 640 699 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>3 366 640 699 0 0 1920 1080 </string>
+	<string>160 358 640 699 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>296 336 640 699 0 0 1920 1080 </string>
 	<key>New Bookmarks</key>
@@ -1681,7 +1683,7 @@
 			<key>Prompt Before Closing 2</key>
 			<integer>0</integer>
 			<key>Right Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Rows</key>
 			<integer>48</integer>
 			<key>Screen</key>
@@ -1852,6 +1854,10 @@
 	</array>
 	<key>NoSyncConfirmBeta</key>
 	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
+	<integer>0</integer>
 	<key>NoSyncHaveShownPromoWithId_4</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
@@ -1943,7 +1949,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-06-27T01:39:39Z</date>
+	<date>2016-12-26T17:28:43Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>
@@ -1993,6 +1999,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.2</string>
+	<string>3.0.12</string>
 </dict>
 </plist>

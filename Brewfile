@@ -8,6 +8,9 @@ brew 'python3'
 brew 'ruby'
 brew 'node'
 brew 'vim', args: ['with-lua', 'with-luajit']
+brew 'ctags'
+brew 'mysql'
+brew 'autossh'
 brew 'mas'
 
 tap 'beeftornado/rmtree'
