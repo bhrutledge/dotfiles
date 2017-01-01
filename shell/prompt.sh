@@ -21,7 +21,7 @@ PS1+="\[$magenta\]\u@\h\[$reset\]:"
 PS1+="\[$green\]\w\[$reset\]"
 
 #  (virtualenv)
-function __virtualenv_ps1 ()
+function __venv_ps1 ()
 {
     if [[ -n "$VIRTUAL_ENV" ]]; then
         local venv=$(basename "$VIRTUAL_ENV")
@@ -29,7 +29,8 @@ function __virtualenv_ps1 ()
         echo " (${blue}${venv}${reset})"
     fi
 }
-PS1+="\$(__virtualenv_ps1)"
+PS1+="\$(__venv_ps1)"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 #  (git status)
 # TODO: Set GIT_PS1_* variables
@@ -38,7 +39,6 @@ PS1+="\$(__virtualenv_ps1)"
 PS1+="\$(__git_ps1 ' (\[$cyan\]%s\[$reset\])')"
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM="auto"
 
 # \n$
 PS1+="\n\[$white\]\\$\[$reset\] "
