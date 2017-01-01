@@ -12,13 +12,13 @@ cyan=$(tput setaf 6)
 white=$(tput setaf 7)
 
 # TODO: Terminal title
-PS1="\n"
+ps1_pre="\n"
 
 # user@hostname:
-PS1+="\[$magenta\]\u@\h\[$reset\]:"
+ps1_pre+="\[$magenta\]\u@\h\[$reset\]:"
 
 # ~/current/dir
-PS1+="\[$green\]\w\[$reset\]"
+ps1_pre+="\[$cyan\]\w\[$reset\]"
 
 #  (virtualenv)
 function __venv_ps1 ()
@@ -29,18 +29,15 @@ function __venv_ps1 ()
         echo " (${blue}${venv}${reset})"
     fi
 }
-PS1+="\$(__venv_ps1)"
+ps1_pre+="\$(__venv_ps1)"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# \n$
+ps1_post="\n\[$white\]\\$\[$reset\] "
+
 #  (git status)
-# TODO: Set GIT_PS1_* variables
-# TODO: Use PROMPT_COMMAND for speed, colors
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
-PS1+="\$(__git_ps1 ' (\[$cyan\]%s\[$reset\])')"
+PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
-
-# \n$
-PS1+="\n\[$white\]\\$\[$reset\] "
-
-export PS1
+export GIT_PS1_SHOWCOLORHINTS=1
