@@ -14,6 +14,7 @@
     ci = commit
     st = status -s -b
     br = branch
+    brv = branch -vv
     diffw = diff --color-words
     hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     local = log --branches --not --remotes --oneline --decorate --simplify-by-decoration
@@ -49,8 +50,9 @@
     smudge = git hawser smudge %f
     required = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true
 [gui]
     recentrepo = /Users/brian/Code/es/es-site
+    fontdiff = -family Hack -size 12 -weight normal -slant roman -underline 0 -overstrike 0
