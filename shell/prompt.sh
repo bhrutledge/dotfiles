@@ -11,6 +11,15 @@ magenta=$(tput setaf 5)
 cyan=$(tput setaf 6)
 white=$(tput setaf 7)
 
+function __venv_ps1 ()
+{
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        local venv=$(basename "$VIRTUAL_ENV")
+        # TODO: Understand why \[...\] isn't necessary
+        echo "(${blue}${venv}${reset}) "
+    fi
+}
+
 # TODO: Terminal title
 ps1_pre="\n"
 
@@ -20,20 +29,9 @@ ps1_pre+="\[$magenta\]\u@\h\[$reset\]:"
 # ~/current/dir
 ps1_pre+="\[$cyan\]\w\[$reset\]"
 
-#  (virtualenv)
-function __venv_ps1 ()
-{
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        local venv=$(basename "$VIRTUAL_ENV")
-        # TODO: Understand why \[...\] isn't necessary
-        echo " (${blue}${venv}${reset})"
-    fi
-}
-ps1_pre+="\$(__venv_ps1)"
+# \n(virtualenv) $
+ps1_post="\n\$(__venv_ps1)\[$white\]\\$\[$reset\] "
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# \n$
-ps1_post="\n\[$white\]\\$\[$reset\] "
 
 #  (git status)
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
@@ -41,3 +39,4 @@ PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWUPSTREAM="verbose"
