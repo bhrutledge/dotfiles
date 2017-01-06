@@ -1,3 +1,5 @@
+brew 'bash'
+brew 'bash-completion'
 brew 'zsh'
 brew 'tmux'
 brew 'reattach-to-user-namespace'
