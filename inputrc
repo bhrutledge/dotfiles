@@ -1,1 +1,8 @@
-#set editing-mode vi
+# Up/Down cycles through commands that match start of line
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+
+# Shift-Tab cycles through completions current line
+"\e[Z": menu-complete
