@@ -1,8 +1,19 @@
+# https://www.gnu.org/software/bash/manual/bash.html#Readline-Init-File
+
 # Up/Down cycles through commands that match start of line
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 
-# Shift-Tab cycles through completions current line
-"\e[Z": menu-complete
+# Tab cycles through completions for current line, Shift-Tab goes backwards
+Tab: menu-complete
+"\e[Z": menu-complete-backward
+
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set completion-map-case on
+set mark-directories off
+set colored-stats on
+
+set blink-matching-paren on
