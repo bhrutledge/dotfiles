@@ -1,13 +1,17 @@
-#!/usr/bin/env bash
+echo .bash_profile
 
-# Inspiration:
-# https://github.com/mathiasbynens/dotfiles/blob/master/.bash_profile
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
-for file in $HOME/.bash/{exports,aliases,prompt}.bash; do
-	source "$file";
-done;
-unset file;
+export EDITOR='vim'
+export VISUAL='vim'
+export PAGER='less'
 
-# TODO: Make this a loop over a list of files
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-[ -f /usr/local/bin/virtualenvwrapper.sh ] && . /usr/local/bin/virtualenvwrapper.sh
+export PROJECT_HOME=$HOME/Code
+
+if [ -f ~/.bash_exports ]; then
+    source ~/.bash_exports
+fi
+
+if [[ -n $PS1 &&  -f ~/.bashrc ]]; then
+    source ~/.bashrc
+fi

@@ -2,9 +2,6 @@
 
 # TODO: Add interactive and dry-run options
 
-echo "Updating dotfiles"
-git pull
-
 GLOBIGNORE=".:..:*.swp:*~:.git"
 
 for file in .*; do
@@ -16,7 +13,7 @@ for file in .*; do
         rm -f $dest_file
     elif [[ -a $dest_file ]]; then
         echo "Backing up $dest_file"
-        mv $dest_file ${dest_file}.orig
+        mv $dest_file ${dest_file}~orig
     fi
 
     echo "Linking $dest_file"

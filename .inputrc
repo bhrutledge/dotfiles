@@ -6,9 +6,8 @@
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 
-# Tab cycles through completions for current line, Shift-Tab goes backwards
-Tab: menu-complete
-"\e[Z": menu-complete-backward
+# Shift-Tab cycles through completions for current line
+"\e[Z": menu-complete
 
 set show-all-if-ambiguous on
 set completion-ignore-case on

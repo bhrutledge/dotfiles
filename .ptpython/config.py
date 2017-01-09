@@ -36,10 +36,10 @@ def configure(repl):
 
     # Complete while typing. (Don't require tab before the
     # completion menu is shown.)
-    repl.complete_while_typing = True
+    repl.complete_while_typing = False
 
     # Vi mode.
-    repl.vi_mode = True
+    repl.vi_mode = False
 
     # Paste mode. (When True, don't insert whitespace after new line.)
     repl.paste_mode = False
