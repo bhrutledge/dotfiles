@@ -23,6 +23,8 @@ alias grep='grep --color=auto'
 alias mux='tmuxinator'
 alias rm='rm -i'
 
+eval "$(fasd --init auto)"
+
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
