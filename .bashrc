@@ -1,14 +1,5 @@
 echo .bashrc
 
-if [ -f /usr/local/etc/bash_completion ]; then
-    source /usr/local/etc/bash_completion
-fi
-
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
-
-
 ## ALIASES
 
 # http://stackoverflow.com/questions/1676426/how-to-check-the-ls-version
@@ -22,8 +13,6 @@ alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
 alias mux='tmuxinator'
 alias rm='rm -i'
-
-eval "$(fasd --init auto)"
 
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
@@ -112,3 +101,16 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWUPSTREAM="verbose"
+
+
+## SERVICES
+
+if [ -f /usr/local/etc/bash_completion ]; then
+    source /usr/local/etc/bash_completion
+fi
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+eval "$(fasd --init auto)"
