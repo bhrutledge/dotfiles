@@ -1,5 +1,6 @@
 echo .bashrc
 
+
 ## ALIASES
 
 # http://stackoverflow.com/questions/1676426/how-to-check-the-ls-version
@@ -101,6 +102,19 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWUPSTREAM="verbose"
+
+
+## HISTORY
+
+HISTSIZE=10000
+HISTFILESIZE=10000
+HISTCONTROL='ignorespace'
+
+shopt -s histappend
+shopt -s cmdhist
+
+# Save history between sessions; add "; history -c; history -r" to sync
+PROMPT_COMMAND+="; history -a"
 
 
 ## SERVICES
