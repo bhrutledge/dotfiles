@@ -98,10 +98,12 @@ ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
 
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
 PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWCOLORHINTS=1
-export GIT_PS1_SHOWUPSTREAM="verbose"
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWCOLORHINTS=1
+GIT_PS1_SHOWUPSTREAM='verbose'
+GIT_PS1_DESCRIBE_STYLE='branch'
 
 
 ## HISTORY
@@ -127,4 +129,10 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-eval "$(fasd --init auto)"
+if which fasd > /dev/null; then
+    eval "$(fasd --init auto)"
+fi
+
+if which pyenv > /dev/null; then
+    eval "$(pyenv init -)";
+fi
