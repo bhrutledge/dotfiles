@@ -15,6 +15,9 @@
     st = status -s -b
     br = branch
     brv = branch -vv
+    rv = remote -v
+    ru = rev-parse --abbrev-ref --symbolic-full-name @{upstream}
+    rp = rev-parse --abbrev-ref --symbolic-full-name @{push}
     diffw = diff --color-words
     hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     local = log --branches --not --remotes --oneline --decorate --simplify-by-decoration
@@ -22,7 +25,6 @@
     dump = cat-file -p
     root = rev-parse --show-toplevel
     head = symbolic-ref --short HEAD
-    track = rev-parse --abbrev-ref --symbolic-full-name @{u}
 [push]
     default = current
 [include]
