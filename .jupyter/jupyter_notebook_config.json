@@ -1,0 +1,11 @@
+{
+  "NotebookApp": {
+    "nbserver_extensions": {
+      "jupyter_nbextensions_configurator": true
+    },
+    "extra_template_paths": [
+      "/Users/brian/Library/Jupyter/templates"
+    ]
+  },
+  "version": 1
+}
