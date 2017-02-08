@@ -19,8 +19,8 @@ pre_window: workon es-data-tools && clear
 # tmux_command: byobu
 
 windows:
-    - zsh:
+    - shell:
         - cdproject
     - servers:
         - cd ~/Code/es-data-tools/jupyter
-        - prodenv ~/Code/es-data-tools/manage.py shell_plus --notebook --no-browser
+        - prodenv ~/Code/es-data-tools/manage.py shell_plus --notebook
