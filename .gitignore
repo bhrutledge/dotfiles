@@ -116,3 +116,4 @@ Session.vim
 ### Dotfiles
 
 .ptpython/history
+.jupyter/migrated

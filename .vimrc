@@ -190,13 +190,6 @@ autocmd VimEnter * call AirlineInit()
 " Toggle quickfix
 Plugin 'milkypostman/vim-togglelist'
 
-" Personal wiki
-Plugin 'vimwiki/vimwiki'
-let g:vimwiki_list = [{
-            \ 'diary_index': 'index',
-            \ 'list_margin': 0,
-            \ }]
-
 call vundle#end()
 
 let g:netrw_liststyle=3
@@ -320,7 +313,6 @@ nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h \| pwd<CR>
-" cmap <c-\>. %:p:h/
 cabbrev ph <c-r>=expand("%:p:h")<CR>
 
 " Toggle line numbers
@@ -395,14 +387,14 @@ call camelcasemotion#CreateMotionMappings('<leader>')
 " endfun
 " nnoremap <silent> <c-]> :call MatchCaseTag()<CR>
 
-iabbrev td TODO
+iabbrev TD TODO
 
 " Monday, November 28, 2016
-iabbrev dt <c-r>=strftime("%A, %B %d, %Y")<CR>
-cabbrev dt <c-r>=strftime("%Y-%m-%d")<CR>
+iabbrev <expr> dt strftime("%A, %B %d, %Y")
+cabbrev <expr> dt strftime("%Y-%m-%d")
 
 " 15:14
-iabbrev tm <c-r>=strftime("%H:%M")<CR>
+iabbrev <expr> tm strftime("%H:%M")
 
 " ==========================================================
 " Colors and Fonts

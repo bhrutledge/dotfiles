@@ -7,9 +7,6 @@ sys.path.append('/Users/brian/Library/Jupyter/extensions')
 #--- nbextensions configuration ---
 
 
-environ.setdefault('ES_OUTPUT_DIR', '/Volumes/config/reports')
-
-
 def nbconvert(os_path, to):
     dname, fname = path.split(os_path)
 
