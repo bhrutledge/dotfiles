@@ -77,6 +77,9 @@ Plugin 'tpope/vim-repeat'
 " Insert/change/delete surrounding text pairs
 Plugin 'tpope/vim-surround'
 
+" Transition between multiline and single-line code
+Plugin 'AndrewRadev/splitjoin.vim'
+
 " Handy '[' ']' shortcuts and toggles
 Plugin 'tpope/vim-unimpaired'
 
@@ -152,10 +155,10 @@ Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'jmcantrell/vim-virtualenv'
 
 " TODO: Slow!
-Plugin 'davidhalter/jedi-vim'
-let g:jedi#show_call_signatures = 2
-let g:jedi#popup_on_dot = 0
-let g:jedi#smart_auto_mappings = 0
+" Plugin 'davidhalter/jedi-vim'
+" let g:jedi#show_call_signatures = 2
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#smart_auto_mappings = 0
 
 " Plugin 'klen/python-mode'
 " let g:pymode_lint=0
@@ -206,7 +209,7 @@ set wildmenu                  " Menu completion in command mode on <Tab>
 set wildmode=full             " <Tab> cycles between all matching choices.
 set path=.,,**
 
-" don't bell or blink
+" Don't bell or blink
 set noerrorbells
 set visualbell t_vb=
 
@@ -218,6 +221,10 @@ set wildignore+=tags
 
 " No extra info during auto-complete
 " set completeopt-=preview
+
+" Configure completion
+set omnifunc=syntaxcomplete#Complete
+set complete=.,w,b,u
 
 " Disable the colorcolumn when switching modes.  Make sure this is the
 " first autocmd for the filetype here
