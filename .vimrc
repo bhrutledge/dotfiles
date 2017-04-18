@@ -98,12 +98,35 @@ Plugin 'airblade/vim-gitgutter'
 " Easy commenting
 Plugin 'tomtom/tcomment_vim'
 
-" Detect `shiftwidth`, etc.
+" TODO: Detect `shiftwidth`, etc.
 " Plugin 'tpope/vim-sleuth'
 
 " Display indent levels
 Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_guide_size=1
+
+" Syntax checking
+" TODO: https://github.com/w0rp/ale
+
+Plugin 'scrooloose/syntastic'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = { "mode": "passive" }
+
+" Code completion
+" Commented out for future reference. After initial experimentation, I found
+" Intellisense-style completion distracting, and lean more towards
+" language-specific plugins.
+
+" Plugin 'valloric/youcompleteme'
+" let g:ycm_python_binary_path = 'python'
+" let g:ycm_min_num_of_chars_for_completion = 99
+" let g:ycm_auto_trigger = 0
+
+" Plugin 'Shougo/neocomplete.vim'
+" let g:neocomplete#enable_at_startup = 1
 
 " Fast HTML generation
 Plugin 'mattn/emmet-vim'
@@ -112,24 +135,9 @@ Plugin 'mattn/emmet-vim'
 Plugin 'dbext.vim'
 let g:sql_type_default = 'mysql'
 
-" Syntax highlighting
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/html5.vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'chase/vim-ansible-yaml'
-Plugin 'chrisbra/csv.vim'
-Plugin 'wannesm/wmgraphviz.vim'
-
-" Syntax checking
-Plugin 'scrooloose/syntastic'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { "mode": "passive" }
-
+" Markdown
 " TODO: Shiftwidth
+
 " Plugin 'tpope/vim-markdown'
 " Plugin 'gabrielelana/vim-markdown'
 Plugin 'plasticboy/vim-markdown'
@@ -137,7 +145,6 @@ let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_conceal = 0
 
 Plugin 'reedes/vim-pencil'
-" default is 'hard'
 let g:pencil#wrapModeDefault = 'soft'
 let g:pencil#conceallevel = 0
 
@@ -147,11 +154,13 @@ augroup pencil
   " autocmd FileType text call pencil#init({'wrap': 'hard'})
 augroup END
 
+" Preview in Marked.app
 Plugin 'itspriddle/vim-marked'
+
+" Python
 
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
-" Plugin 'nvie/vim-flake8'
 Plugin 'jmcantrell/vim-virtualenv'
 
 " TODO: Slow!
@@ -160,11 +169,30 @@ Plugin 'jmcantrell/vim-virtualenv'
 " let g:jedi#popup_on_dot = 0
 " let g:jedi#smart_auto_mappings = 0
 
+" TODO: Alternative to above
 " Plugin 'klen/python-mode'
 " let g:pymode_lint=0
 " let g:pymode_rope_autoimport=0
 
 let python_highlight_all=1
+
+" Javascript
+
+Plugin 'pangloss/vim-javascript'
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+
+Plugin 'mxw/vim-jsx'
+
+" Other syntax highlighting
+" TODO: https://github.com/sheerun/vim-polyglot
+
+Plugin 'othree/html5.vim'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'chase/vim-ansible-yaml'
+Plugin 'chrisbra/csv.vim'
+Plugin 'wannesm/wmgraphviz.vim'
 
 " Offline docs
 Plugin 'rizzatti/dash.vim'
@@ -286,6 +314,7 @@ autocmd FileType crontab setlocal nobackup nowritebackup
 autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
 autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
+autocmd BufNewFile,BufRead .babelrc set filetype=json
 " TODO Isolate to a directory, maybe by presence of manage.py
 autocmd BufNewFile,BufRead ~/Code/*/templates/*.html set filetype=htmldjango
 autocmd BufNewFile,BufRead ~/Code/*/templates/*.txt set filetype=django
