@@ -1,11 +1,11 @@
+" Started from https://github.com/jeffknupp/config_files/blob/master/.vimrc
+" TODO: https://dougblack.io/words/a-good-vimrc.html
 set nocompatible              " be iMproved
 filetype off                  " required!
 set encoding=utf-8
 
 " ==========================================================
 " Plugins
-" TODO: http://vimawesome.com/
-" TODO: Look at NeoBundle and VimPlug
 " ==========================================================
 
 " Plugin loading
@@ -105,6 +105,23 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_guide_size=1
 
+" Syntax highlighting
+Plugin 'sheerun/vim-polyglot'
+
+" Plugin 'mitsuhiko/vim-python-combined'
+let python_highlight_all=1
+
+" Plugin 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_conceal = 0
+
+" Plugin 'pangloss/vim-javascript'
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+
+" Other syntax highlighting
+Plugin 'wannesm/wmgraphviz.vim'
+
 " Syntax checking
 " TODO: https://github.com/w0rp/ale
 
@@ -128,6 +145,21 @@ let g:syntastic_mode_map = { "mode": "passive" }
 " Plugin 'Shougo/neocomplete.vim'
 " let g:neocomplete#enable_at_startup = 1
 
+" Python execution/completion
+
+Plugin 'jmcantrell/vim-virtualenv'
+
+" TODO: Slow!
+" Plugin 'davidhalter/jedi-vim'
+" let g:jedi#show_call_signatures = 2
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#smart_auto_mappings = 0
+
+" TODO: Alternative to above
+" Plugin 'klen/python-mode'
+" let g:pymode_lint=0
+" let g:pymode_rope_autoimport=0
+
 " Fast HTML generation
 Plugin 'mattn/emmet-vim'
 
@@ -136,13 +168,6 @@ Plugin 'dbext.vim'
 let g:sql_type_default = 'mysql'
 
 " Markdown
-" TODO: Shiftwidth
-
-" Plugin 'tpope/vim-markdown'
-" Plugin 'gabrielelana/vim-markdown'
-Plugin 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled=1
-let g:vim_markdown_conceal = 0
 
 Plugin 'reedes/vim-pencil'
 let g:pencil#wrapModeDefault = 'soft'
@@ -157,43 +182,6 @@ augroup END
 " Preview in Marked.app
 Plugin 'itspriddle/vim-marked'
 
-" Python
-
-Plugin 'hdima/python-syntax'
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'jmcantrell/vim-virtualenv'
-
-" TODO: Slow!
-" Plugin 'davidhalter/jedi-vim'
-" let g:jedi#show_call_signatures = 2
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#smart_auto_mappings = 0
-
-" TODO: Alternative to above
-" Plugin 'klen/python-mode'
-" let g:pymode_lint=0
-" let g:pymode_rope_autoimport=0
-
-let python_highlight_all=1
-
-" Javascript
-
-Plugin 'pangloss/vim-javascript'
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
-
-Plugin 'mxw/vim-jsx'
-
-" Other syntax highlighting
-" TODO: https://github.com/sheerun/vim-polyglot
-
-Plugin 'othree/html5.vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'chase/vim-ansible-yaml'
-Plugin 'chrisbra/csv.vim'
-Plugin 'wannesm/wmgraphviz.vim'
-
 " Offline docs
 Plugin 'rizzatti/dash.vim'
 
@@ -201,6 +189,7 @@ Plugin 'rizzatti/dash.vim'
 Plugin 'BlackIkeEagle/vim-colors-solarized'
 
 " Super-charged status line
+" TODO: https://github.com/itchyny/lightline.vim
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Don't duplicate Insert/Replace/Visual with Airline
@@ -224,8 +213,6 @@ Plugin 'milkypostman/vim-togglelist'
 call vundle#end()
 
 let g:netrw_liststyle=3
-
-" Started from https://github.com/jeffknupp/config_files/blob/master/.vimrc
 
 " ==========================================================
 " Basic Settings
@@ -308,9 +295,11 @@ set guioptions=             " Disable all scrollbars, menus, etc.
 
 " ==========================================================
 " Filetypes
+" TODO: https://bitbucket.org/sjl/dotfiles/src/default/vim/vimrc
 " ==========================================================
 
 autocmd FileType crontab setlocal nobackup nowritebackup
+" TODO: Shiftwidth
 autocmd FileType markdown,mkd let b:surround_{char2nr('_')} = "__\r__"
 autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
