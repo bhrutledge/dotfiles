@@ -1,0 +1,12 @@
+{
+    "workbench.colorTheme": "Solarized Dark",
+    "editor.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/.sass-cache": true,
+        "**/*.map": true
+    },
+    "python.linting.pylintEnabled": false,
+    "python.venvPath": "~/.virtualenvs"
+}
