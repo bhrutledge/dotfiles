@@ -106,6 +106,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_guide_size=1
 
 " Syntax highlighting
+" Note: Individual plugins might be missing features
 Plugin 'sheerun/vim-polyglot'
 
 " Plugin 'mitsuhiko/vim-python-combined'
@@ -119,7 +120,12 @@ let g:vim_markdown_conceal = 0
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
 
-" Other syntax highlighting
+" Plugin 'mxw/vim-jsx'
+" Plugin 'elzr/vim-json'
+" Plugin 'othree/html5.vim'
+" " Plugin 'hail2u/vim-css3-syntax'
+" Plugin 'JulesWang/css.vim'
+" Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'wannesm/wmgraphviz.vim'
 
 " Syntax checking
@@ -187,6 +193,8 @@ Plugin 'rizzatti/dash.vim'
 
 " Color scheme
 Plugin 'BlackIkeEagle/vim-colors-solarized'
+" Plugin 'lifepillar/vim-solarized8'
+" Plugin 'romainl/flattened'
 
 " Super-charged status line
 " TODO: https://github.com/itchyny/lightline.vim
@@ -305,6 +313,7 @@ autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
 autocmd BufNewFile,BufRead .babelrc set filetype=json
 " TODO Isolate to a directory, maybe by presence of manage.py
+" See django-plus plugin
 autocmd BufNewFile,BufRead ~/Code/*/templates/*.html set filetype=htmldjango
 autocmd BufNewFile,BufRead ~/Code/*/templates/*.txt set filetype=django
 

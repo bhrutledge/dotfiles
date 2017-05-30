@@ -1,12 +1,15 @@
 {
     "workbench.colorTheme": "Solarized Dark",
+    "workbench.activityBar.visible": false,
     "editor.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+    "editor.rulers": [80],
+    "editor.wordWrap": "bounded",
     "files.exclude": {
         "**/__pycache__": true,
         "**/*.pyc": true,
         "**/.sass-cache": true,
         "**/*.map": true
     },
-    "python.linting.pylintEnabled": false,
-    "python.venvPath": "~/.virtualenvs"
+    "python.venvPath": "~/.virtualenvs",
+    "python.linting.pylintEnabled": false
 }
