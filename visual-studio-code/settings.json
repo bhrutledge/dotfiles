@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Solarized Dark",
+    "workbench.colorTheme": "One Dark Pro",
     "workbench.activityBar.visible": false,
     "editor.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
     "editor.rulers": [80],
@@ -11,5 +11,8 @@
         "**/*.map": true
     },
     "python.venvPath": "~/.virtualenvs",
-    "python.linting.pylintEnabled": false
+    "python.linting.pylintEnabled": false,
+    "editor.formatOnPaste": true,
+    "editor.cursorStyle": "underline-thin",
+    "editor.renderLineHighlight": "gutter"
 }
