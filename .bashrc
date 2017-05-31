@@ -136,3 +136,5 @@ fi
 if which pyenv > /dev/null; then
     eval "$(pyenv init -)";
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
