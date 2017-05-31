@@ -1,4 +1,5 @@
 tap 'beeftornado/rmtree'
+tap 'neovim/neovim'
 
 brew 'autossh'
 brew 'bash'
@@ -14,6 +15,7 @@ brew 'hub'
 brew 'jq'
 brew 'mas'
 brew 'mysql'
+brew 'neovim'
 brew 'node'
 brew 'python'
 brew 'python3'

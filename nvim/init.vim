@@ -9,5 +9,7 @@ call plug#end()
 
 set relativenumber
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" TODO: Understand true color support for iTerm2 and tmux
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" set termguicolors
 colorscheme solarized8_dark

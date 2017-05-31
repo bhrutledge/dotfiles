@@ -31,6 +31,8 @@ let g:localvimrc_persistent=2
 
 " Enhanced multi-file search for Vim
 Plugin 'wincent/ferret'
+" TODO: Change this once ripgrep ignoring is set up
+let g:FerretExecutable='ag,rg'
 
 " Fuzzy file/buffer/tag search
 Plugin 'ctrlpvim/ctrlp.vim'
