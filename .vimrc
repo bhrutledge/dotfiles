@@ -31,8 +31,6 @@ let g:localvimrc_persistent=2
 
 " Enhanced multi-file search for Vim
 Plugin 'wincent/ferret'
-" TODO: Change this once ripgrep ignoring is set up
-let g:FerretExecutable='ag,rg'
 
 " Fuzzy file/buffer/tag search
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -242,6 +240,7 @@ set visualbell t_vb=
 set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
+set wildignore+=node_modules/**
 set wildignore+=tags
 
 " No extra info during auto-complete
