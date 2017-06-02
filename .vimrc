@@ -29,7 +29,8 @@ let g:localvimrc_persistent=2
 " Populate argument list from quickfix list
 " Plugin 'nelstrom/vim-qargs'
 
-" Enhanced multi-file search for Vim
+" Enhanced multi-file search for Vim (using rg or ag)
+" TODO: Rely on built-ins like :grep instead (although this sets grepprg)
 Plugin 'wincent/ferret'
 
 " Fuzzy file/buffer/tag search
@@ -41,9 +42,14 @@ let g:ctrlp_map = '<c-p><c-p>'
 let g:ctrlp_cmd = 'CtrlPLastMode'
 let g:ctrlp_follow_symlinks = 1
 
-" http://web.archive.org/web/20151006024133/http://blog.patspam.com/2014/super-fast-ctrlp
-" TODO: Redundant ignore lines?
-let g:ctrlp_user_command = 'ag %s -i -l --nocolor --nogroup --hidden -g ""'
+" TODO: set grepprg if not using ferret
+if executable('rg')
+    " set grepprg=rg\ --vimgrep
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+elseif executable('ag')
+    " set grepprg=ag\ --vimgrep
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
 Plugin 'FelikZ/ctrlp-py-matcher'
 " TODO: Case sensitivity and ordering, esp. w/ tags
@@ -390,8 +396,8 @@ nmap <leader>ag <Plug>(FerretAck)
 nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>ar <Plug>(FerretAcks)
 nmap <leader>al <Plug>(FerretLack)
-" TODO Escape spaces, trim whitespace
-nmap <leader>ay :Ack <c-r>"
+" TODO Escape more chars, trim whitespace. See also substitute().
+nmap <leader>ay :Ack <c-r>=escape(getreg('"'), ' \')<CR>
 " TODO Visual selection
 
 " nnoremap <leader>ap :Ack -G \.py<space>
