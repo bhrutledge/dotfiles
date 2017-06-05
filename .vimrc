@@ -396,16 +396,11 @@ nmap <leader>ag <Plug>(FerretAck)
 nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>ar <Plug>(FerretAcks)
 nmap <leader>al <Plug>(FerretLack)
-" TODO Escape more chars, trim whitespace. See also substitute().
-nmap <leader>ay :Ack <c-r>=escape(getreg('"'), ' \')<CR>
-" TODO Visual selection
-
-" nnoremap <leader>ap :Ack -G \.py<space>
-" nnoremap <leader>au :Ack -G urls\.py<space>
-" nnoremap <leader>ah :Ack -G \.html<space>
-" nnoremap <leader>as :Ack -G \.scss<space>
-" nnoremap <leader>ay :Ack -G \.yml<space>
-" nnoremap <leader>aj :Ack -G \.js<space>
+" Search for yanked text after escaping spaces and stripping whitespace
+" TODO Make this a function
+" TODO Escape more chars
+nmap <leader>ay :Ack <c-r>=substitute(escape(getreg('"'), ' \'), '^\s*\(.\{-}\)\_s*$', '\1', 'g')<CR>
+vmap <leader>a y<leader>ay
 
 nmap <silent> <leader>D <Plug>DashSearch
 

@@ -134,7 +134,9 @@ if which fasd > /dev/null; then
 fi
 
 if which pyenv > /dev/null; then
-    eval "$(pyenv init -)";
+    eval "$(pyenv init -)"
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+fi
