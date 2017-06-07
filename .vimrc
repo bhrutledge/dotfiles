@@ -7,11 +7,11 @@ set encoding=utf-8
 " ==========================================================
 " Plugins
 " ==========================================================
-
-" Plugin loading
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'gmarik/vundle'
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
 " Per-project vim settings
 Plugin 'localvimrc'
@@ -396,11 +396,13 @@ nmap <leader>ag <Plug>(FerretAck)
 nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>ar <Plug>(FerretAcks)
 nmap <leader>al <Plug>(FerretLack)
-" Search for yanked text after escaping spaces and stripping whitespace
+" Search for unnamed register after stripping whitespace and escaping characters
 " TODO Make this a function
 " TODO Escape more chars
-nmap <leader>ay :Ack <c-r>=substitute(escape(getreg('"'), ' \'), '^\s*\(.\{-}\)\_s*$', '\1', 'g')<CR>
-vmap <leader>a y<leader>ay
+nmap <leader>a" :Ack <c-r>=substitute(getreg('"'),
+            \'^\s*\(.\{-}\)\_s*$', '\=escape(submatch(1), " .()\\")', 'g')<CR>
+" Yank and search for visual selection
+vmap <leader>a y<leader>a"<CR>
 
 nmap <silent> <leader>D <Plug>DashSearch
 

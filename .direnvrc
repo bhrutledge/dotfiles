@@ -1,0 +1,10 @@
+layout_virtualenv() {
+    local venv_path="$1"
+    source ${venv_path}/bin/activate
+}
+
+layout_virtualenvwrapper() {
+    local venv=${1-$(basename $PWD)}
+    local venv_path="${WORKON_HOME}/$venv"
+    layout_virtualenv $venv_path
+}

@@ -6,6 +6,7 @@ brew 'bash'
 brew 'bash-completion'
 brew 'cmake'
 brew 'ctags'
+brew 'direnv'
 brew 'fasd'
 brew 'fzf'
 brew 'gist'
@@ -26,7 +27,7 @@ brew 'sqlite'
 brew 'the_silver_searcher'
 brew 'tmux'
 brew 'tree'
-brew 'vim', args: ['with-lua', 'with-luajit']
+brew 'vim', args: ['with-lua']
 brew 'yarn'
 
 cask 'macvim'

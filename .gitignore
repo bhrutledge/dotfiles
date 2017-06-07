@@ -117,3 +117,9 @@ Session.vim
 
 .ptpython/history
 .jupyter/migrated
+
+
+### Development environment
+
+.envrc
+.vscode

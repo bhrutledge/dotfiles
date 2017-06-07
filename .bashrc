@@ -12,7 +12,6 @@ fi
 
 alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
-alias mux='tmuxinator'
 alias rm='rm -i'
 
 if [ -f ~/.bash_aliases ]; then
@@ -129,12 +128,20 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
+if which pyenv > /dev/null; then
+    eval "$(pyenv init -)"
+fi
+
 if which fasd > /dev/null; then
     eval "$(fasd --init auto)"
 fi
 
-if which pyenv > /dev/null; then
-    eval "$(pyenv init -)"
+if which direnv > /dev/null; then
+    eval "$(direnv hook bash)"
+    # https://github.com/direnv/direnv/wiki/Tmux
+    # https://github.com/direnv/direnv/issues/106
+    alias tmux='direnv exec / tmux'
+    alias mux='direnv exec / mux'
 fi
 
 if [ -f ~/.fzf.bash ]; then
