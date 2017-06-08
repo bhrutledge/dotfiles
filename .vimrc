@@ -392,6 +392,7 @@ nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 nnoremap <silent> <c-w>v :vnew<CR>
 nnoremap <leader>v :vertical<space>
 
+" Search files in current directory
 nmap <leader>ag <Plug>(FerretAck)
 nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>ar <Plug>(FerretAcks)
