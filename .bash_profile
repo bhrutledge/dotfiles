@@ -1,8 +1,4 @@
-function echo_n {
-    echo -n "$@ "
-}
-
-echo_n .bash_profile
+echo -n .bash_profile\ 
 
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 

@@ -1,4 +1,4 @@
-echo_n .bashrc
+echo -n .bashrc\ 
 
 
 ## ALIASES
@@ -119,30 +119,30 @@ PROMPT_COMMAND+="; history -a"
 
 
 ## SERVICES
-# TODO: Check for existing definitions (esp. pyenv)
 
 if [ -f /usr/local/etc/bash_completion ]; then
-    echo_n bash_completion
+    echo -n bash_completion\ 
     source /usr/local/etc/bash_completion
 fi
 
+# TODO: Figure out how to avoid PATH conflicts with system Python(s)
+# if hash pyenv 2> /dev/null; then
+#     echo -n pyenv\ 
+#     eval "$(pyenv init -)"
+# fi
+
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    echo_n virtualenvwrapper
+    echo -n virtualenvwrapper\ 
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-if hash pyenv 2> /dev/null; then
-    echo_n pyenv
-    eval "$(pyenv init -)"
-fi
-
 if hash fasd 2> /dev/null; then
-    echo_n fasd
+    echo -n fasd\ 
     eval "$(fasd --init auto)"
 fi
 
 if hash direnv 2> /dev/null; then
-    echo_n direnv
+    echo -n direnv\ 
     eval "$(direnv hook bash)"
     # https://github.com/direnv/direnv/wiki/Tmux
     # https://github.com/direnv/direnv/issues/106
@@ -151,15 +151,15 @@ if hash direnv 2> /dev/null; then
 fi
 
 if hash fzf 2> /dev/null; then
-    echo_n fzf
+    echo -n fzf\ 
     source /usr/local/opt/fzf/shell/completion.bash
     # source /usr/local/opt/fzf/shell/key-bindings.bash
 
     if hash rg 2> /dev/null; then
-        echo_n rg
+        echo -n rg\ 
         export FZF_DEFAULT_COMMAND='rg --files'
     elif hash ag 2> /dev/null; then
-        echo_n ag
+        echo -n ag\ 
         export FZF_DEFAULT_COMMAND='ag -g ""'
     fi
 fi
