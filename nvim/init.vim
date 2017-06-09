@@ -43,7 +43,13 @@ Plug 'lifepillar/vim-solarized8'
 
 " TODO Super-charged status line
 " Plug 'vim-airline/vim-airline'
-" https://github.com/itchyny/lightline.vim
+Plug 'itchyny/lightline.vim'
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ }
+
+" Don't duplicate Insert/Replace/Visual with status line
+set noshowmode
 
 call plug#end()
 
@@ -118,15 +124,23 @@ nnoremap <c-p><c-h> :History:<CR>
 nnoremap <c-p><c-t> :Tags<CR>
 
 " Search files in current directory
-" TODO Use rg for fzf, or `Plug 'wincent/ferret'"
+
+" TODO? Plug 'wincent/ferret'
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+
 " TODO Add <CR>
-nmap <leader>ag :Ag<space>
-nmap <leader>aw :Ag <c-r><c-w>
+nmap <leader>ag :Rg<space>
+nmap <leader>aw :Rg <c-r><c-w>
 " Search for unnamed register after stripping whitespace and escaping characters
 " TODO Make this a function
 " TODO Escape more chars
-nmap <leader>a" :Ag <c-r>=substitute(getreg('"'),
-            \'^\s*\(.\{-}\)\_s*$', '\=escape(submatch(1), " .()\\")', 'g')
+nmap <leader>a" :Rg <c-r>=substitute(getreg('"'),
+            \'^\s*\(.\{-}\)\_s*$', '\=escape(submatch(1), ".()\\")', 'g')
             \<CR>
 " Yank and search for visual selection
 vmap <leader>a y<leader>a"
@@ -135,7 +149,7 @@ vmap <leader>a y<leader>a"
 
 
 " Project-specific settings
-" TODO: More robust solution, that considers parent directories
+" TODO: More robust solution, that considers parent directories. Consider $XDG_CONFIG_DIRS.
 if filereadable('.lvimrc')
     source .lvimrc
 endif

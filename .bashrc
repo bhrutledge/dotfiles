@@ -152,7 +152,7 @@ fi
 
 if hash fzf 2> /dev/null; then
     echo -n fzf\ 
-    source /usr/local/opt/fzf/shell/completion.bash
+    # source /usr/local/opt/fzf/shell/completion.bash
     # source /usr/local/opt/fzf/shell/key-bindings.bash
 
     if hash rg 2> /dev/null; then
