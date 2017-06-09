@@ -1,4 +1,8 @@
-echo .bash_profile
+function echo_n {
+    echo -n "$@ "
+}
+
+echo_n .bash_profile
 
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
@@ -15,3 +19,5 @@ fi
 if [[ -n $PS1 &&  -f ~/.bashrc ]]; then
     source ~/.bashrc
 fi
+
+echo

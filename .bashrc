@@ -1,4 +1,4 @@
-echo .bashrc
+echo_n .bashrc
 
 
 ## ALIASES
@@ -119,24 +119,30 @@ PROMPT_COMMAND+="; history -a"
 
 
 ## SERVICES
+# TODO: Check for existing definitions (esp. pyenv)
 
 if [ -f /usr/local/etc/bash_completion ]; then
+    echo_n bash_completion
     source /usr/local/etc/bash_completion
 fi
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    echo_n virtualenvwrapper
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-if which pyenv > /dev/null; then
+if hash pyenv 2> /dev/null; then
+    echo_n pyenv
     eval "$(pyenv init -)"
 fi
 
-if which fasd > /dev/null; then
+if hash fasd 2> /dev/null; then
+    echo_n fasd
     eval "$(fasd --init auto)"
 fi
 
-if which direnv > /dev/null; then
+if hash direnv 2> /dev/null; then
+    echo_n direnv
     eval "$(direnv hook bash)"
     # https://github.com/direnv/direnv/wiki/Tmux
     # https://github.com/direnv/direnv/issues/106
@@ -144,6 +150,16 @@ if which direnv > /dev/null; then
     alias mux='direnv exec / mux'
 fi
 
-if [ -f ~/.fzf.bash ]; then
-    source ~/.fzf.bash
+if hash fzf 2> /dev/null; then
+    echo_n fzf
+    source /usr/local/opt/fzf/shell/completion.bash
+    # source /usr/local/opt/fzf/shell/key-bindings.bash
+
+    if hash rg 2> /dev/null; then
+        echo_n rg
+        export FZF_DEFAULT_COMMAND='rg --files'
+    elif hash ag 2> /dev/null; then
+        echo_n ag
+        export FZF_DEFAULT_COMMAND='ag -g ""'
+    fi
 fi

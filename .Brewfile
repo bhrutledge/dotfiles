@@ -31,4 +31,6 @@ brew 'vim', args: ['with-lua']
 brew 'yarn'
 
 cask 'macvim'
+cask 'vagrant'
 cask 'visual-studio-code'
+cask 'virtualbox'
