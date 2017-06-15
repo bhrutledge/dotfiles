@@ -33,23 +33,13 @@ Plug 'tpope/vim-fugitive'
 " Git diff status in gutter
 Plug 'airblade/vim-gitgutter'
 
-" Syntax highlighting
+" Syntax highlighting for many languages
 " Note: Individual plugins might be missing features
 Plug 'sheerun/vim-polyglot'
 
 " Updated versions of Solarized
 Plug 'BlackIkeEagle/vim-colors-solarized'
 Plug 'lifepillar/vim-solarized8'
-
-" TODO Super-charged status line
-" Plug 'vim-airline/vim-airline'
-Plug 'itchyny/lightline.vim'
-let g:lightline = {
-      \ 'colorscheme': 'solarized',
-      \ }
-
-" Don't duplicate Insert/Replace/Visual with status line
-set noshowmode
 
 call plug#end()
 
@@ -58,11 +48,11 @@ call plug#end()
 
 " SETTINGS {{{
 
-" Search working directory, current file directory, and subdirectories
+" Search files in working directory, current file directory, and subdirectories
 set path=.,,**
 
 " TODO Pull from .gitignore and .ignore
-set wildignore+=*.o,*.obj,.git,*.pyc
+set wildignore+=*.o,*.obj,.git,*.pyc,*.map
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 set wildignore+=node_modules/**
@@ -70,13 +60,11 @@ set wildignore+=tags
 
 set relativenumber
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
-set splitright
-set splitbelow
+set splitright splitbelow
+
+" set completeopt-=preview
 
 " Highlight textwidth to avoid long lines
 set textwidth=80
@@ -88,6 +76,33 @@ set colorcolumn=+1
 " colorscheme solarized8_dark
 set background=dark
 colorscheme solarized
+
+" }}}
+
+
+" AUTOCOMMANDS {{{
+
+" TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
+augroup filetypes
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker foldlevel=1
+    autocmd FileType vim setlocal keywordprg=:help
+    autocmd FileType crontab setlocal nobackup nowritebackup
+    autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
+    autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
+    autocmd BufNewFile,BufRead .babelrc set filetype=json
+augroup END
+
+" TODO: When this gets big, consider using sourced files
+augroup projects
+    autocmd!
+    autocmd BufNewFile,BufRead ~/Code/es/* setlocal
+                \ textwidth=119
+                \ wildignore+=*.css
+    " TODO: Try ftdetect based on parent directory
+    autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
+    autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
+augroup END
 
 " }}}
 
@@ -116,40 +131,70 @@ nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 nnoremap <silent> <c-w>v :vnew<CR>
 nnoremap <leader>v :vertical<space>
 
-" Quickly search for files, functions, classes, etc.
+" Fuzzy find files, buffers, commands, functions, classes, etc.
 nnoremap <c-p><c-f> :Files<CR>
 nnoremap <c-p><c-b> :Buffers<CR>
 nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p><c-h> :History:<CR>
 nnoremap <c-p><c-t> :Tags<CR>
 
-" Search files in current directory
+" Search for typed text
+nnoremap <leader>ag :Rg<space>
 
-" TODO? Plug 'wincent/ferret'
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
+" Search for word under cursor
+nnoremap <leader>aw :Rg <c-r><c-w>
 
-" TODO Add <CR>
-nmap <leader>ag :Rg<space>
-nmap <leader>aw :Rg <c-r><c-w>
 " Search for unnamed register after stripping whitespace and escaping characters
-" TODO Make this a function
-" TODO Escape more chars
-nmap <leader>a" :Rg <c-r>=substitute(getreg('"'),
+" TODO Make this a function, escape more chars
+nnoremap <leader>a" :Rg <c-r>=substitute(getreg('"'),
             \'^\s*\(.\{-}\)\_s*$', '\=escape(submatch(1), ".()\\")', 'g')
             \<CR>
-" Yank and search for visual selection
+
+" Search for visual selection via unnamed register
+" TODO Use vnoremap when unnamed search is made into a function
 vmap <leader>a y<leader>a"
+
+" Use ripgrep for file search (from `:h fzf`)
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \ 'rg --column --line-number --no-heading --color=always '
+            \ . shellescape(<q-args>),
+            \ 1,
+            \ <bang>0 ? fzf#vim#with_preview('up:60%')
+            \         : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0)
 
 " }}}
 
 
-" Project-specific settings
-" TODO: More robust solution, that considers parent directories. Consider $XDG_CONFIG_DIRS.
-if filereadable('.lvimrc')
-    source .lvimrc
-endif
+" STATUS LINE {{{
+" https://shapeshed.com/vim-statuslines/
+" http://learnvimscriptthehardway.stevelosh.com/chapters/17.html
+" TODO: Highlighting
+" TODO: Max widths
+" TODO: Whitespace/Indent warning
+" TODO: http://vim.wikia.com/wiki/Display_date-and-time_on_status_line
+
+" ~/path/to/cwd
+set statusline=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
+" path/to/file [+]
+set statusline+=\ %f\ %m
+" [Git(master)]
+set statusline+=%{fugitive#statusline()}
+" [Help][Preview][Quickfix List][RO]
+set statusline+=%h%w%q%r
+" Right aligned
+set statusline+=%=
+" [vim]
+set statusline+=%y
+" [utf-8]
+set statusline+=[%{&fileencoding?&fileencoding:&encoding}]
+" [unix]
+set statusline+=[%{&fileformat}]
+" % Line Column
+set statusline+=\ %P\ %4l\ %3c
+set statusline+=\ 
+
+set noruler
+
+" }}}

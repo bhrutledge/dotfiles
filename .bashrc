@@ -157,7 +157,7 @@ if hash fzf 2> /dev/null; then
 
     if hash rg 2> /dev/null; then
         echo -n rg\ 
-        export FZF_DEFAULT_COMMAND='rg --files'
+        export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
     elif hash ag 2> /dev/null; then
         echo -n ag\ 
         export FZF_DEFAULT_COMMAND='ag -g ""'
