@@ -19,7 +19,7 @@ pre_window: workon es && clear
 # tmux_command: byobu
 
 windows:
-    - vim: vim
+    - editor: $EDITOR
     - shell:
         layout: f5ef,272x82,0,0[272x59,0,0,23,272x22,0,60{135x22,0,60,24,136x22,136,60,25}]
         panes:

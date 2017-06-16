@@ -125,7 +125,7 @@ if [ -f /usr/local/etc/bash_completion ]; then
     source /usr/local/etc/bash_completion
 fi
 
-# TODO: Figure out how to avoid PATH conflicts with system Python(s)
+# TODO: Set up global pyenv environment
 # if hash pyenv 2> /dev/null; then
 #     echo -n pyenv\ 
 #     eval "$(pyenv init -)"
@@ -162,4 +162,20 @@ if hash fzf 2> /dev/null; then
         echo -n ag\ 
         export FZF_DEFAULT_COMMAND='ag -g ""'
     fi
+
+    # checkout git branch
+    fbr() {
+        local branches branch
+        branches=$(git branch -vv) &&
+            branch=$(echo "$branches" | fzf +m) &&
+            git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+    }
+fi
+
+if hash nvim 2> /dev/null; then
+    echo -n nvim\ 
+    alias vim='nvim'
+    alias vimdiff='nvim -d'
+    export EDITOR='nvim'
+    export VISUAL='nvim'
 fi

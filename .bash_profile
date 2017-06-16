@@ -3,7 +3,7 @@ echo -n .bash_profile\
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
 export EDITOR='vim'
-export VISUAL='vim'
+export VISUAL=$EDITOR
 export PAGER='less'
 
 export PROJECT_HOME=$HOME/Code

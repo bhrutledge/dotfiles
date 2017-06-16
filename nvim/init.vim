@@ -6,9 +6,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
-" Enhance netrw
-Plug 'tpope/vim-vinegar'
-
 " Smarter use of '.' with plugins
 Plug 'tpope/vim-repeat'
 
@@ -70,6 +67,8 @@ set splitright splitbelow
 set textwidth=80
 set colorcolumn=+1
 
+let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
+
 " TODO Understand true color support for iTerm2 and tmux
 " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " set termguicolors
@@ -85,6 +84,7 @@ colorscheme solarized
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
+    autocmd FileType help setlocal relativenumber
     autocmd FileType vim setlocal foldmethod=marker foldlevel=1
     autocmd FileType vim setlocal keywordprg=:help
     autocmd FileType crontab setlocal nobackup nowritebackup
@@ -157,7 +157,7 @@ vmap <leader>a y<leader>a"
 " Use ripgrep for file search (from `:h fzf`)
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
-            \ 'rg --column --line-number --no-heading --color=always '
+            \ 'rg --column --line-number --no-heading --color=always --hidden '
             \ . shellescape(<q-args>),
             \ 1,
             \ <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -176,12 +176,12 @@ command! -bang -nargs=* Rg
 " TODO: http://vim.wikia.com/wiki/Display_date-and-time_on_status_line
 
 " path/to/file[+]
-set statusline=\ %f%m
+set statusline=\ %.30f%m
 " ~/path/to/cwd
 set statusline+=\ %#LineNR#
 set statusline+=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
 " [Git(master)]
-set statusline+=\ %{fugitive#statusline()}
+set statusline+=\ %{GitHead()}
 " [Help][Preview][Quickfix List][RO]
 set statusline+=%h%w%q%r
 " Right aligned
@@ -196,6 +196,11 @@ set statusline+=[%{&fileformat}]
 set statusline+=\ %#StatusLineNC#
 set statusline+=\ %P\ %4l\ %3c
 set statusline+=\ 
+
+function! GitHead()
+    let head = fugitive#head(6)
+    return strlen(head) ? '(' . head . ')' : ''
+endfunction
 
 set noruler
 
