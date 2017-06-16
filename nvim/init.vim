@@ -175,12 +175,13 @@ command! -bang -nargs=* Rg
 " TODO: Whitespace/Indent warning
 " TODO: http://vim.wikia.com/wiki/Display_date-and-time_on_status_line
 
+" path/to/file[+]
+set statusline=\ %f%m
 " ~/path/to/cwd
-set statusline=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
-" path/to/file [+]
-set statusline+=\ %f\ %m
+set statusline+=\ %#LineNR#
+set statusline+=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
 " [Git(master)]
-set statusline+=%{fugitive#statusline()}
+set statusline+=\ %{fugitive#statusline()}
 " [Help][Preview][Quickfix List][RO]
 set statusline+=%h%w%q%r
 " Right aligned
@@ -192,6 +193,7 @@ set statusline+=[%{&fileencoding?&fileencoding:&encoding}]
 " [unix]
 set statusline+=[%{&fileformat}]
 " % Line Column
+set statusline+=\ %#StatusLineNC#
 set statusline+=\ %P\ %4l\ %3c
 set statusline+=\ 
 
