@@ -6,6 +6,7 @@ export EDITOR='vim'
 export VISUAL=$EDITOR
 export PAGER='less'
 
+export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Code
 
 if [ -f ~/.bash_exports ]; then

@@ -131,11 +131,6 @@ fi
 #     eval "$(pyenv init -)"
 # fi
 
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    echo -n virtualenvwrapper\ 
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
-
 if hash fasd 2> /dev/null; then
     echo -n fasd\ 
     eval "$(fasd --init auto)"
