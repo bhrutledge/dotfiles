@@ -95,7 +95,12 @@ ps1_pre+="\[$yellow\]\w\[$reset\]"
 
 ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
 
+# This might also be included in the git distribution
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+if [ -f ~/.git-prompt.sh ]; then
+    source ~/.git-prompt.sh
+fi
+
 PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
@@ -173,4 +178,11 @@ if hash nvim 2> /dev/null; then
     alias vimdiff='nvim -d'
     export EDITOR='nvim'
     export VISUAL='nvim'
+fi
+
+
+## EXTRAS
+
+if [ -f ~/.bash_aliases ]; then
+    source ~/.bash_aliases
 fi
