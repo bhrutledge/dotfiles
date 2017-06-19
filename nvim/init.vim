@@ -112,6 +112,17 @@ augroup END
 " Hide matches
 nnoremap <leader>/ :nohlsearch<CR>
 
+" Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
+cabbrev ph <c-r>=expand("%:p:h")<CR>
+
+" Monday, November 28, 2016
+iabbrev <expr> dt strftime("%A, %B %d, %Y")
+cabbrev <expr> dt strftime("%Y-%m-%d")
+
+" 15:14
+iabbrev <expr> tm strftime("%H:%M")
+
 " Yank current file name
 nnoremap <leader>yf :let @"=expand("%:t") \| echo @"<CR>
 
@@ -152,7 +163,7 @@ nnoremap <leader>a" :Rg <c-r>=substitute(getreg('"'),
 
 " Search for visual selection via unnamed register
 " TODO Use vnoremap when unnamed search is made into a function
-vmap <leader>a y<leader>a"
+vmap <leader>ag y<leader>a"
 
 " Use ripgrep for file search (from `:h fzf`)
 command! -bang -nargs=* Rg

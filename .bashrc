@@ -14,6 +14,22 @@ alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
 alias rm='rm -i'
 
+# Lightweight replacements for virtualenvwrapper
+# TODO: Error handling
+# TODO: Completion
+
+function workon {
+    source $WORKON_HOME/$1/bin/activate
+
+    if [ -d $PROJECT_HOME/$1 ]; then
+        cd $PROJECT_HOME/$1
+    fi
+}
+
+function cdproject {
+    cd $PROJECT_HOME/$(basename $VIRTUAL_ENV)
+}
+
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
@@ -125,16 +141,11 @@ PROMPT_COMMAND+="; history -a"
 
 ## SERVICES
 
+# TODO: Locate on Ubuntu, CentOS
 if [ -f /usr/local/etc/bash_completion ]; then
     echo -n bash_completion\ 
     source /usr/local/etc/bash_completion
 fi
-
-# TODO: Set up global pyenv environment
-# if hash pyenv 2> /dev/null; then
-#     echo -n pyenv\ 
-#     eval "$(pyenv init -)"
-# fi
 
 if hash fasd 2> /dev/null; then
     echo -n fasd\ 
@@ -178,11 +189,4 @@ if hash nvim 2> /dev/null; then
     alias vimdiff='nvim -d'
     export EDITOR='nvim'
     export VISUAL='nvim'
-fi
-
-
-## EXTRAS
-
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
 fi
