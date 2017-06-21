@@ -158,7 +158,7 @@ if hash direnv 2> /dev/null; then
     # https://github.com/direnv/direnv/wiki/Tmux
     # https://github.com/direnv/direnv/issues/106
     alias tmux='direnv exec / tmux'
-    alias mux='direnv exec / mux'
+    alias mux='direnv exec / tmuxinator'
 fi
 
 if hash fzf 2> /dev/null; then
@@ -175,7 +175,7 @@ if hash fzf 2> /dev/null; then
     fi
 
     # checkout git branch
-    fbr() {
+    fco() {
         local branches branch
         branches=$(git branch -vv) &&
             branch=$(echo "$branches" | fzf +m) &&

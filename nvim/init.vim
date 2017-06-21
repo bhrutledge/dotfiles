@@ -89,6 +89,7 @@ augroup filetypes
     autocmd FileType vim setlocal keywordprg=:help
     autocmd FileType crontab setlocal nobackup nowritebackup
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
     autocmd BufNewFile,BufRead .babelrc set filetype=json
 augroup END
