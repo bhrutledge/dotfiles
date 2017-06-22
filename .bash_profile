@@ -16,5 +16,3 @@ fi
 if [[ -n $PS1 &&  -f ~/.bashrc ]]; then
     source ~/.bashrc
 fi
-
-echo

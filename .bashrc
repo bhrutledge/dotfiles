@@ -16,7 +16,7 @@ alias rm='rm -i'
 
 # Lightweight replacements for virtualenvwrapper
 # TODO: Error handling
-# TODO: Completion
+# TODO: Completion (help complete compgen)
 
 function workon {
     source $WORKON_HOME/$1/bin/activate
@@ -27,7 +27,12 @@ function workon {
 }
 
 function cdproject {
-    cd $PROJECT_HOME/$(basename $VIRTUAL_ENV)
+    if [ -z $VIRTUAL_ENV ]; then
+        echo "Error: No active virtual environment" >&2
+        return 1
+    fi
+
+    cd "$PROJECT_HOME/$(basename $VIRTUAL_ENV)"
 }
 
 if [ -f ~/.bash_aliases ]; then
@@ -111,19 +116,23 @@ ps1_pre+="\[$yellow\]\w\[$reset\]"
 
 ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
 
-# This might also be included in the git distribution
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+# Could be loaded by bash_completion, but that's not reliable
+# TODO: Look for this in common git install locations
 if [ -f ~/.git-prompt.sh ]; then
+    echo -n git_ps1\ 
     source ~/.git-prompt.sh
-fi
 
-PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUNTRACKEDFILES=1
-GIT_PS1_SHOWCOLORHINTS=1
-GIT_PS1_SHOWUPSTREAM='verbose'
-GIT_PS1_DESCRIBE_STYLE='branch'
+    PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""
+    GIT_PS1_SHOWDIRTYSTATE=1
+    GIT_PS1_SHOWSTASHSTATE=1
+    GIT_PS1_SHOWUNTRACKEDFILES=1
+    GIT_PS1_SHOWCOLORHINTS=1
+    GIT_PS1_SHOWUPSTREAM='verbose'
+    GIT_PS1_DESCRIBE_STYLE='branch'
+else
+    PROMPT_COMMAND="PS1=\"${ps1_pre}${ps1_post}\""
+fi
 
 
 ## HISTORY
@@ -190,3 +199,5 @@ if hash nvim 2> /dev/null; then
     export EDITOR='nvim'
     export VISUAL='nvim'
 fi
+
+echo
