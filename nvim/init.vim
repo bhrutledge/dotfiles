@@ -61,6 +61,9 @@ set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 set splitright splitbelow
 
+" Configure completion
+" set omnifunc=syntaxcomplete#Complete
+" set complete=.,w,b,u
 " set completeopt-=preview
 
 " Highlight textwidth to avoid long lines
@@ -112,6 +115,12 @@ augroup END
 
 " Hide matches
 nnoremap <leader>/ :nohlsearch<CR>
+
+" Refresh syntax highlighting
+nnoremap <leader>ss :syntax sync fromstart<CR>
+
+" Remove trailing whitespace
+nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
