@@ -28,10 +28,8 @@ brew 'sqlite'
 brew 'the_silver_searcher'
 brew 'tmux'
 brew 'tree'
-brew 'vim', args: ['with-lua']
 brew 'yarn'
 
-cask 'macvim'
+cask 'postman'
 cask 'vagrant'
-cask 'visual-studio-code'
 cask 'virtualbox'
