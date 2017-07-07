@@ -34,6 +34,17 @@ Plug 'airblade/vim-gitgutter'
 " Note: Individual plugins might be missing features
 Plug 'sheerun/vim-polyglot'
 
+" Better Markdown experience
+Plug 'reedes/vim-pencil'
+let g:pencil#wrapModeDefault = 'soft'
+let g:pencil#conceallevel = 0
+
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  " autocmd FileType text call pencil#init({'wrap': 'hard'})
+augroup END
+
 " Updated versions of Solarized
 Plug 'BlackIkeEagle/vim-colors-solarized'
 Plug 'lifepillar/vim-solarized8'
@@ -95,6 +106,7 @@ augroup filetypes
     autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
     autocmd BufNewFile,BufRead .babelrc set filetype=json
+    autocmd BufNewFile,BufRead .bash* set filetype=sh
 augroup END
 
 " TODO: When this gets big, consider using sourced files
