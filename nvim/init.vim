@@ -1,3 +1,6 @@
+let g:python_host_prog = expand('~/.virtualenvs/neovim2/bin/python')
+let g:python3_host_prog = expand('~/.virtualenvs/neovim3/bin/python')
+
 " PLUGINS {{{
 
 call plug#begin('~/.local/share/nvim/plugged')
@@ -30,9 +33,31 @@ Plug 'tpope/vim-fugitive'
 " Git diff status in gutter
 Plug 'airblade/vim-gitgutter'
 
+" Display tags in a window
+Plug 'majutsushi/tagbar'
+let g:tagbar_width=60
+let g:tagbar_sort=0
+let g:tagbar_show_linenumbers=-1
+" Update tagbar every second
+set updatetime=1000
+
 " Syntax highlighting for many languages
 " Note: Individual plugins might be missing features
 Plug 'sheerun/vim-polyglot'
+
+" https://github.com/sheerun/vim-polyglot/issues/209
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+Plug 'Vimjas/vim-python-pep8-indent'
+
+" Python completion
+Plug 'davidhalter/jedi-vim'
+let g:jedi#show_call_signatures = 2
+let g:jedi#popup_on_dot = 0
+let g:jedi#smart_auto_mappings = 0
+
+" Fast HTML generation
+Plug 'mattn/emmet-vim'
 
 " Better Markdown experience
 Plug 'reedes/vim-pencil'
@@ -44,6 +69,9 @@ augroup pencil
   autocmd FileType markdown,mkd call pencil#init()
   " autocmd FileType text call pencil#init({'wrap': 'hard'})
 augroup END
+
+" Quick Google lookup
+Plug 'szw/vim-g'
 
 " Updated versions of Solarized
 Plug 'BlackIkeEagle/vim-colors-solarized'
@@ -75,7 +103,7 @@ set splitright splitbelow
 " Configure completion
 " set omnifunc=syntaxcomplete#Complete
 " set complete=.,w,b,u
-" set completeopt-=preview
+set completeopt-=preview
 
 " Highlight textwidth to avoid long lines
 set textwidth=80
@@ -164,6 +192,9 @@ nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 nnoremap <silent> <c-w>v :vnew<CR>
 nnoremap <leader>v :vertical<space>
 
+" Display tag list
+noremap <leader>t :TagbarToggle<CR>
+
 " Fuzzy find files, buffers, commands, functions, classes, etc.
 nnoremap <c-p><c-f> :Files<CR>
 nnoremap <c-p><c-b> :Buffers<CR>
@@ -210,6 +241,7 @@ command! -bang -nargs=* Rg
 
 " path/to/file[+]
 set statusline=\ %.30f%m
+" set statusline+=%{tagbar#currenttag(':%s','','f')}
 " ~/path/to/cwd
 set statusline+=\ %#LineNR#
 set statusline+=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
