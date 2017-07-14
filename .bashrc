@@ -16,14 +16,33 @@ alias rm='rm -i'
 
 # Lightweight replacements for virtualenvwrapper
 # TODO: Error handling
+# TODO: Mutliple $PROJECT_HOME
+
+# TODO: Command line args for venv
+function mkvenv {
+    python3 -m venv $WORKON_HOME/$1
+    # TODO: mkdir $PROJECT_HOME/$1
+    workon $1
+}
+
+# TODO: Combine with mkvenv
+function mkvirtualenv {
+    python2 -m virtualenv $WORKON_HOME/$1
+    workon $1
+}
+
 # TODO: Completion (help complete compgen)
-
 function workon {
-    source $WORKON_HOME/$1/bin/activate
+    local venv
 
-    if [ -d $PROJECT_HOME/$1 ]; then
-        cd $PROJECT_HOME/$1
+    if [ $1 ]; then
+        venv=$1
+    else
+        venv="${PWD##*/}"
     fi
+
+    source $WORKON_HOME/$venv/bin/activate || return 1
+    cdproject
 }
 
 function cdproject {
@@ -32,7 +51,10 @@ function cdproject {
         return 1
     fi
 
-    cd "$PROJECT_HOME/$(basename $VIRTUAL_ENV)"
+    local project_dir="$PROJECT_HOME/${VIRTUAL_ENV##*/}"
+    if [ -d $project_dir ]; then
+        cd $project_dir
+    fi
 }
 
 if [ -f ~/.bash_aliases ]; then
@@ -101,7 +123,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 function __venv_ps1 ()
 {
     if [[ -n "$VIRTUAL_ENV" ]]; then
-        local venv=$(basename "$VIRTUAL_ENV")
+        local venv=${VIRTUAL_ENV##*/}
         echo " (${venv})"
     fi
 }

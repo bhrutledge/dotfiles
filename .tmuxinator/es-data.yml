@@ -22,4 +22,4 @@ windows:
     - shell:
     - servers:
         - cd ~/Code/es-data-tools/jupyter
-        - prodenv ~/Code/es-data-tools/manage.py shell_plus --notebook
+        - ../esprod shell_plus --notebook

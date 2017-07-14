@@ -2,4 +2,5 @@
 --exclude=build
 --exclude=dist
 --exclude=static
+--exclude=docs
 --exclude=.git
