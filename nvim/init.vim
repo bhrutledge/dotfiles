@@ -32,14 +32,21 @@ Plug 'tpope/vim-fugitive'
 
 " Git diff status in gutter
 Plug 'airblade/vim-gitgutter'
+let g:gitgutter_sign_column_always = 1
 
 " Display tags in a window
 Plug 'majutsushi/tagbar'
-let g:tagbar_width=60
-let g:tagbar_sort=0
-let g:tagbar_show_linenumbers=-1
+let g:tagbar_width = 60
+let g:tagbar_sort = 0
+let g:tagbar_show_linenumbers = -1
 " Update tagbar every second
 set updatetime=1000
+
+" Asynchronous Lint Engine
+Plug 'w0rp/ale'
+let g:ale_sign_column_always = 1
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
 
 " Syntax highlighting for many languages
 " Note: Individual plugins might be missing features
@@ -64,11 +71,14 @@ Plug 'reedes/vim-pencil'
 let g:pencil#wrapModeDefault = 'soft'
 let g:pencil#conceallevel = 0
 
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  " autocmd FileType text call pencil#init({'wrap': 'hard'})
-augroup END
+" Asynchronous build and test dispatcher
+Plug 'tpope/vim-dispatch'
+
+" Interact with tmux
+Plug 'benmills/vimux'
+
+" Run tests for multiple languages using different strategies
+Plug 'janko-m/vim-test'
 
 " Quick Google lookup
 Plug 'szw/vim-g'
@@ -123,6 +133,12 @@ colorscheme solarized
 
 " AUTOCOMMANDS {{{
 
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  " autocmd FileType text call pencil#init({'wrap': 'hard'})
+augroup END
+
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
@@ -137,8 +153,8 @@ augroup filetypes
     autocmd BufNewFile,BufRead .bash* set filetype=sh
 augroup END
 
-" TODO: When this gets big, consider using sourced files
-augroup projects
+" TODO: When this gets big, consider using sourced files or localvimrc
+augroup code_es
     autocmd!
     autocmd BufNewFile,BufRead ~/Code/es/* setlocal
                 \ textwidth=119
@@ -146,6 +162,30 @@ augroup projects
     " TODO: Try ftdetect based on parent directory
     autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
+augroup END
+
+" Assume tmux pane is in the right directory (e.g., on a virtual machine)
+function! VimuxRawStrategy(cmd)
+    call VimuxRunCommand(a:cmd)
+endfunction
+let g:test#custom_strategies = {'vimux_raw': function('VimuxRawStrategy')}
+
+" TODO: Generalize this by moving ssh_command to server and using ./.ssh_config
+function! EsSiteTransform(cmd) abort
+    let ssh_command = 'source ~/venv/bin/activate; cd es-site/es'
+    return 'ssh -t es.local '.shellescape(ssh_command.'; '.a:cmd)
+endfunction
+let g:test#custom_transformations = {'es-site': function('EsSiteTransform')}
+
+augroup test_es
+    " TODO: Use dispatch to populate quickfix window
+    autocmd BufNewFile,BufRead ~/Code/es/*.py
+                \ let g:test#strategy = 'vimux' |
+                \ let g:test#transformation = 'es-site' |
+                \ let g:test#filename_modifier = ':p:s?.*es-site/es/??' |
+                \ let g:test#python#runner = 'djangotest' |
+                \ let g:test#python#djangotest#executable = 'python -Wignore manage.py test' |
+                \ let g:test#python#djangotest#options = '-k'
 augroup END
 
 " }}}
@@ -193,7 +233,15 @@ nnoremap <silent> <c-w>v :vnew<CR>
 nnoremap <leader>v :vertical<space>
 
 " Display tag list
-noremap <leader>t :TagbarToggle<CR>
+noremap <leader>tb :TagbarToggle<CR>
+noremap <leader>tc :TagbarCurrentTag f<CR>
+
+" Run commands in tmux
+map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vz :VimuxZoomRunner<CR>
+map <Leader>vi :VimuxInspectRunner<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
 
 " Fuzzy find files, buffers, commands, functions, classes, etc.
 nnoremap <c-p><c-f> :Files<CR>
@@ -221,7 +269,7 @@ vmap <leader>ag y<leader>a"
 " Use ripgrep for file search (from `:h fzf`)
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
-            \ 'rg --column --line-number --no-heading --color=always --hidden '
+            \ 'rg --sort-files --column --line-number --no-heading --color=always --hidden '
             \ . shellescape(<q-args>),
             \ 1,
             \ <bang>0 ? fzf#vim#with_preview('up:60%')
