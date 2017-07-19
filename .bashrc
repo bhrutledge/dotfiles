@@ -1,5 +1,10 @@
 echo -n .bashrc\ 
 
+# Abort for non-interactive shells
+if [ -z "$PS1" ]; then
+    echo
+    return
+fi
 
 ## ALIASES
 

@@ -13,6 +13,6 @@ if [ -f ~/.bash_exports ]; then
     source ~/.bash_exports
 fi
 
-if [[ -n $PS1 &&  -f ~/.bashrc ]]; then
+if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi

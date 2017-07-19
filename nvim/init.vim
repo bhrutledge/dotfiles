@@ -3,6 +3,12 @@ let g:python3_host_prog = expand('~/.virtualenvs/neovim3/bin/python')
 
 " PLUGINS {{{
 
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    echo "Installing vim-plug..."
+    !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Fuzzy file finder
@@ -58,6 +64,7 @@ let python_highlight_all = 1
 Plug 'Vimjas/vim-python-pep8-indent'
 
 " Python completion
+Plug 'jmcantrell/vim-virtualenv'
 Plug 'davidhalter/jedi-vim'
 let g:jedi#show_call_signatures = 2
 let g:jedi#popup_on_dot = 0
@@ -88,6 +95,12 @@ Plug 'BlackIkeEagle/vim-colors-solarized'
 Plug 'lifepillar/vim-solarized8'
 
 call plug#end()
+
+if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    echo "Installing missing plugins...\n"
+    " TODO: Progress meter or install report
+    PlugInstall --sync | q
+endif
 
 " }}}
 
@@ -143,8 +156,7 @@ augroup END
 augroup filetypes
     autocmd!
     autocmd FileType help setlocal relativenumber
-    autocmd FileType vim setlocal foldmethod=marker foldlevel=1
-    autocmd FileType vim setlocal keywordprg=:help
+    autocmd FileType vim setlocal foldmethod=marker foldlevel=1 keywordprg=:help textwidth=119
     autocmd FileType crontab setlocal nobackup nowritebackup
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
     autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
@@ -156,9 +168,7 @@ augroup END
 " TODO: When this gets big, consider using sourced files or localvimrc
 augroup code_es
     autocmd!
-    autocmd BufNewFile,BufRead ~/Code/es/* setlocal
-                \ textwidth=119
-                \ wildignore+=*.css
+    autocmd BufNewFile,BufRead ~/Code/es/* setlocal textwidth=119 wildignore+=*.css
     " TODO: Try ftdetect based on parent directory
     autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
@@ -173,7 +183,7 @@ let g:test#custom_strategies = {'vimux_raw': function('VimuxRawStrategy')}
 " TODO: Generalize this by moving ssh_command to server and using ./.ssh_config
 function! EsSiteTransform(cmd) abort
     let ssh_command = 'source ~/venv/bin/activate; cd es-site/es'
-    return 'ssh -t es.local '.shellescape(ssh_command.'; '.a:cmd)
+    return 'ssh -t es.local ' . shellescape(ssh_command . '; ' . a:cmd)
 endfunction
 let g:test#custom_transformations = {'es-site': function('EsSiteTransform')}
 
@@ -185,7 +195,7 @@ augroup test_es
                 \ let g:test#filename_modifier = ':p:s?.*es-site/es/??' |
                 \ let g:test#python#runner = 'djangotest' |
                 \ let g:test#python#djangotest#executable = 'python -Wignore manage.py test' |
-                \ let g:test#python#djangotest#options = '-k'
+                \ let g:test#python#djangotest#options = '-k --settings es.settings.local_dev' 
 augroup END
 
 " }}}
@@ -269,11 +279,9 @@ vmap <leader>ag y<leader>a"
 " Use ripgrep for file search (from `:h fzf`)
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
-            \ 'rg --sort-files --column --line-number --no-heading --color=always --hidden '
-            \ . shellescape(<q-args>),
+            \ 'rg --sort-files --column --line-number --no-heading --color=always --hidden ' . shellescape(<q-args>),
             \ 1,
-            \ <bang>0 ? fzf#vim#with_preview('up:60%')
-            \         : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
             \ <bang>0)
 
 " }}}
@@ -293,8 +301,8 @@ set statusline=\ %.30f%m
 " ~/path/to/cwd
 set statusline+=\ %#LineNR#
 set statusline+=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
-" [Git(master)]
-set statusline+=\ %{GitHead()}
+" [master][venv]
+set statusline+=\ %{GitHead()}%{VenvName()}
 " [Help][Preview][Quickfix List][RO]
 set statusline+=%h%w%q%r
 " Right aligned
@@ -312,7 +320,12 @@ set statusline+=\
 
 function! GitHead()
     let head = fugitive#head(6)
-    return strlen(head) ? '(' . head . ')' : ''
+    return strlen(head) ? '[' . head . ']' : ''
+endfunction
+
+function! VenvName()
+    let venv = virtualenv#statusline()
+    return strlen(venv) ? '[' . venv . ']' : ''
 endfunction
 
 set noruler
