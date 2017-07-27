@@ -198,8 +198,10 @@ Plugin 'itspriddle/vim-marked'
 Plugin 'rizzatti/dash.vim'
 
 " Color scheme
-Plugin 'BlackIkeEagle/vim-colors-solarized'
-" Plugin 'lifepillar/vim-solarized8'
+" Plugin 'BlackIkeEagle/vim-colors-solarized'
+Plugin 'frankier/neovim-colors-solarized-truecolor-only'
+Plugin 'icymind/NeoSolarized'
+Plugin 'lifepillar/vim-solarized8'
 " Plugin 'romainl/flattened'
 
 " Super-charged status line
@@ -442,9 +444,15 @@ set colorcolumn=+1          " Hightlight textwidth to avoid long lines
 set listchars=tab:▸\ ,eol:¬ " Show hidden characters (using :set list)
 set guifont=Hack:h12
 
+" :h xterm-true-color
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 set background=dark
-let g:solarized_hitrail=1
-colorscheme solarized
+" let g:solarized_hitrail=1
+" colorscheme solarized
+colorscheme NeoSolarized
 
 " ==========================================================
 " tmux.vim - Set xterm input codes passed by tmux

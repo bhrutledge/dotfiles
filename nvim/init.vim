@@ -1,3 +1,4 @@
+" TODO: Create if missing
 let g:python_host_prog = expand('~/.virtualenvs/neovim2/bin/python')
 let g:python3_host_prog = expand('~/.virtualenvs/neovim3/bin/python')
 
@@ -12,7 +13,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Fuzzy file finder
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Smarter use of '.' with plugins
@@ -66,7 +67,7 @@ Plug 'Vimjas/vim-python-pep8-indent'
 " Python completion
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'davidhalter/jedi-vim'
-let g:jedi#show_call_signatures = 2
+let g:jedi#show_call_signatures = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#smart_auto_mappings = 0
 
@@ -91,15 +92,16 @@ Plug 'janko-m/vim-test'
 Plug 'szw/vim-g'
 
 " Updated versions of Solarized
-Plug 'BlackIkeEagle/vim-colors-solarized'
+Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'lifepillar/vim-solarized8'
+Plug 'iCyMind/NeoSolarized'
 
 call plug#end()
 
 if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     echo "Installing missing plugins...\n"
     " TODO: Progress meter or install report
-    PlugInstall --sync | q
+    PlugUpdate --sync | q
 endif
 
 " }}}
@@ -134,12 +136,11 @@ set colorcolumn=+1
 
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
 
-" TODO Understand true color support for iTerm2 and tmux
-" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-" set termguicolors
-" colorscheme solarized8_dark
+set termguicolors
 set background=dark
-colorscheme solarized
+" colorscheme solarized
+" colorscheme solarized8_dark
+colorscheme NeoSolarized
 
 " }}}
 
@@ -247,11 +248,11 @@ noremap <leader>tb :TagbarToggle<CR>
 noremap <leader>tc :TagbarCurrentTag f<CR>
 
 " Run commands in tmux
-map <Leader>vp :VimuxPromptCommand<CR>
-map <Leader>vl :VimuxRunLastCommand<CR>
-map <Leader>vz :VimuxZoomRunner<CR>
-map <Leader>vi :VimuxInspectRunner<CR>
-map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>tp :VimuxPromptCommand<CR>
+map <Leader>tl :VimuxRunLastCommand<CR>
+map <Leader>tz :VimuxZoomRunner<CR>
+map <Leader>ti :VimuxInspectRunner<CR>
+map <Leader>tq :VimuxCloseRunner<CR>
 
 " Fuzzy find files, buffers, commands, functions, classes, etc.
 nnoremap <c-p><c-f> :Files<CR>
@@ -259,6 +260,17 @@ nnoremap <c-p><c-b> :Buffers<CR>
 nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p><c-h> :History:<CR>
 nnoremap <c-p><c-t> :Tags<CR>
+
+" Use ripgrep for file search (from `:h fzf`)
+" TODO: Fallback to :Ag
+" TODO: Consider switching to https://github.com/wincent/ferret
+
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \ 'rg --sort-files --column --line-number --no-heading --color=always --hidden ' . shellescape(<q-args>),
+            \ 1,
+            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \ <bang>0)
 
 " Search for typed text
 nnoremap <leader>ag :Rg<space>
@@ -275,14 +287,6 @@ nnoremap <leader>a" :Rg <c-r>=substitute(getreg('"'),
 " Search for visual selection via unnamed register
 " TODO Use vnoremap when unnamed search is made into a function
 vmap <leader>ag y<leader>a"
-
-" Use ripgrep for file search (from `:h fzf`)
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \ 'rg --sort-files --column --line-number --no-heading --color=always --hidden ' . shellescape(<q-args>),
-            \ 1,
-            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \ <bang>0)
 
 " }}}
 
