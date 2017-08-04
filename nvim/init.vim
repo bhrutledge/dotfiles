@@ -16,6 +16,12 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+" Async :grep via multiple tools
+Plug 'mhinz/vim-grepper'
+let g:grepper = {}
+let g:grepper.highlight = 1
+let g:grepper.tools = ['rg', 'ag', 'grep', 'git']
+
 " Smarter use of '.' with plugins
 Plug 'tpope/vim-repeat'
 
@@ -39,7 +45,6 @@ Plug 'tpope/vim-fugitive'
 
 " Git diff status in gutter
 Plug 'airblade/vim-gitgutter'
-let g:gitgutter_sign_column_always = 1
 
 " Display tags in a window
 Plug 'majutsushi/tagbar'
@@ -120,6 +125,7 @@ set wildignore+=node_modules/**
 set wildignore+=tags
 
 set relativenumber
+set signcolumn=yes
 
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
@@ -169,7 +175,7 @@ augroup END
 " TODO: When this gets big, consider using sourced files or localvimrc
 augroup code_es
     autocmd!
-    autocmd BufNewFile,BufRead ~/Code/es/* setlocal textwidth=119 wildignore+=*.css
+    autocmd BufNewFile,BufRead ~/Code/{es,es-*}/* setlocal textwidth=119 wildignore+=*.css
     " TODO: Try ftdetect based on parent directory
     autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
@@ -215,7 +221,7 @@ nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
-cabbrev ph <c-r>=expand("%:p:h")<CR>
+cabbrev %. <c-r>=expand("%:p:h")<CR>
 
 " Monday, November 28, 2016
 iabbrev <expr> dt strftime("%A, %B %d, %Y")
@@ -254,6 +260,16 @@ map <Leader>tz :VimuxZoomRunner<CR>
 map <Leader>ti :VimuxInspectRunner<CR>
 map <Leader>tq :VimuxCloseRunner<CR>
 
+" Faster file search
+nmap gr <plug>(GrepperOperator)
+xmap gr <plug>(GrepperOperator)
+
+nnoremap <leader>gr :Grepper<cr>
+nnoremap <leader>gs :Grepper -side<cr>
+nnoremap <leader>gd :Grepper -dir file<cr>
+nnoremap <leader>gw :Grepper -cword -noprompt<cr>
+nnoremap <leader>gg :Grepper -tool git<cr>
+
 " Fuzzy find files, buffers, commands, functions, classes, etc.
 nnoremap <c-p><c-f> :Files<CR>
 nnoremap <c-p><c-b> :Buffers<CR>
@@ -261,9 +277,9 @@ nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p><c-h> :History:<CR>
 nnoremap <c-p><c-t> :Tags<CR>
 
-" Use ripgrep for file search (from `:h fzf`)
+" Use ripgrep for fuzzy file search (from `:h fzf`)
 " TODO: Fallback to :Ag
-" TODO: Consider switching to https://github.com/wincent/ferret
+" TODO: Redundant with Grepper
 
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
@@ -286,7 +302,7 @@ nnoremap <leader>a" :Rg <c-r>=substitute(getreg('"'),
 
 " Search for visual selection via unnamed register
 " TODO Use vnoremap when unnamed search is made into a function
-vmap <leader>ag y<leader>a"
+xmap <leader>ag y<leader>a"
 
 " }}}
 
