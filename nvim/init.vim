@@ -13,7 +13,8 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Fuzzy file finder
-Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/fzf', 'do': './install --all' }
+" TODO: Improve installation
+Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 " Async :grep via multiple tools
@@ -33,6 +34,12 @@ Plug 'tpope/vim-unimpaired'
 
 " Comment stuff out
 Plug 'tpope/vim-commentary'
+
+" Transition between multiline and single-line code
+Plug 'AndrewRadev/splitjoin.vim'
+
+" Text filtering and alignment
+Plug 'godlygeek/tabular'
 
 " Find and subsitute word (eg., case) variations
 Plug 'tpope/vim-abolish'
@@ -152,6 +159,12 @@ colorscheme NeoSolarized
 
 
 " AUTOCOMMANDS {{{
+
+augroup startup
+    autocmd!
+    " Change to file directory if started from $HOME (e.g., via GUI), to improve grep
+    autocmd BufEnter * if getcwd() == $HOME | silent! lcd %:p:h | endif
+augroup END
 
 augroup pencil
   autocmd!
@@ -276,33 +289,6 @@ nnoremap <c-p><c-b> :Buffers<CR>
 nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p><c-h> :History:<CR>
 nnoremap <c-p><c-t> :Tags<CR>
-
-" Use ripgrep for fuzzy file search (from `:h fzf`)
-" TODO: Fallback to :Ag
-" TODO: Redundant with Grepper
-
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \ 'rg --sort-files --column --line-number --no-heading --color=always --hidden ' . shellescape(<q-args>),
-            \ 1,
-            \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \ <bang>0)
-
-" Search for typed text
-nnoremap <leader>ag :Rg<space>
-
-" Search for word under cursor
-nnoremap <leader>aw :Rg <c-r><c-w>
-
-" Search for unnamed register after stripping whitespace and escaping characters
-" TODO Make this a function, escape more chars
-nnoremap <leader>a" :Rg <c-r>=substitute(getreg('"'),
-            \'^\s*\(.\{-}\)\_s*$', '\=escape(submatch(1), ".()\\")', 'g')
-            \<CR>
-
-" Search for visual selection via unnamed register
-" TODO Use vnoremap when unnamed search is made into a function
-xmap <leader>ag y<leader>a"
 
 " }}}
 

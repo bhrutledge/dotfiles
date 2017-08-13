@@ -26,9 +26,10 @@ windows:
             - cd es-site && clear
             - browser-sync:
                 - cd es-site/es/es
-                - browser-sync start --no-open --port 3000 --ui-port 3001
+                - browser-sync start --no-open
+                  --port 3000 --ui-port 3001
                   --proxy http://es.local:8000
-                  --files "static/css/**/*.css, static/js/**/*.js, templates/**/*.html"
+                  --files "**/*.+(css|js|html)"
             - compass:
                 - cd es-site/es/es/static
                 - compass watch
