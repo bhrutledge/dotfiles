@@ -131,21 +131,16 @@ set wildignore+=*.egg-info/**
 set wildignore+=node_modules/**
 set wildignore+=tags
 
-set relativenumber
-set signcolumn=yes
-
+set relativenumber signcolumn=yes
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
-
+set textwidth=80 colorcolumn=+1
+set scrolloff=10
 set splitright splitbelow
 
 " Configure completion
 " set omnifunc=syntaxcomplete#Complete
 " set complete=.,w,b,u
 set completeopt-=preview
-
-" Highlight textwidth to avoid long lines
-set textwidth=80
-set colorcolumn=+1
 
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
 

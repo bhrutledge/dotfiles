@@ -8,7 +8,6 @@
     autocrlf = input
     safecrlf = false
     excludesfile = ~/.gitignore
-    editor = vim
 [alias]
     co = checkout
     ci = commit

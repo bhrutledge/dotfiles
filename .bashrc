@@ -18,6 +18,7 @@ fi
 alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
 alias rm='rm -i'
+alias exl='exa -lhb --time-style long-iso'
 
 # Lightweight replacements for virtualenvwrapper
 # TODO: Error handling
@@ -60,6 +61,20 @@ function cdproject {
     if [ -d $project_dir ]; then
         cd $project_dir
     fi
+}
+
+function webserver {
+    # https://www.browsersync.io/
+    # npm install -g browser-sync
+
+    extensions="html|css|js|md"
+
+    # TODO: Reload on new files
+    # Use {,**/).+($extensions) after merge of
+    # https://github.com/paulmillr/chokidar/pull/622
+    browser-sync start --server --no-open \
+        --files="*.+($extensions), **/*.+($extensions)" \
+        "$@"
 }
 
 if [ -f ~/.bash_aliases ]; then
