@@ -83,6 +83,9 @@ let g:jedi#show_call_signatures = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#smart_auto_mappings = 0
 
+" JavaScript completion
+Plug '1995eaton/vim-better-javascript-completion'
+
 " Fast HTML generation
 Plug 'mattn/emmet-vim'
 
@@ -231,13 +234,6 @@ nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 nnoremap <leader>. :lcd %:p:h<CR>
 cabbrev %. <c-r>=expand("%:p:h")<CR>
 
-" Monday, November 28, 2016
-iabbrev <expr> dt strftime("%A, %B %d, %Y")
-cabbrev <expr> dt strftime("%Y-%m-%d")
-
-" 15:14
-iabbrev <expr> tm strftime("%H:%M")
-
 " Yank current file name
 nnoremap <leader>yf :let @"=expand("%:t") \| echo @"<CR>
 
@@ -254,8 +250,14 @@ nnoremap <leader>yt :let @"=tagbar#currenttag('%s', '', 'f') \| echo @"<CR>
 nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 
 " Open vertical windows
-nnoremap <silent> <c-w>v :vnew<CR>
 nnoremap <leader>v :vertical<space>
+
+" Monday, November 28, 2016
+iabbrev <expr> dt strftime("%A, %B %d, %Y")
+cabbrev <expr> dt strftime("%Y-%m-%d")
+
+" 15:14
+iabbrev <expr> tm strftime("%H:%M")
 
 " Display tag list
 noremap <leader>tb :TagbarToggle<CR>
