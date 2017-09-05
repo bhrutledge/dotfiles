@@ -14,7 +14,6 @@ endif
 set autoindent
 set autoread
 set backspace=indent,eol,start
-set belloff=all
 set complete-=i
 set display=lastline
 set encoding=utf-8
@@ -22,11 +21,10 @@ set formatoptions=tcqj
 set history=10000
 set hlsearch
 set incsearch
-set langnoremap
 set laststatus=2
 set listchars=tab:>\ ,trail:-,nbsp:+
 set mouse=a
-set nrformats=bin,hex
+set nrformats=hex
 set sessionoptions-=options
 set ruler
 set smarttab

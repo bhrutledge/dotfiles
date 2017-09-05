@@ -20,6 +20,17 @@ alias grep='grep --color=auto'
 alias rm='rm -i'
 alias exl='exa -lhb --time-style long-iso'
 
+# List processes listening on TCP ports
+# TODO: Add args for sudo, port, and command
+function ltcp {
+    sudo lsof -Pn -i4TCP -sTCP:LISTEN -F pn | \
+    while read line
+    do
+        [[ $line =~ ^p ]] && echo && ps -o pid,command -p ${line#p} | tail -n1
+        [[ $line =~ ^n ]] && echo ${line#n}
+    done
+}
+
 # Lightweight replacements for virtualenvwrapper
 # TODO: Error handling
 # TODO: Mutliple $PROJECT_HOME
@@ -225,12 +236,37 @@ if hash fzf 2> /dev/null; then
         export FZF_DEFAULT_COMMAND='ag -g ""'
     fi
 
+    # https://github.com/junegunn/fzf/wiki/Examples
+
     # checkout git branch
     fco() {
         local branches branch
         branches=$(git branch -vv) &&
-            branch=$(echo "$branches" | fzf +m) &&
+            branch=$(echo "$branches" | fzf-tmux +m) &&
             git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+    }
+
+    # cd to selected directory
+    fd() {
+        local dir
+        dir=$(find ${1:-.} -path '*/\.*' -prune \
+            -o -type d -print 2> /dev/null | fzf-tmux +m) &&
+            cd "$dir"
+    }
+
+    # cd to selected parent directory
+    fdr() {
+        local declare dirs=()
+        get_parent_dirs() {
+            if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+            if [[ "${1}" == '/' ]]; then
+                for _dir in "${dirs[@]}"; do echo $_dir; done
+            else
+                get_parent_dirs $(dirname "$1")
+            fi
+        }
+        local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
+        cd "$DIR"
     }
 fi
 
