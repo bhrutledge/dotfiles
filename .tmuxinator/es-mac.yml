@@ -1,5 +1,3 @@
-# ~/.tmuxinator/default.yml
-
 name: es-mac
 root: ~/Code/es
 
@@ -20,16 +18,21 @@ pre_window: workon es && clear
 
 windows:
     - editor: $EDITOR
-    - shell:
-        layout: f5ef,272x82,0,0[272x59,0,0,23,272x22,0,60{135x22,0,60,24,136x22,136,60,25}]
+    - servers:
+        layout: 21bd,203x61,0,0[204x20,0,0{70x20,0,0,50,70x20,71,0,5,62x20,142,0,48},204x20,0,21,46,204x19,0,42,4]
         panes:
-            - cd es-site && clear
             - browser-sync:
                 - cd es-site/es/es
                 - browser-sync start --no-open
                   --port 3000 --ui-port 3001
-                  --proxy http://es.local:8000
+                  --proxy http://localhost:8000
                   --files "**/*.+(css|js|html)"
             - compass:
                 - cd es-site/es/es/static
                 - compass watch
+            - mail:
+                - maildev -w 8025
+            - runserver:
+                - cd es-site/es
+                - python -Wignore manage.py runserver_plus 0.0.0.0:8000
+            - cd es-site && clear

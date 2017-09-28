@@ -1,5 +1,3 @@
-# ~/.tmuxinator/default.yml
-
 name: es-data
 root: ~/Code/es-data-tools
 
@@ -20,6 +18,6 @@ pre_window: workon es-data-tools && clear
 
 windows:
     - shell:
-    # - servers:
-    #     - cd ~/Code/es-data-tools/jupyter
-    #     - django-admin shell_plus --notebook
+    - servers:
+        - cd jupyter
+        - django-admin shell_plus --notebook

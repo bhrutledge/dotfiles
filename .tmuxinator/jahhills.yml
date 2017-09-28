@@ -1,5 +1,3 @@
-# ~/.tmuxinator/default.yml
-
 name: jahhills
 root: ~/Code/jahhills.com
 
