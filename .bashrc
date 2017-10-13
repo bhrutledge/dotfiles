@@ -6,6 +6,7 @@ if [ -z "$PS1" ]; then
     return
 fi
 
+
 ## ALIASES
 
 # http://stackoverflow.com/questions/1676426/how-to-check-the-ls-version
@@ -19,6 +20,36 @@ alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
 alias rm='rm -i'
 alias exl='exa -lhb --time-style long-iso'
+alias mux='tmuxinator'
+
+if hash nvim 2> /dev/null; then
+    alias vim='nvim'
+    alias vimdiff='nvim -d'
+fi
+
+
+## FUNCTIONS
+
+function parentdir {
+    local dir=${1-$PWD}
+
+    dir=${dir/#$HOME/\~}
+    echo ${dir%/*}
+}
+
+function shortdir {
+    local dir=${1-$PWD}
+
+    # TODO: Eliminate this special case
+    if [ $dir = $HOME ]; then
+        echo '~';
+        return
+    fi
+
+    local parent=$(parentdir $dir | sed -e "s;\(/.\)[^/]*;\1;g")
+    local base=${dir##*/}
+    echo $parent/$base
+}
 
 # List processes listening on TCP ports
 # TODO: Add args for sudo, port, and command
@@ -75,6 +106,7 @@ function cdproject {
 }
 
 function webserver {
+    # TODO: Replace with devd
     # https://www.browsersync.io/
     # npm install -g browser-sync
 
@@ -149,6 +181,12 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30
 # TODO: Research TERM=[xterm|screen|gnome]-256color
 # TODO: Understand why \[...\] isn't necessary around colors in functions
 
+# Set terminal title to current directory, relative to $HOME
+function __term_title ()
+{
+    echo -en "\033]0;$(shortdir)\a"
+}
+
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 function __venv_ps1 ()
@@ -162,8 +200,8 @@ function __venv_ps1 ()
 # user@hostname:~/current/dir (git status) (virtualenv)
 # $
 
-# TODO: Terminal title
-ps1_pre="\n\[$reset\]"
+ps1_pre="\$(__term_title)"
+ps1_pre+="\n\[$reset\]"
 ps1_pre+="\[$magenta\]\u@\h\[$reset\]:"
 ps1_pre+="\[$yellow\]\w\[$reset\]"
 
@@ -228,14 +266,6 @@ if hash fzf 2> /dev/null; then
     # source /usr/local/opt/fzf/shell/completion.bash
     # source /usr/local/opt/fzf/shell/key-bindings.bash
 
-    if hash rg 2> /dev/null; then
-        echo -n rg\ 
-        export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
-    elif hash ag 2> /dev/null; then
-        echo -n ag\ 
-        export FZF_DEFAULT_COMMAND='ag -g ""'
-    fi
-
     # https://github.com/junegunn/fzf/wiki/Examples
 
     # checkout git branch
@@ -255,6 +285,7 @@ if hash fzf 2> /dev/null; then
     }
 
     # cd to selected parent directory
+    # TODO: Not working on new Mac; needs at least realpath
     fdr() {
         local declare dirs=()
         get_parent_dirs() {
@@ -268,14 +299,17 @@ if hash fzf 2> /dev/null; then
         local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
         cd "$DIR"
     }
-fi
 
-if hash nvim 2> /dev/null; then
-    echo -n nvim\ 
-    alias vim='nvim'
-    alias vimdiff='nvim -d'
-    export EDITOR='nvim'
-    export VISUAL='nvim'
+    # cd into a direnv
+    fde() {
+        local dir=$(cat ~/.config/direnv/allow/* | sort | uniq |\
+            while read -r f; do parentdir $f; done |\
+            fzf-tmux --query="$1" --select-1)
+
+        cd ${dir/#\~/$HOME}
+    }
+
+    # TODO: Integrate with or replace `fasd`
 fi
 
 echo

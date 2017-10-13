@@ -136,9 +136,13 @@ set wildignore+=tags
 
 set relativenumber signcolumn=yes
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
-set textwidth=80 colorcolumn=+1
+set textwidth=79 colorcolumn=+1
 set scrolloff=10
 set splitright splitbelow
+
+" Set terminal title: file.txt + ~/p/t/dir
+set title
+set titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
 
 " Configure completion
 " set omnifunc=syntaxcomplete#Complete
@@ -147,11 +151,14 @@ set completeopt-=preview
 
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
 
-set termguicolors
 set background=dark
-" colorscheme solarized
-" colorscheme solarized8_dark
-colorscheme NeoSolarized
+
+if $ITERM_PROFILE == 'Default' || has('gui_vimr')
+    set termguicolors
+    " colorscheme solarized
+    " colorscheme solarized8_dark
+    colorscheme NeoSolarized
+endif
 
 " }}}
 
@@ -173,7 +180,7 @@ augroup END
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
-    autocmd FileType help setlocal relativenumber
+    autocmd FileType help setlocal relativenumber textwidth=0
     autocmd FileType vim setlocal foldmethod=marker foldlevel=1 keywordprg=:help textwidth=119
     autocmd FileType crontab setlocal nobackup nowritebackup
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
@@ -186,7 +193,7 @@ augroup END
 " TODO: When this gets big, consider using sourced files or localvimrc
 augroup code_es
     autocmd!
-    autocmd BufNewFile,BufRead ~/Code/{es,es-*}/* setlocal textwidth=119 wildignore+=*.css
+    autocmd BufNewFile,BufRead ~/Code/{es,es-*}/* setlocal textwidth=119
     " TODO: Try ftdetect based on parent directory
     autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
@@ -213,7 +220,7 @@ augroup test_es
                 \ let g:test#filename_modifier = ':p:s?.*es-site/es/??' |
                 \ let g:test#python#runner = 'djangotest' |
                 \ let g:test#python#djangotest#executable = 'python -Wignore manage.py test' |
-                \ let g:test#python#djangotest#options = '-k --settings es.settings.local_dev' 
+                \ let g:test#python#djangotest#options = '-k --settings es.settings.local_dev'
 augroup END
 
 " }}}
@@ -232,7 +239,8 @@ nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
-cabbrev %. <c-r>=expand("%:p:h")<CR>
+cabbrev %. <c-r>=expand("%:.:h")<CR>
+cabbrev %p <c-r>=expand("%:p:h")<CR>
 
 " Yank current file name
 nnoremap <leader>yf :let @"=expand("%:t") \| echo @"<CR>
@@ -279,6 +287,7 @@ nnoremap <leader>gs :Grepper -side<cr>
 nnoremap <leader>gd :Grepper -dir file<cr>
 nnoremap <leader>gw :Grepper -cword -noprompt<cr>
 nnoremap <leader>gg :Grepper -tool git<cr>
+nnoremap <leader>gf :Grepper -query '<c-r>=expand("%:t")<cr>'
 
 " Fuzzy find files, buffers, commands, functions, classes, etc.
 nnoremap <c-p><c-f> :Files<CR>
@@ -301,7 +310,7 @@ nnoremap <c-p><c-t> :Tags<CR>
 " path/to/file[+]
 set statusline=\ %.30f%m
 " set statusline+=%{tagbar#currenttag(':%s','','f')}
-" ~/path/to/cwd
+" ~/c/w/dir
 set statusline+=\ %#LineNR#
 set statusline+=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
 " [master][venv]

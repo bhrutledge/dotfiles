@@ -54,6 +54,7 @@
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
     required = true
+	process = git-lfs filter-process
 [gui]
     recentrepo = /Users/brian/Code/es/es-site
     fontdiff = -family Hack -size 12 -weight normal -slant roman -underline 0 -overstrike 0

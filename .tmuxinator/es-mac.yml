@@ -18,17 +18,4 @@ pre_window: workon es && clear
 
 windows:
     - editor: $EDITOR
-    - servers:
-        layout: 21bd,203x61,0,0[204x20,0,0{70x20,0,0,50,70x20,71,0,5,62x20,142,0,48},204x20,0,21,46,204x19,0,42,4]
-        panes:
-            - livereload:
-                - livereload-es
-            - compass:
-                - cd es-site/es/es/static
-                - compass watch
-            - mail:
-                - maildev -w 8025
-            - runserver:
-                - cd es-site/es
-                - python -Wignore manage.py runserver 0.0.0.0:8000
-            - cd es-site && clear
+    - servers: hivemind
