@@ -4,7 +4,7 @@ layout_virtualenv() {
 }
 
 layout_virtualenvwrapper() {
-    local venv=${1-$(basename $PWD)}
+    local venv=${1:-${PWD##*/}}
     local venv_path="${WORKON_HOME}/$venv"
     layout_virtualenv $venv_path
 }

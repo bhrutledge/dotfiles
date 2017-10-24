@@ -8,7 +8,7 @@ root: ~/Code/es
 # pre: vagrant up
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: workon es && clear
+# pre_window: workon es && clear
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf

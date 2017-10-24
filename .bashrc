@@ -31,22 +31,22 @@ fi
 ## FUNCTIONS
 
 function parentdir {
-    local dir=${1-$PWD}
+    local dir=${1:-$PWD}
 
     dir=${dir/#$HOME/\~}
     echo ${dir%/*}
 }
 
 function shortdir {
-    local dir=${1-$PWD}
+    local dir=${1:-$PWD}
 
     # TODO: Eliminate this special case
-    if [ $dir = $HOME ]; then
+    if [ "$dir" = "$HOME" ]; then
         echo '~';
         return
     fi
 
-    local parent=$(parentdir $dir | sed -e "s;\(/.\)[^/]*;\1;g")
+    local parent=$(parentdir "$dir" | sed -e "s;\(/.\)[^/]*;\1;g")
     local base=${dir##*/}
     echo $parent/$base
 }
@@ -277,36 +277,23 @@ if hash fzf 2> /dev/null; then
     }
 
     # cd to selected directory
-    fd() {
+    fcd() {
         local dir
         dir=$(find ${1:-.} -path '*/\.*' -prune \
             -o -type d -print 2> /dev/null | fzf-tmux +m) &&
             cd "$dir"
-    }
 
-    # cd to selected parent directory
-    # TODO: Not working on new Mac; needs at least realpath
-    fdr() {
-        local declare dirs=()
-        get_parent_dirs() {
-            if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-            if [[ "${1}" == '/' ]]; then
-                for _dir in "${dirs[@]}"; do echo $_dir; done
-            else
-                get_parent_dirs $(dirname "$1")
-            fi
-        }
-        local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-        cd "$DIR"
+        # TODO: Add option for parent dirs
     }
 
     # cd into a direnv
+    # TODO: Only start fzf for non-unique base dir
     fde() {
         local dir=$(cat ~/.config/direnv/allow/* | sort | uniq |\
-            while read -r f; do parentdir $f; done |\
+            while read -r f; do parentdir "$f"; done |\
             fzf-tmux --query="$1" --select-1)
 
-        cd ${dir/#\~/$HOME}
+        cd "${dir/#\~/$HOME}"
     }
 
     # TODO: Integrate with or replace `fasd`
