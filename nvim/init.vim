@@ -107,7 +107,7 @@ Plug 'janko-m/vim-test'
 Plug 'szw/vim-g'
 
 " Updated versions of Solarized
-Plug 'frankier/neovim-colors-solarized-truecolor-only'
+Plug 'ericbn/vim-solarized'
 Plug 'lifepillar/vim-solarized8'
 Plug 'iCyMind/NeoSolarized'
 
@@ -157,8 +157,9 @@ if $ITERM_PROFILE == 'Default' || has('gui_vimr')
     set termguicolors
     " colorscheme solarized
     " colorscheme solarized8_dark
-    colorscheme NeoSolarized
 endif
+
+colorscheme NeoSolarized
 
 " }}}
 
@@ -267,16 +268,24 @@ cabbrev <expr> dt strftime("%Y-%m-%d")
 " 15:14
 iabbrev <expr> tm strftime("%H:%M")
 
+" Add/toggle checkboxes
+" TODO: Make repeatable, work in visual mode, use one command for add/toggle
+" TODO: Confine to Markdown
+" Add after initial '-'
+nnoremap <leader>cb ^wi[ ] <esc>2h
+" Focus checkbox, toggle with 'x' or ' '
+nnoremap <leader>ct ^f[lr
+
 " Display tag list
-noremap <leader>tb :TagbarToggle<CR>
-noremap <leader>tc :TagbarCurrentTag f<CR>
+nnoremap <leader>tb :TagbarToggle<CR>
+nnoremap <leader>tc :TagbarCurrentTag f<CR>
 
 " Run commands in tmux
-map <Leader>tp :VimuxPromptCommand<CR>
-map <Leader>tl :VimuxRunLastCommand<CR>
-map <Leader>tz :VimuxZoomRunner<CR>
-map <Leader>ti :VimuxInspectRunner<CR>
-map <Leader>tq :VimuxCloseRunner<CR>
+nnoremap <Leader>tp :VimuxPromptCommand<CR>
+nnoremap <Leader>tl :VimuxRunLastCommand<CR>
+nnoremap <Leader>tz :VimuxZoomRunner<CR>
+nnoremap <Leader>ti :VimuxInspectRunner<CR>
+nnoremap <Leader>tq :VimuxCloseRunner<CR>
 
 " Faster file search
 nmap gr <plug>(GrepperOperator)
