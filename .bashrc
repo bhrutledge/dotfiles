@@ -20,7 +20,6 @@ alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
 alias rm='rm -i'
 alias exl='exa -lhb --time-style long-iso'
-alias mux='tmuxinator'
 
 if hash nvim 2> /dev/null; then
     alias vim='nvim'
@@ -255,10 +254,6 @@ fi
 if hash direnv 2> /dev/null; then
     echo -n direnv\ 
     eval "$(direnv hook bash)"
-    # https://github.com/direnv/direnv/wiki/Tmux
-    # https://github.com/direnv/direnv/issues/106
-    alias tmux='direnv exec / tmux'
-    alias mux='direnv exec / tmuxinator'
 fi
 
 if hash fzf 2> /dev/null; then
@@ -272,7 +267,7 @@ if hash fzf 2> /dev/null; then
     fco() {
         local branches branch
         branches=$(git branch -vv) &&
-            branch=$(echo "$branches" | fzf-tmux +m) &&
+            branch=$(echo "$branches" | fzf +m) &&
             git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
     }
 
@@ -280,7 +275,7 @@ if hash fzf 2> /dev/null; then
     fcd() {
         local dir
         dir=$(find ${1:-.} -path '*/\.*' -prune \
-            -o -type d -print 2> /dev/null | fzf-tmux +m) &&
+            -o -type d -print 2> /dev/null | fzf +m) &&
             cd "$dir"
 
         # TODO: Add option for parent dirs
@@ -291,7 +286,7 @@ if hash fzf 2> /dev/null; then
     fde() {
         local dir=$(cat ~/.config/direnv/allow/* | sort | uniq |\
             while read -r f; do parentdir "$f"; done |\
-            fzf-tmux --query="$1" --select-1)
+            fzf --query="$1" --select-1)
 
         cd "${dir/#\~/$HOME}"
     }

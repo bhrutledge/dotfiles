@@ -97,9 +97,6 @@ let g:pencil#conceallevel = 0
 " Asynchronous build and test dispatcher
 Plug 'tpope/vim-dispatch'
 
-" Interact with tmux
-Plug 'benmills/vimux'
-
 " Run tests for multiple languages using different strategies
 Plug 'janko-m/vim-test'
 
@@ -155,10 +152,10 @@ set background=dark
 
 if $ITERM_PROFILE == 'Default' || has('gui_vimr')
     set termguicolors
-    " colorscheme solarized
-    " colorscheme solarized8_dark
 endif
 
+" colorscheme solarized
+" colorscheme solarized8_dark
 colorscheme NeoSolarized
 
 " }}}
@@ -200,24 +197,9 @@ augroup code_es
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
 augroup END
 
-" Assume tmux pane is in the right directory (e.g., on a virtual machine)
-function! VimuxRawStrategy(cmd)
-    call VimuxRunCommand(a:cmd)
-endfunction
-let g:test#custom_strategies = {'vimux_raw': function('VimuxRawStrategy')}
-
-" TODO: Generalize this by moving ssh_command to server and using ./.ssh_config
-function! EsSiteTransform(cmd) abort
-    let ssh_command = 'source ~/venv/bin/activate; cd es-site/es'
-    return 'ssh -t es.local ' . shellescape(ssh_command . '; ' . a:cmd)
-endfunction
-let g:test#custom_transformations = {'es-site': function('EsSiteTransform')}
-
 augroup test_es
     " TODO: Use dispatch to populate quickfix window
     autocmd BufNewFile,BufRead ~/Code/es/*.py
-                \ let g:test#strategy = 'vimux' |
-                \ let g:test#transformation = 'es-site' |
                 \ let g:test#filename_modifier = ':p:s?.*es-site/es/??' |
                 \ let g:test#python#runner = 'djangotest' |
                 \ let g:test#python#djangotest#executable = 'python -Wignore manage.py test' |
@@ -234,6 +216,16 @@ nnoremap <leader>/ :nohlsearch<CR>
 
 " Refresh syntax highlighting
 nnoremap <leader>ss :syntax sync fromstart<CR>
+
+" Display highlight group
+" https://jordanelver.co.uk/blog/2015/05/27/working-with-vim-colorschemes/
+nmap <leader>sp :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 " Remove trailing whitespace
 nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
@@ -279,13 +271,6 @@ nnoremap <leader>ct ^f[lr
 " Display tag list
 nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>tc :TagbarCurrentTag f<CR>
-
-" Run commands in tmux
-nnoremap <Leader>tp :VimuxPromptCommand<CR>
-nnoremap <Leader>tl :VimuxRunLastCommand<CR>
-nnoremap <Leader>tz :VimuxZoomRunner<CR>
-nnoremap <Leader>ti :VimuxInspectRunner<CR>
-nnoremap <Leader>tq :VimuxCloseRunner<CR>
 
 " Faster file search
 nmap gr <plug>(GrepperOperator)
