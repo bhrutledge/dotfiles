@@ -89,11 +89,6 @@ Plug '1995eaton/vim-better-javascript-completion'
 " Fast HTML generation
 Plug 'mattn/emmet-vim'
 
-" Better Markdown experience
-Plug 'reedes/vim-pencil'
-let g:pencil#wrapModeDefault = 'soft'
-let g:pencil#conceallevel = 0
-
 " Asynchronous build and test dispatcher
 Plug 'tpope/vim-dispatch'
 
@@ -169,12 +164,6 @@ augroup startup
     autocmd BufEnter * if getcwd() == $HOME | silent! lcd %:p:h | endif
 augroup END
 
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  " autocmd FileType text call pencil#init({'wrap': 'hard'})
-augroup END
-
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
@@ -183,9 +172,12 @@ augroup filetypes
     autocmd FileType crontab setlocal nobackup nowritebackup
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
     autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
+    autocmd FileType markdown setlocal textwidth=0
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
     autocmd BufNewFile,BufRead .babelrc set filetype=json
     autocmd BufNewFile,BufRead .bash* set filetype=sh
+    autocmd BufNewFile,BufRead .*envrc set filetype=sh
+    autocmd TermOpen * setlocal relativenumber
 augroup END
 
 " TODO: When this gets big, consider using sourced files or localvimrc
@@ -259,6 +251,12 @@ cabbrev <expr> dt strftime("%Y-%m-%d")
 
 " 15:14
 iabbrev <expr> tm strftime("%H:%M")
+
+" Display current time and date
+nnoremap <leader>tm :echo strftime("%l:%M %m/%d")<CR>
+
+" Open a shell at the bottom of the screen
+nnoremap <leader>sh :20new term://bash \| file bash \| startinsert<CR>
 
 " Add/toggle checkboxes
 " TODO: Make repeatable, work in visual mode, use one command for add/toggle
