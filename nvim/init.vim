@@ -4,17 +4,18 @@ let g:python3_host_prog = expand('~/.virtualenvs/neovim3/bin/python')
 
 " PLUGINS {{{
 
+" TODO: Variable for install location, for shared Vim 8 config
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     echo "Installing vim-plug..."
     !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
-call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Fuzzy file finder
 " TODO: Improve installation
-Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/site/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 " Async :grep via multiple tools
@@ -143,9 +144,14 @@ set completeopt-=preview
 
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
 
+" }}}
+
+
+" COLOR SCHEME {{{
+
 set background=dark
 
-if $ITERM_PROFILE == 'Default' || has('gui_vimr')
+if $ITERM_PROFILE == 'Default'
     set termguicolors
 endif
 
@@ -177,7 +183,7 @@ augroup filetypes
     autocmd BufNewFile,BufRead .babelrc set filetype=json
     autocmd BufNewFile,BufRead .bash* set filetype=sh
     autocmd BufNewFile,BufRead .*envrc set filetype=sh
-    autocmd TermOpen * setlocal relativenumber
+    autocmd TermOpen * setlocal relativenumber signcolumn=no
 augroup END
 
 " TODO: When this gets big, consider using sourced files or localvimrc
@@ -256,15 +262,8 @@ iabbrev <expr> tm strftime("%H:%M")
 nnoremap <leader>tm :echo strftime("%l:%M %m/%d")<CR>
 
 " Open a shell at the bottom of the screen
-nnoremap <leader>sh :20new term://bash \| file bash \| startinsert<CR>
-
-" Add/toggle checkboxes
-" TODO: Make repeatable, work in visual mode, use one command for add/toggle
-" TODO: Confine to Markdown
-" Add after initial '-'
-nnoremap <leader>cb ^wi[ ] <esc>2h
-" Focus checkbox, toggle with 'x' or ' '
-nnoremap <leader>ct ^f[lr
+" TODO: Handle differences with Vim 8's :terminal
+nnoremap <leader>sh :botright 20new \| terminal<CR>
 
 " Display tag list
 nnoremap <leader>tb :TagbarToggle<CR>
