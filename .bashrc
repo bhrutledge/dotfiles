@@ -263,6 +263,16 @@ if hash fzf 2> /dev/null; then
 
     # https://github.com/junegunn/fzf/wiki/Examples
 
+    # fe [FUZZY PATTERN] - Open the selected file with the default editor
+    #   - Bypass fuzzy finder if there's only one match (--select-1)
+    #   - Exit if there's no match (--exit-0)
+    # TODO: Add option for `open`
+    fe() {
+        local files
+        IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+        [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+    }
+
     # checkout git branch
     fco() {
         local branches branch
@@ -291,7 +301,7 @@ if hash fzf 2> /dev/null; then
         cd "${dir/#\~/$HOME}"
     }
 
-    # TODO: Integrate with or replace `fasd`
+    # TODO: Integrate with or replace `fasd`/`z`
 fi
 
 echo

@@ -3,6 +3,7 @@ let g:python_host_prog = expand('~/.virtualenvs/neovim2/bin/python')
 let g:python3_host_prog = expand('~/.virtualenvs/neovim3/bin/python')
 
 " PLUGINS {{{
+" TODO: Move plugin-specific mappings here?
 
 " TODO: Variable for install location, for shared Vim 8 config
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
@@ -106,8 +107,7 @@ Plug 'iCyMind/NeoSolarized'
 
 call plug#end()
 
-if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-    echo "Installing missing plugins...\n"
+if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) && confirm('Install missing plugins?')
     " TODO: Progress meter or install report
     PlugUpdate --sync | q
 endif
@@ -143,21 +143,6 @@ set titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
 set completeopt-=preview
 
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
-
-" }}}
-
-
-" COLOR SCHEME {{{
-
-set background=dark
-
-if $ITERM_PROFILE == 'Default'
-    set termguicolors
-endif
-
-" colorscheme solarized
-" colorscheme solarized8_dark
-colorscheme NeoSolarized
 
 " }}}
 
@@ -332,5 +317,20 @@ function! VenvName()
 endfunction
 
 set noruler
+
+" }}}
+
+
+" COLOR SCHEME {{{
+
+set background=dark
+
+if $ITERM_PROFILE == 'Default'
+    set termguicolors
+endif
+
+" colorscheme solarized
+" colorscheme solarized8_dark
+colorscheme NeoSolarized
 
 " }}}
