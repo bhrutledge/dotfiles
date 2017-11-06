@@ -181,7 +181,7 @@ augroup END
 " TODO: When this gets big, consider using sourced files or localvimrc
 augroup code_es
     autocmd!
-    autocmd BufNewFile,BufRead ~/Code/{es,es-*}/* setlocal textwidth=119
+    autocmd BufNewFile,BufRead */Code/{es,es-*}/* setlocal textwidth=119
     " TODO: Try ftdetect based on parent directory
     autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django

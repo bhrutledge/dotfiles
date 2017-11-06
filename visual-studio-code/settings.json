@@ -13,5 +13,8 @@
     "python.linting.pylintEnabled": false,
     "editor.formatOnPaste": true,
     "editor.cursorStyle": "underline-thin",
-    "editor.renderLineHighlight": "gutter"
+    "editor.renderLineHighlight": "gutter",
+    "workbench.colorTheme": "Solarized Dark",
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none"
 }

@@ -61,64 +61,6 @@ function ltcp {
     done
 }
 
-# Lightweight replacements for virtualenvwrapper
-# TODO: Error handling
-# TODO: Mutliple $PROJECT_HOME
-
-# TODO: Command line args for venv
-function mkvenv {
-    python3 -m venv $WORKON_HOME/$1
-    # TODO: mkdir $PROJECT_HOME/$1
-    workon $1
-}
-
-# TODO: Combine with mkvenv
-function mkvirtualenv {
-    python2 -m virtualenv $WORKON_HOME/$1
-    workon $1
-}
-
-# TODO: Completion (help complete compgen)
-function workon {
-    local venv
-
-    if [ $1 ]; then
-        venv=$1
-    else
-        venv="${PWD##*/}"
-    fi
-
-    source $WORKON_HOME/$venv/bin/activate || return 1
-    cdproject
-}
-
-function cdproject {
-    if [ -z $VIRTUAL_ENV ]; then
-        echo "Error: No active virtual environment" >&2
-        return 1
-    fi
-
-    local project_dir="$PROJECT_HOME/${VIRTUAL_ENV##*/}"
-    if [ -d $project_dir ]; then
-        cd $project_dir
-    fi
-}
-
-function webserver {
-    # TODO: Replace with devd
-    # https://www.browsersync.io/
-    # npm install -g browser-sync
-
-    extensions="html|css|js|md"
-
-    # TODO: Reload on new files
-    # Use {,**/).+($extensions) after merge of
-    # https://github.com/paulmillr/chokidar/pull/622
-    browser-sync start --server --no-open \
-        --files="*.+($extensions), **/*.+($extensions)" \
-        "$@"
-}
-
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
@@ -291,17 +233,11 @@ if hash fzf 2> /dev/null; then
         # TODO: Add option for parent dirs
     }
 
-    # cd into a direnv
-    # TODO: Only start fzf for non-unique base dir
-    fde() {
-        local dir=$(cat ~/.config/direnv/allow/* | sort | uniq |\
-            while read -r f; do parentdir "$f"; done |\
-            fzf --query="$1" --select-1)
-
-        cd "${dir/#\~/$HOME}"
+    # Fuzzy `z` from fasd
+    fz() {
+        local dir
+        dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
     }
-
-    # TODO: Integrate with or replace `fasd`/`z`
 fi
 
 echo
