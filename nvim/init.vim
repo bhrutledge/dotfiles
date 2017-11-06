@@ -72,9 +72,11 @@ let g:ale_lint_on_insert_leave = 1
 " Syntax highlighting for many languages
 " Note: Individual plugins might be missing features
 Plug 'sheerun/vim-polyglot'
-
 " https://github.com/sheerun/vim-polyglot/issues/209
-let g:polyglot_disabled = ['python']
+" https://github.com/sheerun/vim-polyglot/issues/152
+let g:polyglot_disabled = ['python', 'markdown']
+
+" Python syntax
 let python_highlight_all = 1
 Plug 'Vimjas/vim-python-pep8-indent'
 
@@ -84,6 +86,11 @@ Plug 'davidhalter/jedi-vim'
 let g:jedi#show_call_signatures = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#smart_auto_mappings = 0
+
+" Markdown syntax
+Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_new_list_item_indent = 0
 
 " JavaScript completion
 Plug '1995eaton/vim-better-javascript-completion'
@@ -194,8 +201,8 @@ augroup END
 
 " MAPPINGS {{{
 
-" Hide matches
-nnoremap <leader>/ :nohlsearch<CR>
+" Reload vimrc, refresh buffer to trigger autocmds
+nnoremap <leader>sv :source $MYVIMRC \| edit<CR>
 
 " Refresh syntax highlighting
 nnoremap <leader>ss :syntax sync fromstart<CR>
@@ -212,6 +219,9 @@ endfunc
 
 " Remove trailing whitespace
 nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
+
+" Hide matches
+nnoremap <leader>/ :nohlsearch<CR>
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
