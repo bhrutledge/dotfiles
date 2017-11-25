@@ -55,48 +55,52 @@ Plug 'tpope/vim-fugitive'
 " Git diff status in gutter
 Plug 'airblade/vim-gitgutter'
 
-" Display tags in a window
-Plug 'majutsushi/tagbar'
-let g:tagbar_width = 60
-let g:tagbar_sort = 0
-let g:tagbar_show_linenumbers = -1
-" Update tagbar every second
-set updatetime=1000
-
-" Asynchronous Lint Engine
-Plug 'w0rp/ale'
-let g:ale_sign_column_always = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-
 " Syntax highlighting for many languages
 " Note: Individual plugins might be missing features
 Plug 'sheerun/vim-polyglot'
 " https://github.com/sheerun/vim-polyglot/issues/209
 " https://github.com/sheerun/vim-polyglot/issues/152
 let g:polyglot_disabled = ['python', 'markdown']
+" https://github.com/sheerun/vim-polyglot/issues/162
+let g:jsx_ext_required = 1
 
 " Python syntax
 let python_highlight_all = 1
 Plug 'Vimjas/vim-python-pep8-indent'
-
-" Python completion
 Plug 'jmcantrell/vim-virtualenv'
-Plug 'davidhalter/jedi-vim'
-let g:jedi#show_call_signatures = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#smart_auto_mappings = 0
 
 " Markdown syntax
 Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 0
 
-" JavaScript completion
-Plug '1995eaton/vim-better-javascript-completion'
-
 " Fast HTML generation
 Plug 'mattn/emmet-vim'
+" Same as vim-surround insert mode
+let g:user_emmet_leader_key = '<C-G>'
+
+" Asynchronous Lint Engine
+Plug 'w0rp/ale'
+let g:ale_sign_column_always = 1
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_fixers = {
+            \   'javascript': [ 'eslint', 'remove_trailing_lines', 'trim_whitespace' ],
+            \}
+
+" Asynchronous Completion
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
+" Plug 'carlitux/deoplete-ternjs'
+" " TODO: https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources
+" let g:deoplete#enable_at_startup = 1
+
+" Omni completion
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'davidhalter/jedi-vim'
+let g:jedi#show_call_signatures = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#smart_auto_mappings = 0
 
 " Asynchronous build and test dispatcher
 Plug 'tpope/vim-dispatch'
@@ -113,11 +117,6 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'iCyMind/NeoSolarized'
 
 call plug#end()
-
-if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) && confirm('Install missing plugins?')
-    " TODO: Progress meter or install report
-    PlugUpdate --sync | q
-endif
 
 " }}}
 
@@ -141,15 +140,15 @@ set scrolloff=10
 set splitright splitbelow
 
 " Set terminal title: file.txt + ~/p/t/dir
-set title
-set titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
+set title titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
 
-" Configure completion
-" set omnifunc=syntaxcomplete#Complete
-" set complete=.,w,b,u
-set completeopt-=preview
+set completeopt=longest,menuone
 
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_altv = 1
+let g:netrw_winsize = -40
 
 " }}}
 
@@ -158,6 +157,11 @@ let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
 
 augroup startup
     autocmd!
+    " TODO: Progress meter or install report
+    autocmd VimEnter *
+                \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) && confirm('Install missing plugins?')
+                \|   PlugInstall --sync | q
+                \| endif
     " Change to file directory if started from $HOME (e.g., via GUI), to improve grep
     autocmd BufEnter * if getcwd() == $HOME | silent! lcd %:p:h | endif
 augroup END
@@ -165,7 +169,7 @@ augroup END
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
-    autocmd FileType help setlocal relativenumber textwidth=0
+    autocmd FileType help wincmd L | vertical resize 90 | setlocal relativenumber textwidth=0
     autocmd FileType vim setlocal foldmethod=marker foldlevel=1 keywordprg=:help textwidth=119
     autocmd FileType crontab setlocal nobackup nowritebackup
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
@@ -237,9 +241,6 @@ nnoremap <leader>yp :let @"=@% \| echo @"<CR>
 " Yank current file directory
 nnoremap <leader>y. :let @"=expand("%:p:h") \| echo @"<CR>
 
-" Yank current tag
-nnoremap <leader>yt :let @"=tagbar#currenttag('%s', '', 'f') \| echo @"<CR>
-
 " Copy unnamed register to clipboard
 nnoremap <leader>cy :let @+=@" \| echo @+<CR>
 
@@ -264,6 +265,12 @@ nnoremap <leader>sh :botright 20new \| terminal<CR>
 nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>tc :TagbarCurrentTag f<CR>
 
+" Jump between linter warnings (similar to unimpaired)
+nmap <silent> [W <Plug>(ale_first)
+nmap <silent> [w <Plug>(ale_previous)
+nmap <silent> ]w <Plug>(ale_next)
+nmap <silent> ]W <Plug>(ale_last)
+
 " Faster file search
 nmap gr <plug>(GrepperOperator)
 xmap gr <plug>(GrepperOperator)
@@ -282,6 +289,21 @@ nnoremap <c-p><c-r> :History<CR>
 nnoremap <c-p><c-h> :History:<CR>
 nnoremap <c-p><c-t> :Tags<CR>
 
+" Z - cd to recent / frequent directories
+" https://github.com/clvv/fasd/wiki/Vim-Integration
+" TODO: Use FZF
+command! -nargs=* Z :call Z(<f-args>)
+function! Z(...)
+    let cmd = 'fasd -d -e printf'
+    for arg in a:000
+        let cmd = cmd . ' ' . arg
+    endfor
+    let path = system(cmd)
+    if isdirectory(path)
+        echo path
+        exec 'lcd' fnameescape(path)
+    endif
+endfunction
 " }}}
 
 
@@ -295,7 +317,6 @@ nnoremap <c-p><c-t> :Tags<CR>
 
 " path/to/file[+]
 set statusline=\ %.30f%m
-" set statusline+=%{tagbar#currenttag(':%s','','f')}
 " ~/c/w/dir
 set statusline+=\ %#LineNR#
 set statusline+=\ %{pathshorten(fnamemodify(getcwd(),':~'))}
@@ -305,7 +326,9 @@ set statusline+=\ %{GitHead()}%{VenvName()}
 set statusline+=%h%w%q%r
 " Right aligned
 set statusline+=%=
-" [vim]
+" [5W 3E]
+set statusline+=%{LinterStatus()}
+" [filetype]
 set statusline+=%y
 " [utf-8]
 set statusline+=[%{&fileencoding?&fileencoding:&encoding}]
@@ -324,6 +347,15 @@ endfunction
 function! VenvName()
     let venv = virtualenv#statusline()
     return strlen(venv) ? '[' . venv . ']' : ''
+endfunction
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? '' : printf('[%dW %dE]', all_non_errors, all_errors)
 endfunction
 
 set noruler
