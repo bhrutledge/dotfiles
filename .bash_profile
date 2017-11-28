@@ -1,6 +1,7 @@
 echo -n .bash_profile\ 
 
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+export CDPATH="$HOME:$HOME/Code:$CDPATH"
 export PAGER='less'
 
 if hash nvim 2> /dev/null; then

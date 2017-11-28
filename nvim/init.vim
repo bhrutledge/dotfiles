@@ -67,7 +67,6 @@ let g:jsx_ext_required = 1
 " Python syntax
 let python_highlight_all = 1
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'jmcantrell/vim-virtualenv'
 
 " Markdown syntax
 Plug 'plasticboy/vim-markdown'
@@ -88,7 +87,7 @@ let g:ale_fixers = {
             \   'javascript': [ 'eslint', 'remove_trailing_lines', 'trim_whitespace' ],
             \}
 
-" Asynchronous Completion
+" Asynchronous completion
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-jedi'
 " Plug 'carlitux/deoplete-ternjs'
@@ -139,7 +138,8 @@ set textwidth=79 colorcolumn=+1
 set scrolloff=10
 set splitright splitbelow
 
-" Set terminal title: file.txt + ~/p/t/dir
+" Set terminal title: file.txt + (~/p/t/dir)
+" TODO: Maybe file.txt + ($PWD)?
 set title titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
 
 set completeopt=longest,menuone
@@ -261,10 +261,6 @@ nnoremap <leader>tm :echo strftime("%l:%M %m/%d")<CR>
 " TODO: Handle differences with Vim 8's :terminal
 nnoremap <leader>sh :botright 20new \| terminal<CR>
 
-" Display tag list
-nnoremap <leader>tb :TagbarToggle<CR>
-nnoremap <leader>tc :TagbarCurrentTag f<CR>
-
 " Jump between linter warnings (similar to unimpaired)
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
@@ -291,7 +287,7 @@ nnoremap <c-p><c-t> :Tags<CR>
 
 " Z - cd to recent / frequent directories
 " https://github.com/clvv/fasd/wiki/Vim-Integration
-" TODO: Use FZF
+" TODO: Use FZF. Or just rely on CDPATH.
 command! -nargs=* Z :call Z(<f-args>)
 function! Z(...)
     let cmd = 'fasd -d -e printf'
@@ -304,6 +300,7 @@ function! Z(...)
         exec 'lcd' fnameescape(path)
     endif
 endfunction
+
 " }}}
 
 
@@ -345,7 +342,7 @@ function! GitHead()
 endfunction
 
 function! VenvName()
-    let venv = virtualenv#statusline()
+    let venv = fnamemodify($VIRTUAL_ENV, ':t')
     return strlen(venv) ? '[' . venv . ']' : ''
 endfunction
 
@@ -374,5 +371,8 @@ endif
 " colorscheme solarized
 " colorscheme solarized8_dark
 colorscheme NeoSolarized
+
+highlight! link TermCursor Cursor
+highlight! link TermCursorNC Search
 
 " }}}

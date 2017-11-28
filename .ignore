@@ -9,3 +9,4 @@ tags
 *.png
 *.jpg
 node_modules
+*.lock
