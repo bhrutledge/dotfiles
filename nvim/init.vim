@@ -169,7 +169,7 @@ augroup END
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
-    autocmd FileType help wincmd L | vertical resize 90 | setlocal relativenumber textwidth=0
+    autocmd FileType help setlocal relativenumber textwidth=0
     autocmd FileType vim setlocal foldmethod=marker foldlevel=1 keywordprg=:help textwidth=119
     autocmd FileType crontab setlocal nobackup nowritebackup
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2

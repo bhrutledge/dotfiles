@@ -1,8 +1,9 @@
 echo -n .bash_profile\ 
 
-export PATH=$HOME/bin:$HOME/.local/bin:$PATH
-export CDPATH="$HOME:$HOME/Code:$CDPATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export PAGER='less'
+
+[ -z "$PS1" ] || export CDPATH=".:$HOME:$HOME/Code"
 
 if hash nvim 2> /dev/null; then
     echo -n nvim\ 
@@ -24,10 +25,5 @@ elif hash ag 2> /dev/null; then
     export FZF_DEFAULT_COMMAND='ag -g ""'
 fi
 
-if [ -f ~/.bash_exports ]; then
-    source ~/.bash_exports
-fi
-
-if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
-fi
+[ -f ~/.bash_exports ] && source ~/.bash_exports
+[ -f ~/.bashrc ] && source ~/.bashrc
