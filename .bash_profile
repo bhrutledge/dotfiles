@@ -25,5 +25,10 @@ elif hash ag 2> /dev/null; then
     export FZF_DEFAULT_COMMAND='ag -g ""'
 fi
 
+if hash fd 2> /dev/null; then
+    echo -n fd\ 
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
+fi
+
 [ -f ~/.bash_exports ] && source ~/.bash_exports
 [ -f ~/.bashrc ] && source ~/.bashrc

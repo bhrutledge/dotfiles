@@ -52,8 +52,10 @@ Plug 'tpope/vim-eunuch'
 " Git commands
 Plug 'tpope/vim-fugitive'
 
-" Git diff status in gutter
+" Git diff status in sign column
 Plug 'airblade/vim-gitgutter'
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
 
 " Syntax highlighting for many languages
 " Note: Individual plugins might be missing features
@@ -73,10 +75,10 @@ Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 0
 
+Plug 'hail2u/vim-css3-syntax'
+
 " Fast HTML generation
 Plug 'mattn/emmet-vim'
-" Same as vim-surround insert mode
-let g:user_emmet_leader_key = '<C-G>'
 
 " Asynchronous Lint Engine
 Plug 'w0rp/ale'
@@ -196,7 +198,7 @@ augroup test_es
     autocmd BufNewFile,BufRead ~/Code/es/*.py
                 \ let g:test#filename_modifier = ':p:s?.*es-site/es/??' |
                 \ let g:test#python#runner = 'djangotest' |
-                \ let g:test#python#djangotest#executable = 'python -Wignore manage.py test' |
+                \ let g:test#python#djangotest#executable = 'django-admin test' |
                 \ let g:test#python#djangotest#options = '-k --settings es.settings.local_dev'
 augroup END
 
@@ -224,25 +226,28 @@ endfunc
 " Remove trailing whitespace
 nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
-" Hide matches
-nnoremap <leader>/ :nohlsearch<CR>
+" Clear search (see unimpaired for `:set hlsearch` toggles)
+nnoremap <silent> <leader>/ :let @/=''<CR>
 
-" Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
-cabbrev %. <c-r>=expand("%:.:h")<CR>
-cabbrev %p <c-r>=expand("%:p:h")<CR>
+" Set working directory to current file directory
+nnoremap <leader>ch :lcd %:p:h<CR>
 
-" Yank current file name
-nnoremap <leader>yf :let @"=expand("%:t") \| echo @"<CR>
+" Insert current file name/path/directory
+cabbrev xt <c-r>=expand("%:t")<CR>
+cabbrev xp <c-r>=expand("%:p")<CR>
+cabbrev xh <c-r>=expand("%:p:h")<CR>
+cabbrev xH <c-r>=expand("%:.:h")<CR>
 
-" Yank current file path (relative to :pwd)
-nnoremap <leader>yp :let @"=@% \| echo @"<CR>
-
-" Yank current file directory
-nnoremap <leader>y. :let @"=expand("%:p:h") \| echo @"<CR>
+" Yank current file name/path/directory
+nnoremap <leader>yf :let @"=@% \| echo @"<CR>
+nnoremap <leader>yt :let @"=expand("%:t") \| echo @"<CR>
+nnoremap <leader>yp :let @"=expand("%:p") \| echo @"<CR>
+nnoremap <leader>yh :let @"=expand("%:p:h") \| echo @"<CR>
+nnoremap <leader>yH :let @"=expand("%:.:h") \| echo @"<CR>
 
 " Copy unnamed register to clipboard
-nnoremap <leader>cy :let @+=@" \| echo @+<CR>
+" TODO: echo first X chars
+nnoremap <leader>cy :let @+=@"<CR>
 
 " Open vertical windows
 nnoremap <leader>v :vertical<space>

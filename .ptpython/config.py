@@ -66,7 +66,10 @@ def configure(repl):
     # Install custom colorscheme named 'my-colorscheme' and use it.
     # repl.install_ui_colorscheme('my-colorscheme', _custom_ui_colorscheme)
     # repl.use_ui_colorscheme('my-colorscheme')
-    repl.use_code_colorscheme('solarizeddark')
+    try:
+        repl.use_code_colorscheme('solarizeddark')
+    except AssertionError:
+        pass
 
     # Add custom key binding for PDB.
     @repl.add_key_binding(Keys.ControlB)

@@ -7,6 +7,11 @@ if [ -z "$PS1" ]; then
 fi
 
 
+## MISC SETTINGS
+
+shopt -s direxpand
+
+
 ## ALIASES
 
 # http://stackoverflow.com/questions/1676426/how-to-check-the-ls-version
@@ -213,11 +218,14 @@ if hash fzf 2> /dev/null; then
         [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
     }
 
+    # Assuming `notes` is in $CDPATH
+    alias fn="cd notes && fe"
+
     # checkout git branch
     fco() {
         local branches branch
         branches=$(git branch -vv) &&
-            branch=$(echo "$branches" | fzf +m) &&
+            branch=$(echo "$branches" | fzf --query="$1" +m) &&
             git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
     }
 
