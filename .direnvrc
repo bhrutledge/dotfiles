@@ -8,3 +8,8 @@ layout_virtualenvwrapper() {
     local venv_path="${WORKON_HOME}/$venv"
     layout_virtualenv $venv_path
 }
+
+layout_overmind() {
+    export OVERMIND_PROCFILE=$PWD/Procfile
+    export OVERMIND_SOCKET=$PWD/.overmind.sock
+}
