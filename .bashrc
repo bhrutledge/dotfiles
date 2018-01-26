@@ -25,6 +25,7 @@ alias ls="command ls -h $color_flag"
 alias grep='grep --color=auto'
 alias rm='rm -i'
 alias exl='exa -lhb --time-style long-iso'
+alias datestamp='date "+%Y%m%d"'
 
 if hash nvim 2> /dev/null; then
     alias vim='nvim'

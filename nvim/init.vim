@@ -233,10 +233,10 @@ nnoremap <silent> <leader>/ :let @/=''<CR>
 nnoremap <leader>ch :lcd %:p:h<CR>
 
 " Insert current file name/path/directory
-cabbrev xt <c-r>=expand("%:t")<CR>
-cabbrev xp <c-r>=expand("%:p")<CR>
-cabbrev xh <c-r>=expand("%:p:h")<CR>
-cabbrev xH <c-r>=expand("%:.:h")<CR>
+cabbrev ;t <c-r>=expand("%:t")<CR>
+cabbrev ;p <c-r>=expand("%:p")<CR>
+cabbrev ;h <c-r>=expand("%:p:h")<CR>
+cabbrev ;H <c-r>=expand("%:.:h")<CR>
 
 " Yank current file name/path/directory
 nnoremap <leader>yf :let @"=@% \| echo @"<CR>
@@ -253,14 +253,14 @@ nnoremap <leader>cy :let @+=@"<CR>
 nnoremap <leader>v :vertical<space>
 
 " Monday, November 28, 2016
-iabbrev <expr> dt strftime("%A, %B %d, %Y")
-cabbrev <expr> dt strftime("%Y-%m-%d")
+iabbrev <expr> ;d strftime("%A, %B %d, %Y")
+cabbrev <expr> ;d strftime("%Y-%m-%d")
 
 " 15:14
-iabbrev <expr> tm strftime("%H:%M")
+iabbrev <expr> ;t strftime("%H:%M")
 
 " Display current time and date
-nnoremap <leader>tm :echo strftime("%l:%M %m/%d")<CR>
+nnoremap <leader>td :echo strftime("%l:%M %m/%d")<CR>
 
 " Open a shell at the bottom of the screen
 " TODO: Handle differences with Vim 8's :terminal
