@@ -233,12 +233,14 @@ nnoremap <silent> <leader>/ :let @/=''<CR>
 nnoremap <leader>ch :lcd %:p:h<CR>
 
 " Insert current file name/path/directory
-cabbrev ;t <c-r>=expand("%:t")<CR>
-cabbrev ;p <c-r>=expand("%:p")<CR>
-cabbrev ;h <c-r>=expand("%:p:h")<CR>
-cabbrev ;H <c-r>=expand("%:.:h")<CR>
+" TODO: These might not be necessary; the expand args might be sufficient
+cnoremap ;t <c-r>=expand("%:t")<CR>
+cnoremap ;p <c-r>=expand("%:p")<CR>
+cnoremap ;h <c-r>=expand("%:p:h")<CR>
+cnoremap ;H <c-r>=expand("%:.:h")<CR>
 
 " Yank current file name/path/directory
+" TODO: Use a single map that takes expand args
 nnoremap <leader>yf :let @"=@% \| echo @"<CR>
 nnoremap <leader>yt :let @"=expand("%:t") \| echo @"<CR>
 nnoremap <leader>yp :let @"=expand("%:p") \| echo @"<CR>
