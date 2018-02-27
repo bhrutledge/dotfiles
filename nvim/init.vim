@@ -237,8 +237,8 @@ nnoremap <leader>ch :lcd %:p:h<CR>
 " TODO: These might not be necessary; the expand args might be sufficient
 cnoremap ;t <c-r>=expand("%:t")<CR>
 cnoremap ;p <c-r>=expand("%:p")<CR>
-cnoremap ;h <c-r>=expand("%:p:h")<CR>
-cnoremap ;H <c-r>=expand("%:.:h")<CR>
+cnoremap ;h <c-r>=expand("%:p:h")<CR>/
+cnoremap ;H <c-r>=expand("%:.:h")<CR>/
 
 " Yank current file name/path/directory
 " TODO: Use a single map that takes expand args
@@ -254,13 +254,6 @@ nnoremap <leader>cy :let @+=@"<CR>
 
 " Open vertical windows
 nnoremap <leader>v :vertical<space>
-
-" Monday, November 28, 2016
-iabbrev <expr> ;d strftime("%A, %B %d, %Y")
-cabbrev <expr> ;d strftime("%Y-%m-%d")
-
-" 15:14
-iabbrev <expr> ;t strftime("%H:%M")
 
 " Display current time and date
 nnoremap <leader>td :echo strftime("%l:%M %m/%d")<CR>

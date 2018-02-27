@@ -26,6 +26,11 @@ alias grep='grep --color=auto'
 alias rm='rm -i'
 alias exl='exa -lhb --time-style long-iso'
 alias datestamp='date "+%Y%m%d"'
+alias penv='pipenv'
+
+# https://github.com/julienXX/terminal-notifier
+alias notify='terminal-notifier -sound default -message'
+# TODO: notify last command name
 
 if hash nvim 2> /dev/null; then
     alias vim='nvim'
