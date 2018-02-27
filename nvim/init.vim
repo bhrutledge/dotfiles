@@ -139,6 +139,7 @@ set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set textwidth=79 colorcolumn=+1
 set scrolloff=10
 set splitright splitbelow
+set linebreak
 
 " Set terminal title: file.txt + (~/p/t/dir)
 " TODO: Maybe file.txt + ($PWD)?
@@ -371,7 +372,7 @@ set noruler
 
 set background=dark
 
-if $ITERM_PROFILE == 'Default'
+if exists('$ITERM_PROFILE')
     set termguicolors
 endif
 
