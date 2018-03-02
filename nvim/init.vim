@@ -14,11 +14,6 @@ endif
 
 call plug#begin('~/.local/share/nvim/site/plugged')
 
-" Fuzzy file finder
-" TODO: Improve installation
-Plug 'junegunn/fzf', { 'dir': '~/.local/share/nvim/site/fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
-
 " Async :grep via multiple tools
 Plug 'mhinz/vim-grepper'
 let g:grepper = {}
@@ -89,26 +84,6 @@ let g:ale_fixers = {
             \   'javascript': [ 'eslint', 'remove_trailing_lines', 'trim_whitespace' ],
             \}
 
-" Asynchronous completion
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-jedi'
-" Plug 'carlitux/deoplete-ternjs'
-" " TODO: https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources
-" let g:deoplete#enable_at_startup = 1
-
-" Omni completion
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'davidhalter/jedi-vim'
-let g:jedi#show_call_signatures = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#smart_auto_mappings = 0
-
-" Asynchronous build and test dispatcher
-Plug 'tpope/vim-dispatch'
-
-" Run tests for multiple languages using different strategies
-Plug 'janko-m/vim-test'
-
 " Quick Google lookup
 Plug 'szw/vim-g'
 
@@ -158,17 +133,6 @@ let g:netrw_winsize = -40
 
 " AUTOCOMMANDS {{{
 
-augroup startup
-    autocmd!
-    " TODO: Progress meter or install report
-    autocmd VimEnter *
-                \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) && confirm('Install missing plugins?')
-                \|   PlugInstall --sync | q
-                \| endif
-    " Change to file directory if started from $HOME (e.g., via GUI), to improve grep
-    autocmd BufEnter * if getcwd() == $HOME | silent! lcd %:p:h | endif
-augroup END
-
 " TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
@@ -194,15 +158,6 @@ augroup code_es
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django
 augroup END
 
-augroup test_es
-    " TODO: Use dispatch to populate quickfix window
-    autocmd BufNewFile,BufRead ~/Code/es/*.py
-                \ let g:test#filename_modifier = ':p:s?.*es-site/es/??' |
-                \ let g:test#python#runner = 'djangotest' |
-                \ let g:test#python#djangotest#executable = 'django-admin test' |
-                \ let g:test#python#djangotest#options = '-k --settings es.settings.local_dev'
-augroup END
-
 " }}}
 
 
@@ -213,16 +168,6 @@ nnoremap <leader>sv :source $MYVIMRC \| edit<CR>
 
 " Refresh syntax highlighting
 nnoremap <leader>ss :syntax sync fromstart<CR>
-
-" Display highlight group
-" https://jordanelver.co.uk/blog/2015/05/27/working-with-vim-colorschemes/
-nmap <leader>sp :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-    if !exists("*synstack")
-        return
-    endif
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
 
 " Remove trailing whitespace
 nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
@@ -278,13 +223,6 @@ nnoremap <leader>gd :Grepper -dir file<cr>
 nnoremap <leader>gw :Grepper -cword -noprompt<cr>
 nnoremap <leader>gg :Grepper -tool git<cr>
 nnoremap <leader>gf :Grepper -query '<c-r>=expand("%:t")<cr>'
-
-" Fuzzy find files, buffers, commands, functions, classes, etc.
-nnoremap <c-p><c-f> :Files<CR>
-nnoremap <c-p><c-b> :Buffers<CR>
-nnoremap <c-p><c-r> :History<CR>
-nnoremap <c-p><c-h> :History:<CR>
-nnoremap <c-p><c-t> :Tags<CR>
 
 " Z - cd to recent / frequent directories
 " https://github.com/clvv/fasd/wiki/Vim-Integration
