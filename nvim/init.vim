@@ -104,9 +104,10 @@ set path=.,,**
 
 " TODO Pull from .gitignore and .ignore
 set wildignore+=*.o,*.obj,.git,*.pyc,*.map
-set wildignore+=eggs/**
+set wildignore+=**/eggs/**
 set wildignore+=*.egg-info/**
-set wildignore+=node_modules/**
+set wildignore+=**/node_modules/**
+set wildignore+=**/venv/**
 set wildignore+=tags
 
 set relativenumber signcolumn=yes
