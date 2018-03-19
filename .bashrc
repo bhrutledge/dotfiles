@@ -224,8 +224,13 @@ if hash fzf 2> /dev/null; then
         [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
     }
 
-    # Assuming `notes` is in $CDPATH
-    alias fn="cd notes && fe"
+    # fuzzy grep open via ripgrep
+    # TODO: Interactive prompt
+    fge() {
+        local file
+        file="$(rg --no-heading $@ | fzf -0 -1 | awk -F: '{print $1 " +" $2}')"
+        [[ -n $file ]] && ${EDITOR:-vim} $file
+    }
 
     # checkout git branch
     fco() {
@@ -250,8 +255,6 @@ if hash fzf 2> /dev/null; then
         local dir
         dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
     }
-
-    # TODO: https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
 fi
 
 echo

@@ -27,6 +27,7 @@ fi
 
 if hash fd 2> /dev/null; then
     echo -n fd\ 
+    # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
 fi
 
