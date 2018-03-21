@@ -102,12 +102,15 @@ call plug#end()
 " Search files in working directory, current file directory, and subdirectories
 set path=.,,**
 
-" TODO Pull from .gitignore and .ignore
-set wildignore+=*.o,*.obj,.git,*.pyc,*.map
-set wildignore+=**/eggs/**
-set wildignore+=*.egg-info/**
-set wildignore+=**/node_modules/**
-set wildignore+=**/venv/**
+set wildignore+=*.o,*.obj,*.pyc,*.map
+set wildignore+=*/.git/*
+set wildignore+=*/eggs/*
+set wildignore+=*.egg-info/*
+set wildignore+=*/venv/*
+set wildignore+=*/node_modules/*
+set wildignore+=*/build/*
+set wildignore+=*/dist/*
+set wildignore+=*/.sass-cache/*
 set wildignore+=tags
 
 set relativenumber signcolumn=yes
@@ -150,10 +153,15 @@ augroup filetypes
     autocmd TermOpen * setlocal relativenumber signcolumn=no
 augroup END
 
-" TODO: When this gets big, consider using sourced files or localvimrc
+" TODO: When this gets big, consider using sourced files, localvimrc, or direnv
 augroup code_es
     autocmd!
-    autocmd BufNewFile,BufRead */Code/{es,es-*}/* setlocal textwidth=119
+    autocmd BufNewFile,BufRead */Code/{es,es-*}/* setlocal
+                \ textwidth=119
+                \ wildignore+=*.css
+                \ wildignore+=*/docs/_build/*
+                \ wildignore+=*/static/lib/*
+    autocmd FileType markdown setlocal textwidth=0
     " TODO: Try ftdetect based on parent directory
     autocmd BufNewFile,BufRead ~/Code/es/*.html set filetype=htmldjango
     autocmd BufNewFile,BufRead ~/Code/es/*.txt set filetype=django

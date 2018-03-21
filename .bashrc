@@ -32,10 +32,10 @@ alias penv='pipenv'
 alias notify='terminal-notifier -sound default -message'
 # TODO: notify last command name
 
-if hash nvim 2> /dev/null; then
-    alias vim='nvim'
-    alias vimdiff='nvim -d'
-fi
+# if hash nvim 2> /dev/null; then
+#     alias vim='nvim'
+#     alias vimdiff='nvim -d'
+# fi
 
 
 ## FUNCTIONS
@@ -228,7 +228,7 @@ if hash fzf 2> /dev/null; then
     # TODO: Interactive prompt
     fge() {
         local file
-        file="$(rg --no-heading $@ | fzf -0 -1 | awk -F: '{print $1 " +" $2}')"
+        file="$(rg --no-heading $@ | fzf --tac -0 -1)"
         [[ -n $file ]] && ${EDITOR:-vim} $file
     }
 

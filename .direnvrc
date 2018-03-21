@@ -1,5 +1,5 @@
 layout_virtualenv() {
-    local venv_path="$1"
+    local venv_path="${1:-$PWD/venv}"
     source ${venv_path}/bin/activate
 }
 
@@ -12,4 +12,11 @@ layout_virtualenvwrapper() {
 layout_overmind() {
     export OVERMIND_PROCFILE=$PWD/Procfile
     export OVERMIND_SOCKET=$PWD/.overmind.sock
+}
+
+extra_vimrc() {
+  local vimrc="$PWD/.vimrc"
+  if [[ -f "$vimrc" ]]; then
+    path_add EXTRA_VIMRC $vimrc
+  fi
 }

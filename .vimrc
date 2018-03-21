@@ -48,13 +48,16 @@ endif
 " Search files in working directory, current file directory, and subdirectories
 set path=.,,**
 
-" TODO Pull from .gitignore and .ignore
-set wildignore+=*.o,*.obj,.git,*.pyc,*.map
-set wildignore+=eggs/**
-set wildignore+=*.egg-info/**
-set wildignore+=node_modules/**
+set wildignore+=*.o,*.obj,*.pyc,*.map
+set wildignore+=*/.git/*
+set wildignore+=*/eggs/*
+set wildignore+=*.egg-info/*
+set wildignore+=*/venv/*
+set wildignore+=*/node_modules/*
+set wildignore+=*/build/*
+set wildignore+=*/dist/*
+set wildignore+=*/.sass-cache/*
 set wildignore+=tags
-set wildignore+=venv/**
 
 set relativenumber
 " set signcolumn=yes
@@ -186,23 +189,9 @@ augroup END
 " }}}
 
 
-" PLUGINS {{{
-
-" https://github.com/k-takata/minpac#sample-vimrc
-" TODO: Commands and conditional loading
-silent! packadd minpac
-
-if exists('*minpac#init')
-    call minpac#init()
-    call minpac#add('k-takata/minpac', {'type': 'opt'})
-
-    call minpac#add('iCyMind/NeoSolarized')
-    syntax enable
-    set background=dark
-    if exists('$ITERM_PROFILE')
-        set termguicolors
-    endif
-    colorscheme NeoSolarized
+" https://github.com/direnv/direnv/wiki/Vim
+if exists('$EXTRA_VIMRC')
+    for path in split($EXTRA_VIMRC, ':')
+        exec 'source '.path
+    endfor
 endif
-
-" }}}

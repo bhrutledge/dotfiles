@@ -1,0 +1,3 @@
+[submodule ".vim/pack/bundle/start/NeoSolarized"]
+	path = .vim/pack/bundle/start/NeoSolarized
+	url = https://github.com/icymind/NeoSolarized.git
