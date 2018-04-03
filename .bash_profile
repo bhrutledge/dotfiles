@@ -6,11 +6,6 @@ export PAGER='less'
 [ -z "$PS1" ] || export CDPATH=".:$HOME:$HOME/Code"
 
 export EDITOR='vim'
-# if hash nvim 2> /dev/null; then
-#     echo -n nvim\ 
-#     export EDITOR='nvim'
-# fi
-
 export VISUAL=$EDITOR
 
 export WORKON_HOME=$HOME/.virtualenvs

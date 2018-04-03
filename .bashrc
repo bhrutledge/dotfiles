@@ -14,28 +14,18 @@ shopt -s direxpand
 
 ## ALIASES
 
-# http://stackoverflow.com/questions/1676426/how-to-check-the-ls-version
-if ls --color -d . >/dev/null 2>&1; then
-    color_flag='--color'
-elif ls -G -d . >/dev/null 2>&1; then
-    color_flag='-G'
-fi
-
-alias ls="command ls -h $color_flag"
+alias ls="ls -h"
 alias grep='grep --color=auto'
 alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
 alias exl='exa -lhb --time-style long-iso'
 alias datestamp='date "+%Y%m%d"'
 alias penv='pipenv'
 
 # https://github.com/julienXX/terminal-notifier
-alias notify='terminal-notifier -sound default -message'
 # TODO: notify last command name
-
-# if hash nvim 2> /dev/null; then
-#     alias vim='nvim'
-#     alias vimdiff='nvim -d'
-# fi
+alias notify='terminal-notifier -sound default -message'
 
 
 ## FUNCTIONS
@@ -122,6 +112,7 @@ export LESS_TERMCAP_us=$(tput bold)$green
 export LESS_TERMCAP_ue=$reset
 
 # http://geoff.greer.fm/lscolors/
+export CLICOLOR=1
 export LSCOLORS='exfxcxdxbxegedabagacad'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
 

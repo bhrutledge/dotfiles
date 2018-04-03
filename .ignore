@@ -8,5 +8,6 @@ tags
 *.gif
 *.png
 *.jpg
-node_modules
 *.lock
+node_modules
+venv
