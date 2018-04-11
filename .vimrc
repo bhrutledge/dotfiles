@@ -59,7 +59,7 @@ set wildignore+=*/dist/*
 set wildignore+=*/.sass-cache/*
 set wildignore+=tags
 
-set relativenumber
+set number
 " set signcolumn=yes
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set textwidth=79 colorcolumn=+1
