@@ -51,7 +51,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -122,5 +123,7 @@ Session.vim
 ### Development environment
 
 .envrc
-.vscode
+.vscode/
 .sass-cache/
+.direnv/
+jsconfig.json
