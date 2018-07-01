@@ -167,6 +167,10 @@ set statusline+=\
 
 set noruler
 
+if has('gui_running')
+    set guifont=Hack:h14
+endif
+
 " }}}
 
 
