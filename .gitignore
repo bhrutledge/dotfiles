@@ -114,12 +114,6 @@ Session.vim
 .lvimrc
 
 
-### Dotfiles
-
-.ptpython/history
-.jupyter/migrated
-
-
 ### Development environment
 
 .envrc

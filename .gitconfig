@@ -15,6 +15,7 @@
     st = status -s -b
     br = branch
     brv = branch -vv
+    brl = !git branch -vv | cut -c 3- | awk '$3 !~/\\[/ { print $1 }'
     rv = remote -v
     ru = rev-parse --abbrev-ref --symbolic-full-name @{upstream}
     rp = rev-parse --abbrev-ref --symbolic-full-name @{push}
