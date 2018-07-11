@@ -6,10 +6,10 @@ if has('autocmd')
 endif
 
 " TODO: Add a colorscheme to ~/.vim/colors
-" if has('syntax') && !exists('g:syntax_on')
-"     syntax enable
-"     set background=dark
-" endif
+if has('syntax') && !exists('g:syntax_on')
+    syntax enable
+    set background=dark
+endif
 
 set autoindent
 set autoread
