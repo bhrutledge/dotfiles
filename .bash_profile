@@ -25,5 +25,6 @@ if hash fd 2> /dev/null; then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
 fi
 
+[ -f ~/.cargo/env ] && source ~/.cargo/env
 [ -f ~/.bash_exports ] && source ~/.bash_exports
 [ -f ~/.bashrc ] && source ~/.bashrc
