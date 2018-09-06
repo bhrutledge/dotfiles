@@ -2,7 +2,7 @@
 
 # TODO: Add interactive and dry-run options
 
-GLOBIGNORE=".:..:*.swp:*~:.git"
+GLOBIGNORE=".:..:*.swp:*~:.git:.gitignore"
 
 for file in .*; do
     src_file=$PWD/$file
