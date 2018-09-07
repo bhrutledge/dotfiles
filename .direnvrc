@@ -1,22 +1,6 @@
 layout_virtualenv() {
     local venv_path="${1:-$PWD/venv}"
-    if [[ ! -d $venv_path ]]; then
-        # TODO: Allow for different interpreters
-        echo "Creating virtualenv in ${venv_path}"
-        python3 -m venv ${venv_path}
-    fi
     source ${venv_path}/bin/activate
-}
-
-layout_virtualenvwrapper() {
-    local venv=${1:-${PWD##*/}}
-    local venv_path="${WORKON_HOME}/$venv"
-    layout_virtualenv $venv_path
-}
-
-layout_overmind() {
-    export OVERMIND_PROCFILE=$PWD/Procfile
-    export OVERMIND_SOCKET=$PWD/.overmind.sock
 }
 
 extra_vimrc() {
