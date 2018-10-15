@@ -8,9 +8,6 @@ export PAGER='less'
 export EDITOR='vim'
 export VISUAL=$EDITOR
 
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Code
-
 if hash rg 2> /dev/null; then
     echo -n rg\ 
     export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
