@@ -1,6 +1,6 @@
 echo -n .bash_profile\ 
 
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:$PATH"
 export PAGER='less'
 
 [ -z "$PS1" ] || export CDPATH=".:$HOME:$HOME/Code"
@@ -20,6 +20,11 @@ if hash fd 2> /dev/null; then
     echo -n fd\ 
     # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
+fi
+
+if hash pyenv 2>/dev/null; then
+    echo -n pyenv\ 
+    eval "$(pyenv init -)"
 fi
 
 [ -f ~/.cargo/env ] && source ~/.cargo/env
