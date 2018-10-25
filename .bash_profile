@@ -25,6 +25,9 @@ fi
 if hash pyenv 2>/dev/null; then
     echo -n pyenv\ 
     eval "$(pyenv init -)"
+    if hash pyenv-virtualenv-init 2> /dev/null; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
 fi
 
 [ -f ~/.cargo/env ] && source ~/.cargo/env
