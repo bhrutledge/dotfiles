@@ -1,0 +1,13 @@
+{
+  "name": "es-project",
+  "version": "1.0.0",
+  "description": "Assorted tools for EnergySage dev environment",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.24.7",
+    "http-proxy-middleware": "^0.19.0",
+    "maildev": "^1.0.0-rc3",
+    "wait-on": "^3.0.1"
+  }
+}
