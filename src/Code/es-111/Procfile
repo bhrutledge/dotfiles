@@ -1,9 +1,0 @@
-django: cd es-site/es && python manage.py runserver --settings es.settings.local_dev localhost:8001
-bsync: npx wait-on tcp:8001 && node browser-sync.js
-log: tail -f local_es.log
-wdb: wdb.server.py
-sass: compass watch es-site/es/es/static
-mail: npx maildev --web 8025
-celery: celery --app=es worker --beat --loglevel info
-flower: celery --app=es flower --port=8555
-solr: cd solr/apache-solr-3.6.1/example && java -jar start.jar
