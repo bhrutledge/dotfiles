@@ -11,6 +11,4 @@ Inspired by [symlink - How to copy a folder structure and make symbolic links to
 
 ## TODO
 
-- Command for adding a file to the repo with a symbolic link at original location
 - Makefile w/ `install`, `update`, clean/diff backups, prune dead links, etc.
-- Use hard links instead?
