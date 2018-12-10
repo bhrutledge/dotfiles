@@ -11,4 +11,6 @@ Inspired by [symlink - How to copy a folder structure and make symbolic links to
 
 ## TODO
 
-- Makefile w/ `install`, `update`, clean/diff backups, prune dead links, etc.
+- Separate Python utility for linking/adding/removing via `os`/`shutil` modules
+- Clean/diff backups
+- Prune dead links
