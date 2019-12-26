@@ -31,29 +31,29 @@ source ~/.bash/history.sh
 
 ## SERVICES
 
-if hash rg 2> /dev/null; then
+if hashable rg; then
     echo -n rg\ 
     export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
-elif hash ag 2> /dev/null; then
+elif hashable ag; then
     echo -n ag\ 
     export FZF_DEFAULT_COMMAND='ag -g ""'
 fi
 
-if hash fd 2> /dev/null; then
+if hashable fd; then
     echo -n fd\ 
     # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
 fi
 
-if hash pyenv 2>/dev/null; then
+if hashable pyenv; then
     echo -n pyenv\ 
     eval "$(pyenv init -)"
-    if hash pyenv-virtualenv-init 2> /dev/null; then
+    if hashable pyenv-virtualenv-init; then
         eval "$(pyenv virtualenv-init -)"
     fi
 fi
 
-if hash rbenv 2>/dev/null; then
+if hashable rbenv; then
     echo -n rbenv\ 
     eval "$(rbenv init -)"
 fi
@@ -66,17 +66,17 @@ if [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
     source "/usr/local/etc/profile.d/bash_completion.sh"
 fi
 
-if hash fasd 2> /dev/null; then
+if hashable fasd; then
     echo -n fasd\ 
     eval "$(fasd --init auto)"
 fi
 
-if hash direnv 2> /dev/null; then
+if hashable direnv; then
     echo -n direnv\ 
     eval "$(direnv hook bash)"
 fi
 
-if hash fzf 2> /dev/null; then
+if hashable fzf; then
     echo -n fzf\ 
     # source /usr/local/opt/fzf/shell/completion.bash
     # source /usr/local/opt/fzf/shell/key-bindings.bash
