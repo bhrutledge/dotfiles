@@ -31,7 +31,6 @@ ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
 # Could be sourced from bash-completion, but that's not reliable
 # TODO: Look for this in common git install locations
 if [ -r ~/.bash/git-prompt.sh ]; then
-    echo -n git_ps1\ 
     source ~/.bash/git-prompt.sh
 
     PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""

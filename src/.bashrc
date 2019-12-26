@@ -1,20 +1,15 @@
-# Skip for non-interactive shells
-if [[ $- != *i* ]]; then
+# Skip for non-interactive shells, or if it's already been loaded
+if [[ $- != *i* || $BASHRC ]]; then
     return
 fi
 
-# Only load this once (e.g., to avoid duplicate PATH)
-if [[ $BASHRC ]]; then
-    return
-else
-    export BASHRC=1
-fi
+export BASHRC=1
 
 ## MISC SETTINGS ##
 
 shopt -s direxpand
 
-export PATH="$HOME/bin:$HOME/.local/bin::$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export CDPATH=".:$HOME:$HOME/Code"
 
 export PAGER='less'
@@ -32,7 +27,6 @@ source ~/.bash/history.sh
 ## SERVICES ##
 
 if hashable pyenv; then
-    echo -n pyenv\ 
     eval "$(pyenv init -)"
     if hashable pyenv-virtualenv-init; then
         eval "$(pyenv virtualenv-init -)"
@@ -40,30 +34,24 @@ if hashable pyenv; then
 fi
 
 if hashable rbenv; then
-    echo -n rbenv\ 
     eval "$(rbenv init -)"
 fi
 
-
 if hashable fasd; then
-    echo -n fasd\ 
     eval "$(fasd --init auto)"
 fi
 
 if hashable direnv; then
-    echo -n direnv\ 
     eval "$(direnv hook bash)"
 fi
 
 if hashable fzf; then
-    echo -n fzf\ 
     source ~/.bash/fzf.sh
 fi
 
 # Assuming `brew install bash-completion@2`
 # TODO: Locate on Ubuntu, CentOS
 if [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
-    echo -n bash_completion\ 
     BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
     source "/usr/local/etc/profile.d/bash_completion.sh"
 fi
