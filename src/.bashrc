@@ -1,9 +1,7 @@
-# Skip for non-interactive shells, or if it's already been loaded
-if [[ $- != *i* || $BASHRC ]]; then
+# Skip for non-interactive shells
+if [[ $- != *i* ]]; then
     return
 fi
-
-export BASHRC=1
 
 ## MISC SETTINGS ##
 
