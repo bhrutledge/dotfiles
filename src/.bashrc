@@ -3,12 +3,7 @@ if [[ $- != *i* ]]; then
     return
 fi
 
-## MISC SETTINGS ##
-
-shopt -s direxpand
-
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-export CDPATH=".:$HOME:$HOME/Code"
+## MISC CONFIGURATION ##
 
 export PAGER='less'
 export EDITOR='code'
@@ -17,6 +12,7 @@ export VISUAL=$EDITOR
 ## MODULAR CONFIGURATION ##
 # Order matters
 
+source ~/.bash/path.sh
 source ~/.bash/aliases.sh
 source ~/.bash/colors.sh
 source ~/.bash/prompt.sh
