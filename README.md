@@ -1,16 +1,15 @@
 # dotfiles
 
-For a fresh install, create symbolic links in `$HOME` of all files in `src`, with backups of existing files:
+For a fresh install, create symbolic links in `$HOME` to all files in `src`, with backups of existing files:
 
 ```
 $ brew install coreutils
-$ gcp -asTvb $PWD/src $HOME
+$ ./install.sh -b
 ```
 
-Inspired by [symlink - How to copy a folder structure and make symbolic links to files?](https://unix.stackexchange.com/questions/196537/how-to-copy-a-folder-structure-and-make-symbolic-links-to-files)
+To overwrite existing files, replace `-b` with `-f`.
 
 ## TODO
 
-- Separate Python utility for linking/adding/removing via `os`/`shutil` modules
+- Single script in `src/bin` for linking/adding/removing/pruning
 - Clean/diff backups
-- Prune dead links
