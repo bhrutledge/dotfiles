@@ -1,0 +1,9 @@
+[alias]
+    line = log --pretty='format:%C(auto)%h %s%d'
+    pub = push --set-upstream origin HEAD
+    stat = status --short --branch
+    amend = commit --amend --no-edit
+[difftool]
+    prompt = false
+[mergetool]
+    prompt = false

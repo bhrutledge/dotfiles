@@ -21,7 +21,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias exl='exa -lhb --time-style long-iso'
 alias datestamp='date "+%Y%m%d"'
-alias penv='pipenv'
+alias timestamp='date "+%Y%m%d-%H%M%S"'
 
 # https://github.com/julienXX/terminal-notifier
 # TODO: notify last command name
@@ -90,6 +90,9 @@ bg_magenta=$(tput setab 5)
 bg_cyan=$(tput setab 6)
 bg_white=$(tput setab 7)
 
+bold=$(tput bold)
+dim=$(tput dim)
+
 # http://unix.stackexchange.com/questions/119/colors-in-man-pages
 # http://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables
 # https://www.gnu.org/software/termutils/manual/termcap-1.3/html_node/termcap_33.html
@@ -106,9 +109,9 @@ bg_white=$(tput setab 7)
 # ue      rmul     stop underline
 
 export LESS_TERMCAP_me=$reset
-export LESS_TERMCAP_mb=$(tput dim)$red
-export LESS_TERMCAP_md=$(tput bold)$red
-export LESS_TERMCAP_us=$(tput bold)$green
+export LESS_TERMCAP_mb=$dim$red
+export LESS_TERMCAP_md=$bold$red
+export LESS_TERMCAP_us=$bold$green
 export LESS_TERMCAP_ue=$reset
 
 # http://geoff.greer.fm/lscolors/
@@ -149,9 +152,9 @@ ps1_pre+="\[$yellow\]\w\[$reset\]"
 ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
 
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
-# Could be loaded by bash_completion, but that's not reliable
+# Could be sourced from bash-completion, but that's not reliable
 # TODO: Look for this in common git install locations
-if [ -f ~/.git-prompt.sh ]; then
+if [ -r ~/.git-prompt.sh ]; then
     echo -n git_ps1\ 
     source ~/.git-prompt.sh
 
@@ -179,13 +182,14 @@ shopt -s cmdhist
 # Save history between sessions; add "; history -c; history -r" to sync
 PROMPT_COMMAND+="; history -a"
 
-
 ## SERVICES
 
+# Assuming `brew install bash-completion@2`
 # TODO: Locate on Ubuntu, CentOS
-if [ -f /usr/local/etc/bash_completion ]; then
+if [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
     echo -n bash_completion\ 
-    source /usr/local/etc/bash_completion
+    BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+    source "/usr/local/etc/profile.d/bash_completion.sh"
 fi
 
 if hash fasd 2> /dev/null; then
@@ -234,6 +238,7 @@ if hash fzf 2> /dev/null; then
     # cd to selected directory
     fcd() {
         local dir
+        # TODO: Use `fd`, esp. for ignoring
         dir=$(find ${1:-.} -path '*/\.*' -prune \
             -o -type d -print 2> /dev/null | fzf +m) &&
             cd "$dir"

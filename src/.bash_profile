@@ -5,7 +5,7 @@ export PAGER='less'
 
 [ -z "$PS1" ] || export CDPATH=".:$HOME:$HOME/Code"
 
-export EDITOR='vim'
+export EDITOR='code'
 export VISUAL=$EDITOR
 
 if hash rg 2> /dev/null; then
@@ -28,6 +28,11 @@ if hash pyenv 2>/dev/null; then
     if hash pyenv-virtualenv-init 2> /dev/null; then
         eval "$(pyenv virtualenv-init -)"
     fi
+fi
+
+if hash rbenv 2>/dev/null; then
+    echo -n rbenv\ 
+    eval "$(rbenv init -)"
 fi
 
 [ -f ~/.cargo/env ] && source ~/.cargo/env

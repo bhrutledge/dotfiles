@@ -1,6 +1,14 @@
 {
   "Notebook": {
     "Header": true,
-    "Toolbar": false
+    "Toolbar": true
+  },
+  "load_extensions": {
+    "nbextensions_configurator/config_menu/main": true,
+    "contrib_nbextensions_help_item/main": true,
+    "notify/notify": false
+  },
+  "notify": {
+    "play_sound": true
   }
 }
