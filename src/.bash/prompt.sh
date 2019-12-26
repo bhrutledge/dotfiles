@@ -30,7 +30,7 @@ ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
 # Could be sourced from bash-completion, but that's not reliable
 # TODO: Look for this in common git install locations
-if [ -r ~/.bash/git-prompt.sh ]; then
+if [[ -r ~/.bash/git-prompt.sh ]]; then
     source ~/.bash/git-prompt.sh
 
     PROMPT_COMMAND="__git_ps1 \"$ps1_pre\" \"$ps1_post\""

@@ -51,7 +51,7 @@ fi
 
 # Assuming `brew install bash-completion@2`
 # TODO: Locate on Ubuntu, CentOS
-if [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
+if [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
     BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
     source "/usr/local/etc/profile.d/bash_completion.sh"
 fi

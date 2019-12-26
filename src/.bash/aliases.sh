@@ -25,7 +25,7 @@ function shortdir {
     local dir=${1:-$PWD}
 
     # TODO: Eliminate this special case
-    if [ "$dir" = "$HOME" ]; then
+    if [[ $dir = $HOME ]]; then
         echo '~';
         return
     fi
