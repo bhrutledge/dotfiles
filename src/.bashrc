@@ -1,15 +1,30 @@
-echo -n .bashrc\ 
-
-# Abort for non-interactive shells
-if [ -z "$PS1" ]; then
-    echo
+# Skip for non-interactive shells
+if [[ $- != *i* ]]; then
     return
 fi
 
+# Only load this once (e.g., to avoid duplicate PATH)
+if [[ $BASHRC ]]; then
+    return
+else
+    export BASHRC=1
+fi
 
 ## MISC SETTINGS
 
 shopt -s direxpand
+
+
+## EXPORTS
+
+export PATH="$HOME/bin:$HOME/.local/bin::$PATH"
+export CDPATH=".:$HOME:$HOME/Code"
+
+export PAGER='less'
+export EDITOR='code'
+export VISUAL=$EDITOR
+
+[ -f ~/.bash_exports ] && source ~/.bash_exports
 
 
 ## ALIASES
@@ -184,6 +199,33 @@ PROMPT_COMMAND+="; history -a"
 
 ## SERVICES
 
+if hash rg 2> /dev/null; then
+    echo -n rg\ 
+    export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
+elif hash ag 2> /dev/null; then
+    echo -n ag\ 
+    export FZF_DEFAULT_COMMAND='ag -g ""'
+fi
+
+if hash fd 2> /dev/null; then
+    echo -n fd\ 
+    # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
+fi
+
+if hash pyenv 2>/dev/null; then
+    echo -n pyenv\ 
+    eval "$(pyenv init -)"
+    if hash pyenv-virtualenv-init 2> /dev/null; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
+fi
+
+if hash rbenv 2>/dev/null; then
+    echo -n rbenv\ 
+    eval "$(rbenv init -)"
+fi
+
 # Assuming `brew install bash-completion@2`
 # TODO: Locate on Ubuntu, CentOS
 if [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
@@ -252,5 +294,3 @@ if hash fzf 2> /dev/null; then
         dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
     }
 fi
-
-echo
