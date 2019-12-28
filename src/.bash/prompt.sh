@@ -17,12 +17,12 @@ function __venv_ps1 ()
     fi
 }
 
-# user@hostname:~/current/dir (git status) (virtualenv)
+# user@hostname ~/current/dir (git status) (virtualenv)
 # $
 
 ps1_pre="\$(__term_title)"
 ps1_pre+="\n\[$reset\]"
-ps1_pre+="\[$magenta\]\u@\h\[$reset\]:"
+ps1_pre+="\[$magenta\]\u@\h\[$reset\] "
 ps1_pre+="\[$yellow\]\w\[$reset\]"
 
 ps1_post="\$(__venv_ps1)\n\[$white\]\\$\[$reset\] "
