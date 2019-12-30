@@ -7,50 +7,50 @@ elif hashable ag; then
     export FZF_DEFAULT_COMMAND='ag -g ""'
 fi
 
+export FZF_DEFAULT_OPTS="--reverse --select-1 --exit-0"
+
 # source /usr/local/opt/fzf/shell/completion.bash
 # source /usr/local/opt/fzf/shell/key-bindings.bash
 
 # https://github.com/junegunn/fzf/wiki/Examples
 
-# fe [FUZZY PATTERN] - Open the selected file with the default editor
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
+# Open the selected file with the default editor
 # TODO: Add option for `open`
+# TODO: Add option for echo and/or copy
+# TODO: Use `bat` if it's hashable
 fe() {
-    local files
-    IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
-    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+    local preview files
+    preview=cat
+    IFS=$'\n' files=($(fzf --reverse --query="$1" --multi --preview "$preview {}")) \
+        && ${EDITOR:-vim} "${files[@]}"
 }
 
-# fuzzy grep open via ripgrep
-# TODO: Interactive prompt
-fge() {
-    local file
-    file="$(rg --no-heading $@ | fzf --tac -0 -1)"
-    [[ -n $file ]] && ${EDITOR:-vim} $file
-}
-
-# checkout git branch
-fco() {
-    local branches branch
-    branches=$(git branch -vv) &&
-        branch=$(echo "$branches" | fzf --query="$1" +m) &&
-        git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+# Preview ripgrep results before opening with the default editor
+# TODO: See fe()
+frg() {
+    local preview file
+    preview="rg --color always --no-line-number --context 2 --context-separator '\n=====\n'"
+    file=$(rg --hidden --files-with-matches --no-messages --sort path "$@" | fzf --preview "$preview '$@' {}") \
+        && ${EDITOR:-vim} "$file"
 }
 
 # cd to selected directory
 fcd() {
     local dir
-    # TODO: Use `fd`, esp. for ignoring
-    dir=$(find ${1:-.} -path '*/\.*' -prune \
-        -o -type d -print 2> /dev/null | fzf +m) &&
-        cd "$dir"
-
-    # TODO: Add option for parent dirs
+    dir=$(fd --type d --hidden --follow "$@" | fzf --preview "ls -F {}") \
+        && cd "$dir"
 }
 
-# Fuzzy `z` from fasd
+# cd to recent directory ala `z` from fasd
 fz() {
     local dir
-    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+    dir=$(fasd -Rdl "$@" | fzf --no-sort) \
+        && cd "$dir"
+}
+
+# Checkout git branch
+fco() {
+    local branch
+    branch=$(git branch --list -vv | grep -v '*' | fzf --query="$1") \
+        && git checkout $(echo $branch | awk '{print $1}')
 }

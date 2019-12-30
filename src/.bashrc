@@ -5,9 +5,13 @@ fi
 
 ## MISC CONFIGURATION ##
 
-export PAGER='less'
-export EDITOR='code'
+if [[ $TERM_PROGRAM == "vscode" ]]; then
+    export EDITOR=code
+else
+    export EDITOR=vim
+fi
 export VISUAL=$EDITOR
+export PAGER=less
 
 ## MODULAR CONFIGURATION ##
 # Order matters
