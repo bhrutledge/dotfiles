@@ -5,6 +5,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias datestamp='date "+%Y%m%d"'
 alias timestamp='date "+%Y%m%d-%H%M%S"'
+alias tpb='tee >(pbcopy)'
 
 # https://github.com/julienXX/terminal-notifier
 # TODO: notify last command name

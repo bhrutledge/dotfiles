@@ -7,31 +7,65 @@ elif hashable ag; then
     export FZF_DEFAULT_COMMAND='ag -g ""'
 fi
 
-export FZF_DEFAULT_OPTS="--reverse --select-1 --exit-0"
+export FZF_DEFAULT_OPTS="--reverse --exit-0"
 
 # source /usr/local/opt/fzf/shell/completion.bash
 # source /usr/local/opt/fzf/shell/key-bindings.bash
 
 # https://github.com/junegunn/fzf/wiki/Examples
 
-# Open the selected file with the default editor
-# TODO: Add option for `open`
-# TODO: Add option for echo and/or copy
-# TODO: Use `bat` if it's hashable
-fe() {
-    local preview files
+# Process two-line output of keypress and file
+# enter: Copy selected file to clipboard and echo
+# ctrl-e: Open file with $EDITOR
+# ctrl-o: Open file with `open`
+# TODO: Maybe move all array handling there
+# TODO: Handle multiple files
+__expect_file_arg="--expect=enter,ctrl-e,ctrl-o"
+__process_expect_file() {
+    local key file
+    key=$1
+    file=$2
+
+    if ! [[ $file ]]; then
+        return 1
+    fi
+
+    if [[ $key == "ctrl-e" ]]; then
+        ${EDITOR:-vim} "$file"
+    elif [[ $key == "ctrl-o" ]]; then
+        open "$file"
+    else
+        echo -n $file | pbcopy
+    fi
+
+    echo $file
+}
+
+# Preview files with option to edit or open
+# TODO: Use `bat` for preview if it's hashable
+fp() {
+    local preview out
     preview=cat
-    IFS=$'\n' files=($(fzf --reverse --query="$1" --multi --preview "$preview {}")) \
-        && ${EDITOR:-vim} "${files[@]}"
+
+    IFS=$'\n' out=($(\
+        fzf $__expect_file_arg --reverse --query="$1" --preview "$preview {}" \
+    ))
+    __process_expect_file "${out[@]}"
 }
 
 # Preview ripgrep results before opening with the default editor
-# TODO: See fe()
+# TODO: Use fzf prompt for query instead of file?
 frg() {
-    local preview file
+    if ! [[ "$#" -gt 0 ]]; then echo "${FUNCNAME[0]}: error: missing PATTERN argument"; return 1; fi
+
+    local preview out
     preview="rg --color always --no-line-number --context 2 --context-separator '\n=====\n'"
-    file=$(rg --hidden --files-with-matches --no-messages --sort path "$@" | fzf --preview "$preview '$@' {}") \
-        && ${EDITOR:-vim} "$file"
+
+    IFS=$'\n' out=($(\
+        rg --hidden --files-with-matches --no-messages --sort path "$@" \
+        | fzf $__expect_file_arg --preview "$preview '$@' {}" \
+    ))
+    __process_expect_file "${out[@]}"
 }
 
 # cd to selected directory
