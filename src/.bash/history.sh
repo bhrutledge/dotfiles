@@ -1,9 +1,11 @@
 HISTSIZE=10000
 HISTFILESIZE=10000
-HISTCONTROL='ignorespace'
+HISTTIMEFORMAT="%F %T "
+HISTIGNORE='[ ]*:exit:ls*:history*'
 
-shopt -s histappend
 shopt -s cmdhist
+shopt -s histappend
 
-# Save history between sessions; add "; history -c; history -r" to sync
+# Save commands immediately, instead of end of session
+# Add "; history -c; history -r" to sync between sessions
 PROMPT_COMMAND+="; history -a"
