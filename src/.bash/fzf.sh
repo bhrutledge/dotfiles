@@ -42,10 +42,14 @@ __fzf_process_file() {
 }
 
 # Preview files with option to edit or open
-# TODO: Use `bat` for preview if it's hashable
 fp() {
     local preview out
-    preview=cat
+
+    if hashable bat; then
+        preview="bat --color=always"
+    else
+        preview=cat
+    fi
 
     out=$(fzf $__fzf_expect_file --reverse --query="$1" --preview "$preview {}") \
         && __fzf_process_file "$out"
