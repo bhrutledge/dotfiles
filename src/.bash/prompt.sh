@@ -1,10 +1,31 @@
 # TODO: Research TERM=[xterm|screen|gnome]-256color
 # TODO: Understand why \[...\] isn't necessary around colors in functions
 
+function __parentdir {
+    local dir=${1:-$PWD}
+
+    dir=${dir/#$HOME/\~}
+    echo ${dir%/*}
+}
+
+function __shortdir {
+    local dir=${1:-$PWD}
+
+    # TODO: Eliminate this special case
+    if [[ $dir = $HOME ]]; then
+        echo '~';
+        return
+    fi
+
+    local parent=$(__parentdir "$dir" | sed -e "s;\(/.\)[^/]*;\1;g")
+    local base=${dir##*/}
+    echo $parent/$base
+}
+
 # Set terminal title to current directory, relative to $HOME
 function __term_title ()
 {
-    echo -en "\033]0;$(shortdir)\a"
+    echo -en "\033]0;$(__shortdir)\a"
 }
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1

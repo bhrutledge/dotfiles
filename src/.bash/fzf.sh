@@ -18,13 +18,13 @@ export FZF_DEFAULT_OPTS="--reverse --exit-0"
 # enter: Copy selected file to clipboard and echo
 # ctrl-e: Open file with $EDITOR
 # ctrl-o: Open file with `open`
-# TODO: Maybe move all array handling there
 # TODO: Handle multiple files
-__expect_file_arg="--expect=enter,ctrl-e,ctrl-o"
-__process_expect_file() {
-    local key file
-    key=$1
-    file=$2
+__fzf_expect_file="--expect=enter,ctrl-e,ctrl-o"
+__fzf_process_file() {
+    local lines key file
+    IFS=$'\n' lines=($1)
+    key=${lines[0]}
+    file=${lines[1]}
 
     if ! [[ $file ]]; then
         return 1
@@ -47,25 +47,25 @@ fp() {
     local preview out
     preview=cat
 
-    IFS=$'\n' out=($(\
-        fzf $__expect_file_arg --reverse --query="$1" --preview "$preview {}" \
-    ))
-    __process_expect_file "${out[@]}"
+    out=$(fzf $__fzf_expect_file --reverse --query="$1" --preview "$preview {}") \
+        && __fzf_process_file "$out"
 }
 
 # Preview ripgrep results before opening with the default editor
-# TODO: Use fzf prompt for query instead of file?
 frg() {
-    if ! [[ "$#" -gt 0 ]]; then echo "${FUNCNAME[0]}: error: missing PATTERN argument"; return 1; fi
+    if ! [[ "$#" -gt 0 ]]; then
+        echo "${FUNCNAME[0]}: error: missing PATTERN argument"
+        return 1
+    fi
 
     local preview out
     preview="rg --color always --no-line-number --context 2 --context-separator '\n=====\n'"
 
-    IFS=$'\n' out=($(\
+    out=$(\
         rg --hidden --files-with-matches --no-messages --sort path "$@" \
-        | fzf $__expect_file_arg --preview "$preview '$@' {}" \
-    ))
-    __process_expect_file "${out[@]}"
+        | fzf $__fzf_expect_file --preview "$preview '$@' {}" \
+    ) \
+        && __fzf_process_file "$out"
 }
 
 # cd to selected directory

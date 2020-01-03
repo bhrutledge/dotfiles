@@ -1,6 +1,6 @@
 shopt -s globstar
 shopt -s extglob
-# shopt -s direxpand
+shopt -s direxpand
 
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export CDPATH=".:$HOME:$HOME/Code"
