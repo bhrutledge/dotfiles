@@ -1,4 +1,7 @@
-# Skip for non-interactive shells
+# Set PATH for scripts and interactive shells
+source ~/.bash/path.sh
+
+# Skip the rest for scripts
 if [[ $- != *i* ]]; then
     return
 fi
@@ -16,7 +19,6 @@ export PAGER=less
 ## MODULAR CONFIGURATION ##
 # Order matters
 
-source ~/.bash/path.sh
 source ~/.bash/aliases.sh
 source ~/.bash/colors.sh
 source ~/.bash/prompt.sh
