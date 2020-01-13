@@ -1,7 +1,7 @@
 HISTSIZE=10000
 HISTFILESIZE=10000
 HISTTIMEFORMAT="%F %T "
-HISTIGNORE='[ ]*:exit:ls*:history*'
+HISTIGNORE='[ ]*:exit:ls:history'
 
 shopt -s cmdhist
 shopt -s histappend
