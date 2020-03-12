@@ -68,7 +68,7 @@ frg() {
     out=$(\
         rg --hidden --files-with-matches --no-messages --sort path "$@" \
         | fzf $__fzf_expect_file --preview "$preview '$@' {}" \
-    ) \
+        ) \
         && __fzf_process_file "$out"
 }
 
@@ -88,7 +88,15 @@ fz() {
 
 # Checkout git branch
 fco() {
+    # TODO: Create tracking branch
     local branch
-    branch=$(git branch --list -vv | grep -v '*' | fzf --query="$1") \
+    branch=$(\
+        git branch -a \
+            --format="%(HEAD) %(refname:short) %(upstream:trackshort)" \
+            --sort=-committerdate --sort=refname:rstrip=1 \
+        | grep -v '*' \
+        | fzf --query="$1" \
+        ) \
         && git checkout $(echo $branch | awk '{print $1}')
 }
+
