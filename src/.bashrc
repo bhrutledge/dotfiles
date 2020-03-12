@@ -8,11 +8,14 @@ fi
 
 ## MISC CONFIGURATION ##
 
-if [[ $TERM_PROGRAM == "vscode" ]]; then
-    export EDITOR=code
-else
-    export EDITOR=vim
-fi
+# TODO: code --wait, esp. for command line
+# if [[ $TERM_PROGRAM == "vscode" ]]; then
+#     export EDITOR=code
+#     export FCEDIT=vim
+# else
+#     export EDITOR=vim
+# id
+export EDITOR=vim
 export VISUAL=$EDITOR
 export PAGER=less
 
