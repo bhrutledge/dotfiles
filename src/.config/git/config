@@ -3,6 +3,7 @@
     pub = push --set-upstream origin HEAD
     stat = status --short --branch
     amend = commit --amend --no-edit
+    current = rev-parse --abbrev-ref HEAD
 [difftool]
     prompt = false
 [mergetool]
