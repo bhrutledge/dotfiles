@@ -31,7 +31,7 @@ __fzf_process_file() {
     fi
 
     if [[ $key == "ctrl-e" ]]; then
-        ${EDITOR:-vim} "$file"
+        eval "${EDITOR:-vim}" "$file"
     elif [[ $key == "ctrl-o" ]]; then
         open "$file"
     else
