@@ -88,15 +88,12 @@ fz() {
 
 # Checkout git branch
 fco() {
-    # TODO: Create tracking branch
     local branch
     branch=$(\
-        git branch -a \
-            --format="%(HEAD) %(refname:short) %(upstream:trackshort)" \
-            --sort=-committerdate --sort=refname:rstrip=1 \
+        git branch -a --sort=-committerdate \
         | grep -v '*' \
         | fzf --query="$1" \
         ) \
-        && git checkout $(echo $branch | awk '{print $1}')
+        && git checkout ${branch#*remotes/*/}
 }
 
