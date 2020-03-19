@@ -4,6 +4,9 @@
     stat = status --short --branch
     amend = commit --amend --no-edit
     current = rev-parse --abbrev-ref HEAD
+    staged = diff --name-only --staged
+    modified = ls-files --modified
+    new = ls-files --others --exclude-standard
 [difftool]
     prompt = false
 [mergetool]
