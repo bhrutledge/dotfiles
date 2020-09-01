@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# TODO: Add status to template
+# TODO: Decouple template
+
+owner=$1
+
+# Based on https://github.com/pulls/review-requested
+query="
+{
+    search(query: \"is:open is:pr review-requested:@me archived:false user:$owner\", type: ISSUE, last: 100) {
+        nodes {
+            ... on PullRequest {
+                url
+                title
+                number
+                author {
+                    login
+                }
+            }
+        }
+    }
+}
+"
+
+template='
+"## PR Reviews\n",
+(
+    .data.search.nodes[]
+    | "- [ ] [\(.title) - #\(.number) - \(.author.login)](\(.url))"
+)
+'
+
+gh api graphql -f query="$query" \
+| jq -r "$template"

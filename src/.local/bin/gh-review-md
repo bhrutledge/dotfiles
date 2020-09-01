@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# TODO: Write to file w/ branch name
+# TODO: Add status to template
+# TODO: Decouple template
+
+pr=$1
+
+query='
+query($owner:String!, $repo:String!, $pr:Int!) {
+    repository(owner: $owner, name: $repo) {
+        pullRequest(number: $pr) {
+            url
+            title
+            number
+            author {
+                login
+            }
+            headRef {
+                name
+                repository {
+                    url
+                    owner {
+                        login
+                    }
+                }
+            }
+            files(last: 100) {
+                nodes {
+                    path
+                }
+            }
+        }
+    }
+}
+'
+
+template='
+.data.repository.pullRequest
+| "# \(.title)
+
+[#\(.number) from \(.author.login)](\(.url))
+
+[`\(.headRef.repository.owner.login)/\(.headRef.name)`](\(.headRef.repository.url)/tree/\(.headRef.name))
+
+- [ ] Check PR status
+
+- [ ] Read related issue
+
+- [ ] Inventory changed files
+
+- [ ] Checkout and run locally
+
+- [ ] Review PR
+
+## Inventory",
+(
+    .files.nodes[]
+    | "\n- \(.path)"
+)
+'
+
+gh api graphql -f query="$query" -F owner=":owner" -F repo=":repo" -F pr="$pr" \
+| jq -r "$template"
