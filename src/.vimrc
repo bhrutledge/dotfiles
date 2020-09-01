@@ -62,7 +62,7 @@ set wildignore+=tags
 set number
 " set signcolumn=yes
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
-set textwidth=79
+" set textwidth=79
 " set colorcolumn=+1
 set scrolloff=10
 set splitright splitbelow

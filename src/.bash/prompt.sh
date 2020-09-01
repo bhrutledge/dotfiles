@@ -64,3 +64,10 @@ if [[ -r ~/.bash/git-prompt.sh ]]; then
 else
     PROMPT_COMMAND="PS1=\"${ps1_pre}${ps1_post}\""
 fi
+
+# Set a simple prompt for shell examples
+function ps1 ()
+{
+    unset PROMPT_COMMAND
+    PS1="\n\$ "
+}

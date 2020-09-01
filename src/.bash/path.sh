@@ -1,8 +1,12 @@
+if [[ -v PATH_SET ]]; then
+    return
+fi
+
 shopt -s globstar
 shopt -s extglob
 shopt -s direxpand
 
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin/:$PATH"
 export CDPATH=".:$HOME:$HOME/Code"
 
 for dir in ~/Dropbox*; do
@@ -15,3 +19,5 @@ for dir in ~/Dropbox*; do
 done
 
 unset dir
+
+export PATH_SET=1

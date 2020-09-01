@@ -8,11 +8,10 @@ fi
 
 ## MISC CONFIGURATION ##
 
-if [[ $TERM_PROGRAM == "vscode" ]]; then
-    export EDITOR="code --wait"
-else
-    export EDITOR=vim
-fi
+export EDITOR=vim
+# if [[ $TERM_PROGRAM == "vscode" ]]; then
+#     EDITOR="code --wait"
+# fi
 export VISUAL=$EDITOR
 export PAGER=less
 
@@ -27,14 +26,28 @@ source ~/.bash/history.sh
 ## SERVICES ##
 
 if hashable pyenv; then
+    current_path=$PATH
+
     eval "$(pyenv init -)"
     if hashable pyenv-virtualenv-init; then
         eval "$(pyenv virtualenv-init -)"
     fi
+
+    if [[ $current_path == *pyenv* ]]; then
+        PATH=$current_path
+    fi
+    unset current_path
 fi
 
 if hashable rbenv; then
+    current_path=$PATH
+
     eval "$(rbenv init -)"
+
+    if [[ $current_path == *rbenv* ]]; then
+        PATH=$current_path
+    fi
+    unset current_path
 fi
 
 if hashable fasd; then

@@ -1,6 +1,8 @@
 if hashable fd; then
     # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fd --type d --hidden --follow'
 elif hashable rg; then
     export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
 elif hashable ag; then
@@ -90,7 +92,7 @@ fz() {
 fco() {
     local branch
     branch=$(\
-        git branch -a --sort=-committerdate \
+        git branch -a --sort=-committerdate --sort=refname:rstrip=1 \
         | grep -v '*' \
         | fzf --query="$1" \
         ) \

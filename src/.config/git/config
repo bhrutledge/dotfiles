@@ -1,12 +1,28 @@
 [alias]
-    line = log --pretty='format:%C(auto)%h %s%d'
-    pub = push --set-upstream origin HEAD
-    stat = status --short --branch
-    amend = commit --amend --no-edit
+    # TODO: Replace some of these w/ https://github.com/tj/git-extras
+    aliases = config --get-regexp ^alias
+    # Status
     current = rev-parse --abbrev-ref HEAD
+    stat = status --short --branch
+    history = log --pretty='format:%C(auto)%h %s%d'
+    since = !git history $1..
+    root = rev-parse --show-toplevel
+    # Commits
+    amend = commit --amend --no-edit
+    fixup = commit --fixup
+    squash = commit --squash
+    all = !git add -A && git commit
+    set = reset --hard
+    # File lists
     staged = diff --name-only --staged
     modified = ls-files --modified
     new = ls-files --others --exclude-standard
+    files = diff-tree --no-commit-id --name-only -r
+    # Remotes
+    publish = push --set-upstream origin HEAD
+    tracking = rev-parse --abbrev-ref @{upstream}
+    sync = !git pull upstream $(git current) && git push origin
+    delete = !git push origin --delete $(git current)
 [difftool]
     prompt = false
 [mergetool]

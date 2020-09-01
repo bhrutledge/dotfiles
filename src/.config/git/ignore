@@ -2,3 +2,4 @@
 .envrc
 .vscode/
 .ignore
+.ipynb_checkpoints/
