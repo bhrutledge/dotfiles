@@ -39,25 +39,25 @@ template='
 .data.repository.pullRequest
 | "# \(.title)
 
-[#\(.number) from \(.author.login)](\(.url))
+By \(.author.login): <\(.url)>
 
-[`\(.headRef.repository.owner.login)/\(.headRef.name)`](\(.headRef.repository.url)/tree/\(.headRef.name))
+<\(.headRef.repository.url)/tree/\(.headRef.name)>
 
-- [ ] Check PR status
+- [ ] Read description
 
 - [ ] Read related issue
 
-- [ ] Inventory changed files
+- [ ] Check PR status
+
+- [ ] Inventory files
 
 - [ ] Checkout and run locally
 
 - [ ] Review PR
 
 ## Inventory",
-(
-    .files.nodes[]
-    | "\n- \(.path)"
-)
+
+(.files.nodes[] | "\n- \(.path)")
 '
 
 gh api graphql -f query="$query" -F owner=":owner" -F repo=":repo" -F pr="$pr" \

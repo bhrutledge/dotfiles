@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# TODO: Decouple template
+
+# Based on https://github.com/pulls/review-requested and friends
+# Use command line args like `review-requested:@me user:EnergySage`
+query_args="$@"
+query="is:open is:pr archived:false sort:updated-desc $query_args"
+
+# https://docs.github.com/en/graphql/reference/queries#searchresultitemconnection
+# https://docs.github.com/en/graphql/reference/unions#searchresultitem
+# https://docs.github.com/en/graphql/reference/objects#pullrequest
+# https://docs.github.com/en/graphql/reference/objects#commit
+query="
+{
+    search(query: \"$query\", type: ISSUE, last: 100) {
+        nodes {
+            ... on PullRequest {
+                url
+                title
+                number
+                author {
+                    login
+                }
+                updatedAt
+                mergeable
+                commits(last: 1) {
+                    nodes {
+                        commit {
+                            statusCheckRollup {
+                                state
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+"
+
+template='
+(
+    .data.search.nodes[]
+    | [
+        "- [\(.title) - \(.author.login)](\(.url))",
+        .mergeable,
+        .commits.nodes[0].commit.statusCheckRollup.state,
+        (.updatedAt | fromdate | strflocaltime("%-m/%-d"))
+    ]
+    | join(" ")
+)
+'
+
+gh api graphql -f query="$query" \
+| jq -r "$template"
