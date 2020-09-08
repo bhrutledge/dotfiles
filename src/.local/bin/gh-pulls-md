@@ -33,6 +33,7 @@ query="
                         }
                     }
                 }
+                reviewDecision
             }
         }
     }
@@ -43,10 +44,21 @@ template='
 (
     .data.search.nodes[]
     | [
-        "- [\(.title) - \(.author.login)](\(.url))",
-        .mergeable,
-        .commits.nodes[0].commit.statusCheckRollup.state,
-        (.updatedAt | fromdate | strflocaltime("%-m/%-d"))
+        "-",
+        (.updatedAt | fromdate | strflocaltime("%m/%d")),
+        (
+            .reviewDecision // ""
+            | if . == "APPROVED" then "✓" elif . == "CHANGES_REQUESTED" then "±" else "•" end
+        ),
+        (
+            .commits.nodes[0].commit.statusCheckRollup.state // ""
+            | if . == "SUCCESS" then "✓" elif (. | test("ERROR|FAILURE")) then "𐄂" else "•" end
+        ),
+        (
+            .mergeable // ""
+            | if . == "MERGEABLE" then "✓" elif . == "CONFLICTING" then "!" else "•" end
+        ),
+        "[\(.title) - \(.author.login)](\(.url))"
     ]
     | join(" ")
 )
