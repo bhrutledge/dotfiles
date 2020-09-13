@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+# Generate a Markdown document to review a pull request on GitHub.
+#
+#     gh-review-md 5192
+#
 # TODO: Write to file w/ branch name
 # TODO: Add status to template
 # TODO: Decouple template

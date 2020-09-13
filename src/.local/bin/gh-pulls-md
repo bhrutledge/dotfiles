@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-
+# Print a Markdown list of GitHub pull requests.
+#
+#    gh-pulls-md review-requested:@me user:EnergySage
+#
+# Based on https://github.com/pulls/review-requested and friends
 # TODO: Decouple template
 
-# Based on https://github.com/pulls/review-requested and friends
-# Use command line args like `review-requested:@me user:EnergySage`
 query_args="$*"
 query="is:open is:pr archived:false sort:updated-desc $query_args"
 

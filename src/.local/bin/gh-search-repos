@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# Print a list of repos that match a GitHub Code search.
+#
+# For example, to find examples of a specific Python project structure:
+#
+#     gh-search-repos filename:setup.cfg src console_scripts py_modules
+#
+# https://docs.github.com/en/github/searching-for-information-on-github/searching-code
 
 echo "$@" |
     python -c 'import sys, urllib.parse; print(urllib.parse.quote_plus(sys.stdin.read().strip()))' |
