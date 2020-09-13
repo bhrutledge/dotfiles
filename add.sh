@@ -9,6 +9,6 @@ SRC_ROOT="$PWD/src"
 SRC_FILE=${HOME_FILE/$HOME_ROOT/$SRC_ROOT}
 SRC_DIR=$(dirname "$SRC_FILE")
 
-gmkdir -pv "$SRC_DIR" \
-    && gcp -v "$HOME_FILE" "$SRC_FILE" \
-    && gln -sfv "$SRC_FILE" "$HOME_FILE"
+gmkdir -pv "$SRC_DIR" &&
+    gcp -v "$HOME_FILE" "$SRC_FILE" &&
+    gln -sfv "$SRC_FILE" "$HOME_FILE"

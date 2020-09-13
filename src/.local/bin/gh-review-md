@@ -6,6 +6,7 @@
 
 pr=$1
 
+# shellcheck disable=SC2016
 query='
 query($owner:String!, $repo:String!, $pr:Int!) {
     repository(owner: $owner, name: $repo) {
@@ -35,9 +36,10 @@ query($owner:String!, $repo:String!, $pr:Int!) {
 }
 '
 
-template='
-.data.repository.pullRequest
-| "# \(.title)
+gh api graphql -f query="$query" -F owner=":owner" -F repo=":repo" -F pr="$pr" |
+    jq -r '
+.data.repository.pullRequest |
+"# \(.title)
 
 By \(.author.login): <\(.url)>
 
@@ -59,6 +61,3 @@ By \(.author.login): <\(.url)>
 
 (.files.nodes[] | "\n- \(.path)")
 '
-
-gh api graphql -f query="$query" -F owner=":owner" -F repo=":repo" -F pr="$pr" \
-| jq -r "$template"

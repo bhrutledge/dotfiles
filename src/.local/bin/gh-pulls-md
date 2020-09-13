@@ -4,7 +4,7 @@
 
 # Based on https://github.com/pulls/review-requested and friends
 # Use command line args like `review-requested:@me user:EnergySage`
-query_args="$@"
+query_args="$*"
 query="is:open is:pr archived:false sort:updated-desc $query_args"
 
 # https://docs.github.com/en/graphql/reference/queries#searchresultitemconnection
@@ -40,29 +40,27 @@ query="
 }
 "
 
-template='
+gh api graphql -f query="$query" |
+    jq -r '
 (
-    .data.search.nodes[]
-    | [
+    .data.search.nodes[] |
+    [
         "-",
         (.updatedAt | fromdate | strflocaltime("%m/%d")),
         (
-            .reviewDecision // ""
-            | if . == "APPROVED" then "✓" elif . == "CHANGES_REQUESTED" then "±" else "•" end
+            .reviewDecision // "" |
+            if . == "APPROVED" then "✓" elif . == "CHANGES_REQUESTED" then "±" else "•" end
         ),
         (
-            .commits.nodes[0].commit.statusCheckRollup.state // ""
-            | if . == "SUCCESS" then "✓" elif (. | test("ERROR|FAILURE")) then "𐄂" else "•" end
+            .commits.nodes[0].commit.statusCheckRollup.state // "" |
+            if . == "SUCCESS" then "✓" elif (. | test("ERROR|FAILURE")) then "𐄂" else "•" end
         ),
         (
-            .mergeable // ""
-            | if . == "MERGEABLE" then "✓" elif . == "CONFLICTING" then "!" else "•" end
+            .mergeable // "" |
+            if . == "MERGEABLE" then "✓" elif . == "CONFLICTING" then "!" else "•" end
         ),
         "[\(.title) - \(.author.login)](\(.url))"
-    ]
-    | join(" ")
+    ] |
+    join(" ")
 )
 '
-
-gh api graphql -f query="$query" \
-| jq -r "$template"
