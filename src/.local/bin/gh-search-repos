@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 echo "$@" |
-    gh api --paginate "search/code?type=Code&q=$(python -c 'import sys, urllib.parse; print(urllib.parse.quote_plus(sys.stdin.read().strip()))')" |
+    python -c 'import sys, urllib.parse; print(urllib.parse.quote_plus(sys.stdin.read().strip()))' |
+    gh api --paginate "search/code?type=Code&q=$(</dev/stdin)" |
     jq -r ".items[].repository.html_url" |
     sort -f |
     uniq
