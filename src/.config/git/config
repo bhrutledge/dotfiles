@@ -1,12 +1,19 @@
 [alias]
-    # TODO: Replace some of these w/ https://github.com/tj/git-extras
     aliases = config --get-regexp ^alias
+    branches = branch --sort=-committerdate --sort=refname:rstrip=1 --format='\
+%(refname:short) \
+%(color:white dim)%(committerdate:short)%(color:reset) \
+%(color:red)%(upstream:trackshort)\
+%(if:notequals=origin)%(upstream:remotename)%(then)%(upstream:remotename)%(end)\
+%(color:reset) \
+%(if)%(HEAD)%(then)%(color:cyan)%(HEAD)%(color:reset)%(end)\
+'
     # Status
-    current = rev-parse --abbrev-ref HEAD
-    stat = status --short --branch
-    history = log --pretty='format:%C(auto)%h %s%d'
-    since = !git history $1..
+    head = rev-parse --abbrev-ref HEAD
     root = rev-parse --show-toplevel
+    stat = status --short --branch
+    hist = log --pretty='format:%C(auto)%h %s%d' -n 50
+    since = !git hist -n 1000 "${1:-'@{u}'}"..
     # Commits
     amend = commit --amend --no-edit
     fixup = commit --fixup
@@ -20,9 +27,9 @@
     files = diff-tree --no-commit-id --name-only -r
     # Remotes
     publish = push --set-upstream origin HEAD
-    tracking = rev-parse --abbrev-ref @{upstream}
-    sync = !git pull upstream $(git current) && git push origin
-    delete = !git push origin --delete $(git current)
+    upstream = rev-parse --abbrev-ref @{upstream}
+    sync = !git pull upstream $(git head) && git push origin
+    delete = !git push origin --delete $(git head)
 [difftool]
     prompt = false
 [mergetool]

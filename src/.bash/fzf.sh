@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 if hashable fd; then
     # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
@@ -77,8 +78,8 @@ frg() {
 # cd to selected directory
 fcd() {
     local dir
-    dir=$(fd --type d --hidden --follow "$@" | fzf --preview "ls -F {}") \
-        && cd "$dir"
+    dir=$(fd --type d . "$@" | fzf --preview "ls -F {}") &&
+        cd "$dir"
 }
 
 # cd to recent directory ala `z` from fasd
@@ -88,14 +89,18 @@ fz() {
         && cd "$dir"
 }
 
-# Checkout git branch
-fco() {
+# Show git objects (commit, branch, tag, etc) and copy selection
+# Assumes the object is the first column
+fgo() {
+    git "${@:-hist}" --color |
+        fzf --ansi --multi --preview='git show --color {1}' |
+        cut -d ' ' -f 1 |
+        clip
+}
+
+# Switch git branch
+fgs() {
     local branch
-    branch=$(\
-        git branch -a --sort=-committerdate --sort=refname:rstrip=1 \
-        | grep -v '*' \
-        | fzf --query="$1" \
-        ) \
-        && git checkout ${branch#*remotes/*/}
+    branch=$(fgo branches) && git switch "${branch#*/}"
 }
 
