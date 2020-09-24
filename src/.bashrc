@@ -50,16 +50,16 @@ if hashable rbenv; then
     unset current_path
 fi
 
-if hashable fasd; then
-    eval "$(fasd --init auto)"
-fi
-
 if hashable direnv; then
     eval "$(direnv hook bash)"
 fi
 
 if hashable fzf; then
     source ~/.bash/fzf.sh
+fi
+
+if [[ -r "/usr/local/etc/profile.d/z.sh" ]]; then
+    source "/usr/local/etc/profile.d/z.sh"
 fi
 
 # Assuming `brew install bash-completion@2`

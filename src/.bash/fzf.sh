@@ -82,13 +82,6 @@ fcd() {
         cd "$dir"
 }
 
-# cd to recent directory ala `z` from fasd
-fz() {
-    local dir
-    dir=$(fasd -Rdl "$@" | fzf --no-sort) \
-        && cd "$dir"
-}
-
 # Show git objects (commit, branch, tag, etc) and copy selection
 # Assumes the object is the first column
 fgo() {
