@@ -12,4 +12,4 @@ To overwrite existing files, replace `-b` with `-f`.
 ## TODO
 
 - Single script in `src/bin` for linking/adding/removing/pruning
-- Clean/diff backups
+- Rewrite in Python
