@@ -1,4 +1,8 @@
 # Set PATH for scripts and interactive shells
+function hashable {
+    hash "$@" 2> /dev/null
+}
+
 source ~/.bash/path.sh
 
 # Skip the rest for scripts
@@ -8,7 +12,7 @@ fi
 
 ## MISC CONFIGURATION ##
 
-export EDITOR=vim
+export EDITOR="vim +star"
 # if [[ $TERM_PROGRAM == "vscode" ]]; then
 #     EDITOR="code --wait"
 # fi
@@ -24,31 +28,6 @@ source ~/.bash/prompt.sh
 source ~/.bash/history.sh
 
 ## SERVICES ##
-
-if hashable pyenv; then
-    current_path=$PATH
-
-    eval "$(pyenv init -)"
-    if hashable pyenv-virtualenv-init; then
-        eval "$(pyenv virtualenv-init -)"
-    fi
-
-    if [[ $current_path == *pyenv* ]]; then
-        PATH=$current_path
-    fi
-    unset current_path
-fi
-
-if hashable rbenv; then
-    current_path=$PATH
-
-    eval "$(rbenv init -)"
-
-    if [[ $current_path == *rbenv* ]]; then
-        PATH=$current_path
-    fi
-    unset current_path
-fi
 
 if hashable direnv; then
     eval "$(direnv hook bash)"

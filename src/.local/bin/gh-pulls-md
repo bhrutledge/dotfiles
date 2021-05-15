@@ -47,7 +47,7 @@ gh api graphql -f query="$query" |
 (
     .data.search.nodes[] |
     [
-        "-",
+        "- [ ]",
         (.updatedAt | fromdate | strflocaltime("%m/%d")),
         (
             .reviewDecision // "" |

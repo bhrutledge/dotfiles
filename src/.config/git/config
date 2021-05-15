@@ -2,17 +2,17 @@
     aliases = config --get-regexp ^alias
     branches = branch --sort=-committerdate --sort=refname:rstrip=1 --format='\
 %(refname:short) \
-%(color:white dim)%(committerdate:short)%(color:reset) \
+%(color:dim)%(committerdate:short)%(color:reset) \
 %(color:red)%(upstream:trackshort)\
 %(if:notequals=origin)%(upstream:remotename)%(then)%(upstream:remotename)%(end)\
 %(color:reset) \
-%(if)%(HEAD)%(then)%(color:cyan)%(HEAD)%(color:reset)%(end)\
+%(color:cyan bold)%(if)%(HEAD)%(then)%(HEAD)%(end)%(color:reset)\
 '
     # Status
     head = rev-parse --abbrev-ref HEAD
     root = rev-parse --show-toplevel
     stat = status --short --branch
-    hist = log --pretty='format:%C(auto)%h %s%d' -n 50
+    hist = log --pretty='format:%C(auto)%h %C(dim)%cs %C(auto)%s%d' -n 50
     since = !git hist -n 1000 "${1:-'@{u}'}"..
     # Commits
     amend = commit --amend --no-edit
@@ -20,6 +20,7 @@
     squash = commit --squash
     all = !git add -A && git commit
     set = reset --hard
+    save = add --update :/
     # File lists
     staged = diff --name-only --staged
     modified = ls-files --modified
@@ -28,8 +29,8 @@
     # Remotes
     publish = push --set-upstream origin HEAD
     upstream = rev-parse --abbrev-ref @{upstream}
-    sync = !git pull upstream $(git head) && git push origin
-    delete = !git push origin --delete $(git head)
+    sync = !git pull --ff-only upstream $(git head) && git publish
+    delete = !git push origin --no-verify --delete $(git head)
 [difftool]
     prompt = false
 [mergetool]
