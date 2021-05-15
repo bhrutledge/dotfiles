@@ -9,8 +9,6 @@ alias timestamp='date "+%Y%m%d-%H%M%S"'
 alias clip='tee >(pbcopy)'
 alias cat='bat --style plain'
 alias pip="PIP_REQUIRE_VIRTUALENV=1 pip"
-# https://unix.stackexchange.com/a/282384
-alias inbox=": | vipe | sed -e '/^$/d; s/^/- /' >> /Users/brian/Dropbox/LFTM/inbox.md"
 
 # https://github.com/julienXX/terminal-notifier
 # TODO: notify last command name
