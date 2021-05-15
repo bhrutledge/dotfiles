@@ -1,6 +1,0 @@
-extra_vimrc() {
-  local vimrc="$PWD/.vimrc"
-  if [[ -f "$vimrc" ]]; then
-    path_add EXTRA_VIMRC $vimrc
-  fi
-}

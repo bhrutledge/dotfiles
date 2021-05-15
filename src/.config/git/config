@@ -13,14 +13,6 @@
     root = rev-parse --show-toplevel
     stat = status --short --branch
     hist = log --pretty='format:%C(auto)%h %C(dim)%cs %C(auto)%s%d' -n 50
-    since = !git hist -n 1000 "${1:-'@{u}'}"..
-    # Commits
-    amend = commit --amend --no-edit
-    fixup = commit --fixup
-    squash = commit --squash
-    all = !git add -A && git commit
-    set = reset --hard
-    save = add --update :/
     # File lists
     staged = diff --name-only --staged
     modified = ls-files --modified
@@ -30,7 +22,6 @@
     publish = push --set-upstream origin HEAD
     upstream = rev-parse --abbrev-ref @{upstream}
     sync = !git pull --ff-only upstream $(git head) && git publish
-    delete = !git push origin --no-verify --delete $(git head)
 [difftool]
     prompt = false
 [mergetool]
