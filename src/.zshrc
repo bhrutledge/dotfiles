@@ -6,6 +6,15 @@ autoload -Uz run-help
 
 # endregion
 
+# region COLOR
+
+# https://geoff.greer.fm/lscolors/
+export LSCOLORS="exfxcxdxbxegedabagacad"
+export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+export CLICOLOR=1
+
+# endregion
+
 # region PROMPT
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
@@ -30,19 +39,32 @@ setopt PROMPT_SUBST
 PROMPT='%F{yellow}%~%f$(__git_ps1 " (%s)")%(?.. %F{red}%?%f)
 %# '
 
-export CLICOLOR=1
-
 # endregion
 
 # region COMPLETION
 # https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 # http://zsh.sourceforge.net/Doc/Release/Completion-System.html
+# http://zsh.sourceforge.net/Doc/Release/Options.html#Completion-4
 # https://github.com/zsh-users/zsh-completions
 
 FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
+setopt MENU_COMPLETE
+
+# The following lines were added by compinstall
+
+zstyle ':completion:*' format 'Completing %d'
+# zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' menu select
-autoload -Uz compinit && compinit
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle :compinstall filename '~/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+# End of lines added by compinstall
 
 # endregion
 
