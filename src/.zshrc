@@ -45,21 +45,15 @@ PROMPT+='
 
 FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
-setopt MENU_COMPLETE
-
-# The following lines were added by compinstall
-
 zstyle ':completion:*' format '%F{8}completing %d%f'
 # zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-prompt ''
-zstyle ':completion:*' select-prompt ''
-zstyle ':completion:*' menu select
-zstyle :compinstall filename '~/.zshrc'
+# zstyle ':completion:*' menu select # interactive # search
+# zstyle ':completion:*' select-prompt ''
+# setopt MENU_COMPLETE
 
 autoload -Uz compinit
 compinit
-
-# End of lines added by compinstall
 
 # endregion
 
