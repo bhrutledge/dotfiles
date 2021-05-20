@@ -6,20 +6,10 @@ autoload -Uz run-help
 
 # endregion
 
-# region COLOR
-
-# https://geoff.greer.fm/lscolors/
-export LSCOLORS="exfxcxdxbxegedabagacad"
-export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
-export CLICOLOR=1
-
-# endregion
-
 # region PROMPT
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Manipulating-Hook-Functions
-
 autoload -Uz add-zsh-hook
 
 br() { print "" }
@@ -35,8 +25,14 @@ GIT_PS1_SHOWUPSTREAM='verbose'
 GIT_PS1_DESCRIBE_STYLE='branch'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 setopt PROMPT_SUBST
-PROMPT='%F{yellow}%~%f$(__git_ps1 " (%s)")%(?.. %F{red}%?%f)
+PROMPT='%F{yellow}%~%f'
+PROMPT+='$(__git_ps1 " (%s)")'
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+PROMPT+='${VIRTUAL_ENV+ (${VIRTUAL_ENV:t})}'
+PROMPT+='%(?.. %F{red}%?%f)'
+PROMPT+='
 %# '
 
 # endregion
@@ -53,12 +49,11 @@ setopt MENU_COMPLETE
 
 # The following lines were added by compinstall
 
-zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' format '%F{8}completing %d%f'
 # zstyle ':completion:*' group-name ''
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' list-prompt ''
+zstyle ':completion:*' select-prompt ''
 zstyle ':completion:*' menu select
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle :compinstall filename '~/.zshrc'
 
 autoload -Uz compinit
@@ -85,7 +80,7 @@ setopt HIST_IGNORE_SPACE
 
 # region ALIASES
 
-alias ls="ls -h"
+alias ls="ls -hG"
 alias grep='grep --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
@@ -97,9 +92,9 @@ alias cat='bat --style plain'
 
 # endregion
 
-# region PATH
-# Using PATH_SET to avoid duplicate entries
+# region ADDONS
 
+# Using PATH_SET to avoid duplicate entries
 if [[ ! -v PATH_SET ]]; then
     PATH="$HOME/.local/bin:$PATH"
     PATH="$(python3 -m site --user-base)/bin:$PATH"
@@ -110,5 +105,10 @@ if [[ ! -v PATH_SET ]]; then
 
     export PATH_SET=1
 fi
+
+eval "$(direnv hook zsh)"
+
+# Needs to be last
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # endregion
