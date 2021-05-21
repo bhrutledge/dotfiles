@@ -50,9 +50,9 @@ FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 zstyle ':completion:*' format '%F{8}completing %d%f'
 # zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-prompt ''
-# zstyle ':completion:*' menu select # interactive # search
-# zstyle ':completion:*' select-prompt ''
-# setopt MENU_COMPLETE
+zstyle ':completion:*' menu select search # interactive
+zstyle ':completion:*' select-prompt ''
+setopt MENU_COMPLETE
 
 autoload -Uz compinit
 compinit
