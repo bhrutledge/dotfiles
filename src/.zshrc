@@ -25,9 +25,11 @@ GIT_PS1_SHOWUPSTREAM='verbose'
 GIT_PS1_DESCRIBE_STYLE='branch'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+# https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 setopt PROMPT_SUBST
-PROMPT='%F{yellow}%~%f'
+PROMPT=''
+PROMPT+='%B%F{blue}%~%f%b'
 PROMPT+='$(__git_ps1 " (%s)")'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 PROMPT+='${VIRTUAL_ENV+ (${VIRTUAL_ENV:t})}'
