@@ -8,13 +8,6 @@ autoload -Uz run-help
 
 # region PROMPT
 
-# http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
-# http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Manipulating-Hook-Functions
-autoload -Uz add-zsh-hook
-
-br() { print "" }
-add-zsh-hook precmd br
-
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
 source $(brew --prefix git)/etc/bash_completion.d/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -28,7 +21,9 @@ GIT_PS1_DESCRIBE_STYLE='branch'
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 setopt PROMPT_SUBST
-PROMPT=''
+PROMPT='
+'
+PROMPT+='${SSH_CLIENT+"%F{magenta}%m%f:"}'
 PROMPT+='%B%F{blue}%~%f%b'
 PROMPT+='$(__git_ps1 " (%s)")'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -50,9 +45,9 @@ FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 zstyle ':completion:*' format '%F{8}completing %d%f'
 # zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-prompt ''
-zstyle ':completion:*' menu select search # interactive
+zstyle ':completion:*' menu select search
 zstyle ':completion:*' select-prompt ''
-setopt MENU_COMPLETE
+# setopt MENU_COMPLETE
 
 autoload -Uz compinit
 compinit
