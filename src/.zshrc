@@ -90,6 +90,7 @@ if [[ ! -v PATH_SET ]]; then
     PATH="$HOME/.local/bin:$PATH"
     PATH="$(python3 -m site --user-base)/bin:$PATH"
 
+    eval "$(pyenv init --path)"
     eval "$(pyenv init -)"
     eval "$(nodenv init -)"
     eval "$(rbenv init -)"
