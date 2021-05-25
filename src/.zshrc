@@ -3,6 +3,7 @@
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Accessing-On_002dLine-Help
 HELPDIR=/usr/share/zsh/$ZSH_VERSION/help
 autoload -Uz run-help
+unalias run-help 2> /dev/null
 
 # endregion
 
@@ -51,6 +52,16 @@ zstyle ':completion:*' select-prompt ''
 
 autoload -Uz compinit
 compinit
+
+# https://zsh.sourceforge.io/Doc/Release/Options.html#Changing-Directories
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+
+# https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Recent-Directories
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 100
 
 # endregion
 
