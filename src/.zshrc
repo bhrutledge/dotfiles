@@ -1,6 +1,10 @@
 # region SETUP
 
-# http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Accessing-On_002dLine-Help
+# https://zsh.sourceforge.io/Doc/Release/Options.html
+unsetopt BEEP
+unsetopt FLOW_CONTROL
+
+# https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Accessing-On_002dLine-Help
 HELPDIR=/usr/share/zsh/$ZSH_VERSION/help
 autoload -Uz run-help
 unalias run-help 2> /dev/null
@@ -18,9 +22,9 @@ GIT_PS1_SHOWCOLORHINTS=1
 GIT_PS1_SHOWUPSTREAM='verbose'
 GIT_PS1_DESCRIBE_STYLE='branch'
 
-# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+# https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
 # https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion
 setopt PROMPT_SUBST
 PROMPT='
 '
@@ -37,16 +41,18 @@ PROMPT+='
 
 # region COMPLETION
 # https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
-# http://zsh.sourceforge.net/Doc/Release/Completion-System.html
-# http://zsh.sourceforge.net/Doc/Release/Options.html#Completion-4
+# https://zsh.sourceforge.io/Doc/Release/Completion-System.html
+# https://zsh.sourceforge.io/Doc/Release/Zsh-Modules.html#The-zsh_002fcomplist-Module
+# https://zsh.sourceforge.io/Doc/Release/Options.html#Completion-4
+# https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Completion
 # https://github.com/zsh-users/zsh-completions
 
 FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
-zstyle ':completion:*' format '%F{8}completing %d%f'
+# zstyle ':completion:*' format '%F{8}completing %d%f'
 # zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-prompt ''
-zstyle ':completion:*' menu select search
+zstyle ':completion:*' menu select
 zstyle ':completion:*' select-prompt ''
 # setopt MENU_COMPLETE
 
@@ -66,7 +72,8 @@ zstyle ':chpwd:*' recent-dirs-max 100
 # endregion
 
 # region HISTORY
-# http://zsh.sourceforge.net/Doc/Release/Options.html#History
+# https://zsh.sourceforge.io/Doc/Release/Options.html#History
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#History-Expansion
 # https://www.soberkoder.com/better-zsh-history/
 
 HISTSIZE=10000000
