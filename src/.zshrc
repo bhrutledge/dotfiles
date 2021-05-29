@@ -87,6 +87,32 @@ setopt HIST_IGNORE_SPACE
 
 # endregion
 
+# region LINE EDITING
+# http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html
+# https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#ZLE-Functions
+# https://zsh.sourceforge.io/Guide/zshguide04.html
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
+# WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+autoload -U select-word-style
+select-word-style bash
+zle -N select-word-style
+bindkey "^Xw" select-word-style
+
+autoload -U copy-earlier-word
+zle -N copy-earlier-word
+bindkey '^[;' copy-earlier-word
+
+autoload delete-whole-word-match
+zle -N kill-whole-word-match delete-whole-word-match
+bindkey '^[D' kill-whole-word-match
+bindkey '^[d' kill-whole-word-match
+
+# endregion
+
 # region ALIASES
 
 alias ls="ls -hG"
@@ -94,10 +120,12 @@ alias grep='grep --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-alias datestamp='date "+%Y%m%d"'
-alias timestamp='date "+%Y%m%d-%H%M%S"'
-alias notify='terminal-notifier -sound default -message'
 alias cat='bat --style plain'
+
+bindkey -s '=tp' '| tee >(pbcopy)'
+bindkey -s '=nd' '; terminal-notifier -sound default -message Done'
+bindkey -s '=dd' '$(date "+%Y%m%d")'
+bindkey -s '=dt' '$(date "+%Y%m%d-%H%M%S")'
 
 # endregion
 
