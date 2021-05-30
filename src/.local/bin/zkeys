@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+import re
+import subprocess
+from collections import defaultdict
+from typing import Iterable, NamedTuple
+
+
+def main() -> None:
+    result = subprocess.run(
+        ["zsh", "--login", "--interactive", "-c", "bindkey -L"],
+        capture_output=True,
+        text=True,
+    )
+
+    keybindings = parse_bindkey(result.stdout.splitlines())
+
+    # TODO: Sort by prefix or widget (instead of grouping)
+    widgets = group_by_widget(keybindings)
+
+    # TODO: Use a PyPI package for table output
+    # TODO: Indicate non-printing characters (e.g. space)
+    for widget, bindings in sorted(widgets.items()):
+        in_strings = (b.in_string for b in bindings)
+        print(f"{widget:40}{''.join(f'{s:8}' for s in in_strings)}")
+
+
+class Keybinding(NamedTuple):
+    in_string: str
+    widget: str
+
+    # TODO: @property prefix
+
+
+IGNORE_WIDGETS = {
+    "bracketed-paste",
+    "digit-argument",
+}
+
+
+def parse_bindkey(lines: Iterable[str]) -> Iterable[Keybinding]:
+    # bindkey "^A" beginning-of-line
+    # TODO: Define a global constant
+    pattern = r'bindkey "(?P<in_string>.+)" (?P<widget>.+)'
+
+    for line in lines:
+        if (match := re.match(pattern, line)) and match["widget"] not in IGNORE_WIDGETS:
+            yield Keybinding(match["in_string"], match["widget"])
+
+
+def group_by_widget(keybindings: Iterable[Keybinding]) -> dict[str, list[Keybinding]]:
+    widgets: dict[str, list[Keybinding]] = defaultdict(list)
+
+    for binding in keybindings:
+        widgets[binding.widget].append(binding)
+
+    return widgets
+
+
+if __name__ == "__main__":
+    main()
