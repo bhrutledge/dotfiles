@@ -106,11 +106,6 @@ autoload -U copy-earlier-word
 zle -N copy-earlier-word
 bindkey '^[;' copy-earlier-word
 
-autoload delete-whole-word-match
-zle -N kill-whole-word-match delete-whole-word-match
-bindkey '^[D' kill-whole-word-match
-bindkey '^[d' kill-whole-word-match
-
 # endregion
 
 # region ALIASES
@@ -120,7 +115,6 @@ alias grep='grep --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-alias cat='bat --style plain'
 
 bindkey -s '=tp' '| tee >(pbcopy)'
 bindkey -s '=nd' '; terminal-notifier -sound default -message Done'
