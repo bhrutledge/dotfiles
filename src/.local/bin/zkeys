@@ -22,13 +22,19 @@ def main() -> None:
         "-s",
         "--string",
         action="store_true",
-        help="Sort by in-string instead of widget",
+        help="sort by in-string instead of widget",
     )
     group.add_argument(
-        "-g",
-        "--group",
+        "-w",
+        "--widget",
         action="store_true",
-        help="Group by widget",
+        help="group by widget",
+    )
+    group.add_argument(
+        "-p",
+        "--prefix",
+        action="store_true",
+        help="group by prefix",
     )
     args = parser.parse_args()
 
@@ -38,34 +44,53 @@ def main() -> None:
         text=True,
     )
 
-    keybindings = parse_bindkey(result.stdout.splitlines())
-
+    # TODO: Sort by prefix rank and key via Keybinding
+    # TODO: Show human-readable keys, e.g. Esc instead of ^[
     # TODO: Use a PyPI package for table output
     # TODO: Indicate non-printing characters (e.g. space)
-    if args.group:
-        widgets = group_by_widget(keybindings)
+
+    bindings = parse_bindkey(result.stdout.splitlines())
+
+    if args.widget:
+
+        widgets = group_bindings(bindings)
 
         for widget, bindings in sorted(widgets.items()):
-            in_strings = (b.in_string for b in bindings)
-            print(f"{widget:40}{''.join(f'{s:8}' for s in in_strings)}")
+            strings = (b.string for b in bindings)
+            print(f"{widget:40}{''.join(f'{s:8}' for s in strings)}")
+
+    elif args.prefix:
+
+        prefixes = group_bindings(bindings, key="prefix")
+
+        for prefix, bindings in sorted(prefixes.items()):
+            keys = sorted((b.key for b in bindings), key=lambda k: k.upper())
+            print(f"{prefix:8}{' '.join(keys)}")
+
     else:
 
-        def sort_key(binding: Keybinding) -> Union[tuple[int, str], str]:
+        def sort_key(binding: Keybinding) -> Union[tuple[str, str], str]:
             return (
-                (len(binding.in_string), binding.in_string.upper())
+                (binding.prefix.upper(), binding.key.upper())
                 if args.string
                 else binding.widget
             )
 
-        for binding in sorted(keybindings, key=sort_key):
-            print(f"{binding.in_string:10}{binding.widget}")
+        for binding in sorted(bindings, key=sort_key):
+            print(f"{binding.string:10}{binding.widget}")
 
 
 class Keybinding(NamedTuple):
-    in_string: str
+    string: str
     widget: str
 
-    # TODO: @property prefix
+    @property
+    def prefix(self) -> str:
+        return self.string[:-1]
+
+    @property
+    def key(self) -> str:
+        return self.string[-1]
 
 
 IGNORE_WIDGETS = {
@@ -78,21 +103,24 @@ IGNORE_WIDGETS = {
 
 def parse_bindkey(lines: Iterable[str]) -> Iterable[Keybinding]:
     # bindkey "^A" beginning-of-line
-    # TODO: Define a global constant
-    pattern = r'bindkey "(?P<in_string>.+)" (?P<widget>.+)'
+    pattern = r'bindkey "(?P<string>.+)" (?P<widget>.+)'
 
     for line in lines:
         if (match := re.match(pattern, line)) and match["widget"] not in IGNORE_WIDGETS:
-            yield Keybinding(match["in_string"], match["widget"])
+            yield Keybinding(match["string"], match["widget"])
 
 
-def group_by_widget(keybindings: Iterable[Keybinding]) -> dict[str, list[Keybinding]]:
-    widgets: dict[str, list[Keybinding]] = defaultdict(list)
+def group_bindings(
+    bindings: Iterable[Keybinding],
+    *,
+    key: str = "widget",
+) -> dict[str, list[Keybinding]]:
 
-    for binding in keybindings:
-        widgets[binding.widget].append(binding)
+    group: dict[str, list[Keybinding]] = defaultdict(list)
+    for binding in bindings:
+        group[getattr(binding, key)].append(binding)
 
-    return widgets
+    return group
 
 
 if __name__ == "__main__":
