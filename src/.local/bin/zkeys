@@ -28,6 +28,9 @@ def main() -> None:
         for widget, bindings in sorted(widgets.items()):
             in_strings = (b.in_string for b in bindings)
             print(f"{widget:40}{''.join(f'{s:8}' for s in in_strings)}")
+    else:
+        for binding in sorted(keybindings, key=lambda b: (b.widget)):
+            print(f"{binding.in_string:10}{binding.widget}")
 
 
 class Keybinding(NamedTuple):
