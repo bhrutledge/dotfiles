@@ -106,8 +106,17 @@ def parse_bindkey(lines: Iterable[str]) -> Iterable[Keybinding]:
     pattern = r'bindkey "(?P<string>.+)" (?P<widget>.+)'
 
     for line in lines:
-        if (match := re.match(pattern, line)) and match["widget"] not in IGNORE_WIDGETS:
-            yield Keybinding(match["string"], match["widget"])
+        if not (match := re.match(pattern, line)):
+            continue
+
+        string, widget = match.groups()
+        if widget in IGNORE_WIDGETS:
+            continue
+
+        # HACK: Remove slashes for readability, e.g. \M-\$ becomes M-$
+        # Could be overzealous, esp. with custom keybindings
+        string = string.replace("\\", "")
+        yield Keybinding(string, widget)
 
 
 def group_bindings(
