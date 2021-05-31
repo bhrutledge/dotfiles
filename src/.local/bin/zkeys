@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import re
 import subprocess
 from collections import defaultdict
@@ -6,6 +7,10 @@ from typing import Iterable, NamedTuple
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Display ZLE key bindings")
+    parser.add_argument("-g", "--group", action="store_true", help="Group by widget")
+    args = parser.parse_args()
+
     result = subprocess.run(
         ["zsh", "--login", "--interactive", "-c", "bindkey -L"],
         capture_output=True,
@@ -15,13 +20,14 @@ def main() -> None:
     keybindings = parse_bindkey(result.stdout.splitlines())
 
     # TODO: Sort by prefix or widget (instead of grouping)
-    widgets = group_by_widget(keybindings)
+    if args.group:
+        widgets = group_by_widget(keybindings)
 
-    # TODO: Use a PyPI package for table output
-    # TODO: Indicate non-printing characters (e.g. space)
-    for widget, bindings in sorted(widgets.items()):
-        in_strings = (b.in_string for b in bindings)
-        print(f"{widget:40}{''.join(f'{s:8}' for s in in_strings)}")
+        # TODO: Use a PyPI package for table output
+        # TODO: Indicate non-printing characters (e.g. space)
+        for widget, bindings in sorted(widgets.items()):
+            in_strings = (b.in_string for b in bindings)
+            print(f"{widget:40}{''.join(f'{s:8}' for s in in_strings)}")
 
 
 class Keybinding(NamedTuple):
