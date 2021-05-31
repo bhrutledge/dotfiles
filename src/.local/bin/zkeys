@@ -9,7 +9,7 @@ import argparse
 import re
 import subprocess
 from collections import defaultdict
-from typing import Iterable, NamedTuple
+from typing import Iterable, NamedTuple, Union
 
 
 def main() -> None:
@@ -17,7 +17,19 @@ def main() -> None:
         description=__doc__.strip(),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("-g", "--group", action="store_true", help="Group by widget")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "-s",
+        "--string",
+        action="store_true",
+        help="Sort by in-string instead of widget",
+    )
+    group.add_argument(
+        "-g",
+        "--group",
+        action="store_true",
+        help="Group by widget",
+    )
     args = parser.parse_args()
 
     result = subprocess.run(
@@ -28,17 +40,24 @@ def main() -> None:
 
     keybindings = parse_bindkey(result.stdout.splitlines())
 
-    # TODO: Sort by prefix or widget (instead of grouping)
+    # TODO: Use a PyPI package for table output
+    # TODO: Indicate non-printing characters (e.g. space)
     if args.group:
         widgets = group_by_widget(keybindings)
 
-        # TODO: Use a PyPI package for table output
-        # TODO: Indicate non-printing characters (e.g. space)
         for widget, bindings in sorted(widgets.items()):
             in_strings = (b.in_string for b in bindings)
             print(f"{widget:40}{''.join(f'{s:8}' for s in in_strings)}")
     else:
-        for binding in sorted(keybindings, key=lambda b: (b.widget)):
+
+        def sort_key(binding: Keybinding) -> Union[tuple[int, str], str]:
+            return (
+                (len(binding.in_string), binding.in_string.upper())
+                if args.string
+                else binding.widget
+            )
+
+        for binding in sorted(keybindings, key=sort_key):
             print(f"{binding.in_string:10}{binding.widget}")
 
 
