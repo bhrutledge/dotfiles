@@ -38,18 +38,12 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    result = subprocess.run(
-        ["zsh", "--login", "--interactive", "-c", "bindkey -L"],
-        capture_output=True,
-        text=True,
-    )
-
     # TODO: Sort by prefix rank
     # TODO: Show human-readable keys, e.g. Esc instead of ^[
     # TODO: Use a PyPI package for table output
     # TODO: Indicate non-printing characters (e.g. space)
 
-    bindings = sorted(parse_bindkey(result.stdout.splitlines()))
+    bindings = sorted(parse_bindkey(get_bindkey()))
 
     if args.widget:
         widgets = group_bindings(bindings)
@@ -99,6 +93,15 @@ IGNORE_WIDGETS = {
     "neg-argument",
     "self-insert-unmeta",
 }
+
+
+def get_bindkey() -> Iterable[str]:
+    result = subprocess.run(
+        ["zsh", "--login", "--interactive", "-c", "bindkey -L"],
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.splitlines()
 
 
 def parse_bindkey(lines: Iterable[str]) -> Iterable[Keybinding]:
