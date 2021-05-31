@@ -9,7 +9,7 @@ import argparse
 import re
 import subprocess
 from collections import defaultdict
-from typing import Iterable, NamedTuple, Union
+from typing import Iterable, NamedTuple
 
 
 def main() -> None:
@@ -44,15 +44,14 @@ def main() -> None:
         text=True,
     )
 
-    # TODO: Sort by prefix rank and key via Keybinding
+    # TODO: Sort by prefix rank
     # TODO: Show human-readable keys, e.g. Esc instead of ^[
     # TODO: Use a PyPI package for table output
     # TODO: Indicate non-printing characters (e.g. space)
 
-    bindings = parse_bindkey(result.stdout.splitlines())
+    bindings = sorted(parse_bindkey(result.stdout.splitlines()))
 
     if args.widget:
-
         widgets = group_bindings(bindings)
 
         for widget, bindings in sorted(widgets.items()):
@@ -60,23 +59,17 @@ def main() -> None:
             print(f"{widget:40}{''.join(f'{s:8}' for s in strings)}")
 
     elif args.prefix:
-
         prefixes = group_bindings(bindings, key="prefix")
 
         for prefix, bindings in sorted(prefixes.items()):
-            keys = sorted((b.key for b in bindings), key=lambda k: k.upper())
+            keys = (b.key for b in bindings)
             print(f"{prefix:8}{' '.join(keys)}")
 
     else:
+        if not args.string:
+            bindings = sorted(bindings, key=lambda b: b.widget)
 
-        def sort_key(binding: Keybinding) -> Union[tuple[str, str], str]:
-            return (
-                (binding.prefix.upper(), binding.key.upper())
-                if args.string
-                else binding.widget
-            )
-
-        for binding in sorted(bindings, key=sort_key):
+        for binding in bindings:
             print(f"{binding.string:10}{binding.widget}")
 
 
@@ -91,6 +84,13 @@ class Keybinding(NamedTuple):
     @property
     def key(self) -> str:
         return self.string[-1]
+
+    @property
+    def _compare_string(self):
+        return (self.prefix.upper(), self.key.upper())
+
+    def __lt__(self, other: "Keybinding") -> bool:
+        return self._compare_string < other._compare_string
 
 
 IGNORE_WIDGETS = {
