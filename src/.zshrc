@@ -7,7 +7,7 @@ unsetopt FLOW_CONTROL
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Accessing-On_002dLine-Help
 HELPDIR=/usr/share/zsh/$ZSH_VERSION/help
 autoload -Uz run-help
-unalias run-help 2> /dev/null
+unalias run-help 2>/dev/null
 
 # endregion
 
