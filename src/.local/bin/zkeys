@@ -17,6 +17,12 @@ def main() -> None:
         description=__doc__.strip(),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    parser.add_argument(
+        "file",
+        nargs="?",
+        type=argparse.FileType("r"),
+        help="read lines from file ('-' for stdin)",
+    )
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         "-s",
@@ -42,7 +48,8 @@ def main() -> None:
     # TODO: Indicate non-printing characters (e.g. space)
     # TODO: Use a PyPI package for table output
 
-    bindings = sorted(parse_bindkey(get_bindkey()))
+    lines = (line.strip() for line in args.file) if args.file else run_bindkey()
+    bindings = sorted(parse_bindkey(lines))
 
     if args.widget:
         widgets = group_bindings(bindings)
@@ -113,7 +120,7 @@ class Keybinding(NamedTuple):
         return self._compare_string < other._compare_string
 
 
-def get_bindkey() -> Iterable[str]:
+def run_bindkey() -> Iterable[str]:
     result = subprocess.run(
         ["zsh", "--login", "--interactive", "-c", "bindkey -L"],
         capture_output=True,
