@@ -54,15 +54,26 @@ PROMPT+='
 
 FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
+zstyle ':completion:*' use-cache on
+
 # zstyle ':completion:*' format '%F{8}completing %d%f'
 # zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-prompt ''
 zstyle ':completion:*' menu select
 zstyle ':completion:*' select-prompt ''
-# setopt MENU_COMPLETE
+
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+unsetopt LIST_TYPES
 
 autoload -Uz compinit
 compinit
+
+zmodload zsh/complist
+bindkey '^[[Z' menu-complete # Shift-Tab
+bindkey -M menuselect '^[[Z' reverse-menu-complete
+bindkey -M menuselect '^M' .accept-line # Enter
+bindkey -M menuselect '^o' accept-and-infer-next-history
+bindkey -M menuselect '^Xi' vi-insert
 
 # https://zsh.sourceforge.io/Doc/Release/Options.html#Changing-Directories
 setopt AUTO_PUSHD
@@ -110,6 +121,9 @@ bindkey "^Xw" select-word-style
 autoload -U copy-earlier-word
 zle -N copy-earlier-word
 bindkey '^[;' copy-earlier-word
+
+bindkey "^Xr" history-beginning-search-backward
+bindkey "^Xs" history-beginning-search-forward
 
 # endregion
 
