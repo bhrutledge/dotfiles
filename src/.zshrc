@@ -98,7 +98,7 @@ bindkey '^X^E' edit-command-line
 
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 autoload -U select-word-style
-select-word-style bash
+select-word-style shell
 zle -N select-word-style
 bindkey "^Xw" select-word-style
 
