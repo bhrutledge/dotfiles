@@ -9,6 +9,11 @@ HELPDIR=/usr/share/zsh/$ZSH_VERSION/help
 autoload -Uz run-help
 unalias run-help 2>/dev/null
 
+# http://geoff.greer.fm/lscolors/
+export CLICOLOR=1
+export LSCOLORS='exfxcxdxbxegedabagacad'
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+
 # endregion
 
 # region PROMPT
@@ -110,16 +115,16 @@ bindkey '^[;' copy-earlier-word
 
 # region ALIASES
 
-alias ls="ls -hG"
 alias grep='grep --color=auto'
+
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 
-bindkey -s '=tp' '| tee >(pbcopy)'
-bindkey -s '=nd' '; terminal-notifier -sound default -message Done'
-bindkey -s '=dd' '$(date "+%Y%m%d")'
-bindkey -s '=dt' '$(date "+%Y%m%d-%H%M%S")'
+alias clip='tee >(pbcopy)'
+alias notify='terminal-notifier -sound default -message Done'
+alias now='date "+%Y%m%d-%H%M%S"'
+alias today='date "+%Y%m%d"'
 
 # endregion
 
