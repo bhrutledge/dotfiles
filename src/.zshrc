@@ -135,10 +135,36 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 
-alias clip='tee >(pbcopy)'
-alias notify='terminal-notifier -sound default -message Done'
+# Insert time/date stamps
+#     ls -l > files-$(now).txt
 alias now='date "+%Y%m%d-%H%M%S"'
 alias today='date "+%Y%m%d"'
+
+# Copy output to clipboard
+#     ls -l | clip
+alias clip='tee >(pbcopy)'
+
+# Alert after long-running commands
+#     pytest; status
+# terminal-notifier needs old macOS sound names:
+# https://github.com/julienXX/terminal-notifier/issues/283#issuecomment-832569237
+
+notify() {
+    terminal-notifier -message "$1"  -sound "${2-Default}"
+}
+
+status() {
+    local code=$?
+    local message="Success"
+    local sound="Glass"
+
+    if [[ $code -ne 0 ]]; then
+        message="Failed: $?"
+        sound="Ping"
+    fi
+
+    notify "$message" "$sound"
+}
 
 # endregion
 
