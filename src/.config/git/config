@@ -8,7 +8,6 @@
 %(color:reset) \
 %(color:cyan bold)%(if)%(HEAD)%(then)%(HEAD)%(end)%(color:reset)\
 '
-    pick="!f() { git $@ --color | fzy | cut -d' ' -f1; }; f"
     # Status
     head = rev-parse --abbrev-ref HEAD
     root = rev-parse --show-toplevel

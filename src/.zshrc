@@ -176,6 +176,31 @@ status() {
 
 # endregion
 
+# region FUZZY FIND
+# https://github.com/junegunn/fzf/
+
+export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0"
+
+# https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
+
+# source $(brew --prefix)/opt/fzf/shell/key-bindings.zsh
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_ALT_C_COMMAND="fd --hidden --follow --type d"
+
+# source $(brew --prefix)/fzf/shell/completion.bash
+
+# Show git objects (commit, branch, tag, etc) and copy selection
+# Assumes the object is the first column
+fzg() {
+    git "${@:-hist}" --color |
+        fzf --multi --preview='git show --color {1}' |
+        cut -d ' ' -f 1 |
+        clip
+}
+
+# endregion
+
 # region ADDONS
 
 # Using PATH_SET to avoid duplicate entries
