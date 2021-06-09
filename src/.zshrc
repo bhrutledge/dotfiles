@@ -84,6 +84,8 @@ setopt PUSHD_SILENT
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ':chpwd:*' recent-dirs-max 100
+zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' recent-dirs-insert fallback
 
 # endregion
 
@@ -125,6 +127,12 @@ bindkey '^[;' copy-earlier-word
 bindkey "^Xr" history-beginning-search-backward
 bindkey "^Xs" history-beginning-search-forward
 
+pb-copy-region-as-kill () {
+    zle .copy-region-as-kill
+    print -rn $CUTBUFFER | pbcopy
+}
+zle -N copy-region-as-kill pb-copy-region-as-kill
+
 # endregion
 
 # region ALIASES
@@ -140,7 +148,7 @@ alias cp='cp -i'
 alias now='date "+%Y%m%d-%H%M%S"'
 alias today='date "+%Y%m%d"'
 
-# Copy output to clipboard
+# Copy input to clipboard
 #     ls -l | clip
 alias clip='tee >(pbcopy)'
 
