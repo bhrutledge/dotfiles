@@ -127,11 +127,15 @@ bindkey '^[;' copy-earlier-word
 bindkey "^Xr" history-beginning-search-backward
 bindkey "^Xs" history-beginning-search-forward
 
-pb-copy-region-as-kill () {
-    zle .copy-region-as-kill
+bindkey "^W" kill-region
+
+pbcopy-region-as-kill () {
+    zle copy-region-as-kill
     print -rn $CUTBUFFER | pbcopy
 }
-zle -N copy-region-as-kill pb-copy-region-as-kill
+zle -N pbcopy-region-as-kill
+bindkey "^[W" pbcopy-region-as-kill
+bindkey "^[w" pbcopy-region-as-kill
 
 # endregion
 
@@ -183,12 +187,6 @@ export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0"
 
 # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
-
-# source $(brew --prefix)/opt/fzf/shell/key-bindings.zsh
-# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# export FZF_ALT_C_COMMAND="fd --hidden --follow --type d"
-
-# source $(brew --prefix)/fzf/shell/completion.bash
 
 # Show git objects (commit, branch, tag, etc) and copy selection
 # Assumes the object is the first column
