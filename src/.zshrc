@@ -19,7 +19,7 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30
 # region PROMPT
 
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
-source $(brew --prefix git)/etc/bash_completion.d/git-prompt.sh
+source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -201,20 +201,23 @@ fzg() {
 
 # region ADDONS
 
-# Using PATH_SET to avoid duplicate entries
+# Using PATH_SET to avoid duplicate entries in sub-shells
 if [[ ! -v PATH_SET ]]; then
     PATH="$HOME/.local/bin:$PATH"
     PATH="$(python3 -m site --user-base)/bin:$PATH"
 
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
-    eval "$(nodenv init -)"
-    eval "$(rbenv init -)"
+    if (( $+commands[pyenv] )); then
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+    fi
+
+    (( $+commands[nodenv] )) && eval "$(nodenv init -)"
+    (( $+commands[rbenv] )) && eval "$(rbenv init -)"
 
     export PATH_SET=1
 fi
 
-eval "$(direnv hook zsh)"
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
 # Needs to be last
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
