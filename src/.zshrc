@@ -78,7 +78,7 @@ zmodload zsh/complist
 bindkey '^[[Z' menu-complete # Shift-Tab
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 bindkey -M menuselect '^M' .accept-line # Enter
-bindkey -M menuselect '^o' accept-and-infer-next-history
+bindkey -M menuselect '^O' accept-and-infer-next-history
 bindkey -M menuselect '^Xi' vi-insert
 
 # https://zsh.sourceforge.io/Doc/Release/Options.html#Changing-Directories
@@ -92,6 +92,7 @@ add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ':chpwd:*' recent-dirs-max 100
 zstyle ':chpwd:*' recent-dirs-default yes
 zstyle ':completion:*' recent-dirs-insert fallback
+zstyle ':completion:*:*:cdr:*' menu select search
 
 # endregion
 
