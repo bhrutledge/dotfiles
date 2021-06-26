@@ -89,6 +89,7 @@ setopt PUSHD_SILENT
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Recent-Directories
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
+add-zsh-hook -Uz zsh_directory_name zsh_directory_name_cdr
 zstyle ':chpwd:*' recent-dirs-max 100
 zstyle ':chpwd:*' recent-dirs-default yes
 zstyle ':completion:*' recent-dirs-insert fallback

@@ -1,4 +1,5 @@
 brew "bat"
+brew "choose-rust"
 brew "coreutils"
 brew "direnv"
 brew "dos2unix"
