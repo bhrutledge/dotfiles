@@ -117,6 +117,8 @@ setopt HIST_IGNORE_SPACE
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#ZLE-Functions
 # https://zsh.sourceforge.io/Guide/zshguide04.html
 
+bindkey '^[k' describe-key-briefly
+
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
@@ -126,6 +128,22 @@ autoload -U select-word-style
 select-word-style shell
 zle -N select-word-style
 bindkey "^Xw" select-word-style
+
+zstyle ':zle:*-word-bash' word-style standard
+zstyle ':zle:*-word-bash' word-chars ''
+
+zle -N forward-word-bash forward-word-match
+bindkey '^Xf' forward-word-bash
+
+zle -N backward-word-bash backward-word-match
+bindkey '^Xb' backward-word-bash
+
+# Overriding _list_expansions, which doesn't seem to do anything
+zle -N kill-word-bash kill-word-match
+bindkey '^Xd' kill-word-bash
+
+zle -N backward-kill-word-bash backward-kill-word-match
+bindkey '^X^?' backward-kill-word-bash
 
 autoload -U copy-earlier-word
 zle -N copy-earlier-word
