@@ -1,0 +1,17 @@
+{
+    "commands-show-output": false,
+    "default": true,
+    "fenced-code-language": false,
+    "line-length": false,
+    "no-duplicate-heading": {
+        "siblings_only": true
+    },
+    "no-inline-html": false,
+    "ol-prefix": {
+        "style": "ordered"
+    },
+    "single-trailing-newline": false,
+    "ul-indent": {
+        "indent": 4
+    }
+}
