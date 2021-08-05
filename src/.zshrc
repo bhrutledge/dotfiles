@@ -20,6 +20,8 @@ if [[ $TERM_PROGRAM == "vscode" ]]; then
 fi
 export VISUAL=$EDITOR
 
+export BAT_THEME="Visual Studio Dark+"
+
 # endregion
 
 # region PROMPT
