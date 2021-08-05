@@ -1,0 +1,17 @@
+[user]
+    name = Brian Rutledge
+    email = brian@bhrutledge.com
+    signingkey = 328C6FC0D392D822E709A1A6D411764EE1DA4B90
+[init]
+    defaultBranch = main
+[core]
+    autocrlf = input
+    safecrlf = true
+[fetch]
+    prune = true
+[pull]
+    ff = only
+[commit]
+    gpgsign = true
+[rebase]
+    autoSquash = true
