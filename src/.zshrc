@@ -45,7 +45,7 @@ PROMPT+='${SSH_CLIENT+"%F{magenta}%m%f:"}'
 PROMPT+='%B%F{blue}%~%f%b'
 PROMPT+='$(__git_ps1 " (%s)")'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-PROMPT+='${VIRTUAL_ENV+ (${VIRTUAL_ENV:t})}'
+PROMPT+='${VIRTUAL_ENV+ (${VIRTUAL_ENV:t2})}'
 PROMPT+='%(?.. %F{red}%?%f)'
 PROMPT+='
 %# '
