@@ -58,6 +58,7 @@ PROMPT+='
 # https://zsh.sourceforge.io/Doc/Release/Zsh-Modules.html#The-zsh_002fcomplist-Module
 # https://zsh.sourceforge.io/Doc/Release/Options.html#Completion-4
 # https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Completion
+# https://zsh.sourceforge.io/Guide/zshguide06.html
 # https://github.com/zsh-users/zsh-completions
 
 FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -77,11 +78,15 @@ autoload -Uz compinit
 compinit
 
 zmodload zsh/complist
-bindkey '^[[Z' menu-complete # Shift-Tab
+# Shift-Tab to select first match and cycle
+bindkey '^[[Z' menu-complete
 bindkey -M menuselect '^[[Z' reverse-menu-complete
-bindkey -M menuselect '^M' .accept-line # Enter
-bindkey -M menuselect '^O' accept-and-infer-next-history
+# Interactive mode; ^S for search
 bindkey -M menuselect '^Xi' vi-insert
+# Select match and try completion again
+bindkey -M menuselect '^O' accept-and-infer-next-history
+# Enter to select match and execute; ^J to just select
+bindkey -M menuselect '^M' .accept-line
 
 # https://zsh.sourceforge.io/Doc/Release/Options.html#Changing-Directories
 setopt AUTO_PUSHD
@@ -95,7 +100,6 @@ add-zsh-hook -Uz zsh_directory_name zsh_directory_name_cdr
 zstyle ':chpwd:*' recent-dirs-max 100
 zstyle ':chpwd:*' recent-dirs-default yes
 zstyle ':completion:*' recent-dirs-insert fallback
-zstyle ':completion:*:*:cdr:*' menu select search
 
 # endregion
 
