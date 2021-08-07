@@ -101,6 +101,10 @@ zstyle ':chpwd:*' recent-dirs-max 100
 zstyle ':chpwd:*' recent-dirs-default yes
 zstyle ':completion:*' recent-dirs-insert fallback
 
+# Tab only does completion, not expansion
+bindkey '^I' complete-word
+source "$HOME/Dev/zsh-expand-all/zsh-expand-all.zsh"
+
 # endregion
 
 # region HISTORY
