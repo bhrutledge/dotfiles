@@ -94,6 +94,7 @@ setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Recent-Directories
+# TODO: Remove in favor of zoxide
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 add-zsh-hook -Uz zsh_directory_name zsh_directory_name_cdr
@@ -250,6 +251,12 @@ if [[ ! -v PATH_SET ]]; then
 fi
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh)"
+    alias zq="zoxide query"
+    alias zqi="zoxide query -i"
+fi
 
 # Needs to be last
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
