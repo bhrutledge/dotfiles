@@ -221,6 +221,25 @@ export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0"
 # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
 
+# https://github.com/junegunn/fzf/#key-bindings-for-command-line
+# https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
+# TODO: Rewrite keybinding widgets with my preferences
+# TODO: Restore default keybindings (maybe using commands instead)
+# https://github.com/junegunn/fzf/wiki/Examples
+# TODO: tree ignore
+# TODO: history: unique, execute, timestamp
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--no-height --preview 'bat --color=always --line-range=:500 {}'"
+export FZF_ALT_C_COMMAND="fd --hidden --follow --type d"
+export FZF_ALT_C_OPTS="--no-height --preview 'tree -a -L 1 -C {} | head -200'"
+source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+
+# TODO: Configure completion
+# https://github.com/junegunn/fzf/#fuzzy-completion-for-bash-and-zsh
+# https://github.com/junegunn/fzf/wiki/Configuring-fuzzy-completion
+# https://github.com/junegunn/fzf/wiki/Examples-(completion)
+# source "$(brew --prefix)/opt/fzf/shell/completion.zsh"
+
 # Show git objects (commit, branch, tag, etc) and copy selection
 # Assumes the object is the first column
 fzg() {
