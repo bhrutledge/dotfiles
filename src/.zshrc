@@ -189,6 +189,8 @@ alias today='date "+%Y%m%d"'
 #     ls -l | clip
 alias clip='tee >(pbcopy)'
 
+alias tree='tree -I "$(paste -d\| -s $HOME/.treeignore)"'
+
 # Alert after long-running commands
 #     pytest; status
 # terminal-notifier needs old macOS sound names:
@@ -226,7 +228,6 @@ export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
 # TODO: Rewrite keybinding widgets with my preferences
 # TODO: Restore default keybindings (maybe using commands instead)
 # https://github.com/junegunn/fzf/wiki/Examples
-# TODO: tree ignore
 # TODO: history: unique, execute, timestamp
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--no-height --preview 'bat --color=always --line-range=:500 {}'"

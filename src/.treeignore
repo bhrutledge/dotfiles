@@ -1,0 +1,12 @@
+__*
+.bundle
+.git
+.nox
+.tox
+*.egg-info
+*.pyc
+*cache
+*venv*
+htmlcov
+node_modules
+vendor
