@@ -225,14 +225,15 @@ export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
 
 # https://github.com/junegunn/fzf/#key-bindings-for-command-line
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
+# Overriding:
+# bindkey "^T" transpose-chars
+# bindkey "^[C" capitalize-word
 # TODO: Rewrite keybinding widgets with my preferences
-# TODO: Restore default keybindings (maybe using commands instead)
-# https://github.com/junegunn/fzf/wiki/Examples
-# TODO: history: unique, execute, timestamp
+# TODO: history: execute, timestamp
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--no-height --preview 'bat --color=always --line-range=:500 {}'"
+export FZF_CTRL_T_OPTS="--no-height --preview 'bat --color always {}'"
 export FZF_ALT_C_COMMAND="fd --hidden --follow --type d"
-export FZF_ALT_C_OPTS="--no-height --preview 'tree -a -L 1 -C {} | head -200'"
+export FZF_ALT_C_OPTS="--no-height --preview 'fd --color always --base-directory {} --hidden -l -d1'"
 source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
 
 # TODO: Configure completion

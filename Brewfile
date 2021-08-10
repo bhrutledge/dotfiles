@@ -1,3 +1,4 @@
+brew "as-tree"
 brew "bat"
 brew "choose-rust"
 brew "coreutils"
