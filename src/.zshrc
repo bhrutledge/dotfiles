@@ -162,6 +162,10 @@ bindkey "^Xs" history-beginning-search-forward
 
 bindkey "^W" kill-region
 
+# Overriding push-line
+bindkey "^[q" push-line-or-edit
+bindkey "^[Q" push-input
+
 pbcopy-region-as-kill () {
     zle copy-region-as-kill
     print -rn $CUTBUFFER | pbcopy
@@ -274,6 +278,17 @@ gfd() {
         cut -c 4- |
         clip
 }
+
+fzf-execute-widget() {
+    local widget
+    widget="$(zle -l | grep -v '^orig' | cut -d ' ' -f 1 | fzf --height 40%)"
+    zle redisplay
+    # This doesn't working for execute(-last)-named-cmd
+    [[ -n $widget ]] && zle "$widget"
+}
+zle -N fzf-execute-widget
+bindkey '^[x' fzf-execute-widget
+bindkey '^[X' execute-named-cmd
 
 # endregion
 
