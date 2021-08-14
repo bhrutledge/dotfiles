@@ -11,7 +11,7 @@
     # Status
     head = rev-parse --abbrev-ref HEAD
     root = rev-parse --show-toplevel
-    stat = status --short --branch
+    stat = status --short
     hist = log --pretty='format:%C(auto)%h %C(dim)%cs %C(auto)%s%d' -n 50
     # File lists
     staged = diff --name-only --staged

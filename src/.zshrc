@@ -244,10 +244,34 @@ source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
 
 # Show git objects (commit, branch, tag, etc) and copy selection
 # Assumes the object is the first column
-fzg() {
+# Inspired by https://junegunn.kr/2016/07/fzf-git
+# TODO: Keybindings
+
+_fzf-git-select() {
     git "${@:-hist}" --color |
         fzf --multi --preview='git show --color {1}' |
         cut -d ' ' -f 1 |
+        clip
+}
+
+alias gfh="_fzf-git-select hist"
+alias gft="_fzf-git-select tag"
+alias gfr="_fzf-git-select reflog --no-decorate --format='%C(yellow)%gd %C(auto)%gs'"
+alias gfs="_fzf-git-select stash list --no-decorate --format='%C(yellow)%gd %C(auto)%gs'"
+
+gfb() {
+    git branches --color |
+        fzf --multi --preview='git hist --color {1}' |
+        cut -d ' ' -f 1 |
+        clip
+}
+
+# TODO: Support `git (modified|new|staged|files)`
+# TODO: Support `--cached`
+gfd() {
+    git -c color.status=always stat |
+        fzf --multi --preview 'git diff --color=always {-1}' |
+        cut -c 4- |
         clip
 }
 
