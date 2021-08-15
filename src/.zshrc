@@ -231,8 +231,8 @@ export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
 # Overriding:
 # bindkey "^T" transpose-chars
-# bindkey "^[C" capitalize-word
-# TODO: Rewrite keybinding widgets with my preferences
+# bindkey "^[c" capitalize-word
+# TODO: Rewrite keybinding widgets with my preferences, bound to ^[ or ^@
 # TODO: history: execute, timestamp
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--no-height --preview 'bat --color always {}'"
@@ -272,31 +272,31 @@ fzf-git-branch() {
     LBUFFER+=$(git branches --color | fzf-git-select hist)
 }
 zle -N fzf-git-branch
-bindkey "^G^B" fzf-git-branch
+bindkey "^Gb" fzf-git-branch
 
 fzf-git-hash() {
     LBUFFER+=$(git hist --color | fzf-git-select)
 }
 zle -N fzf-git-hash
-bindkey "^G^H" fzf-git-hash
+bindkey "^Gh" fzf-git-hash
 
 fzf-git-reflog() {
     LBUFFER+=$(git reflog --color --no-decorate --format='%C(yellow)%gd %C(auto)%gs' | fzf-git-select)
 }
 zle -N fzf-git-reflog
-bindkey "^G^R" fzf-git-reflog
+bindkey "^Gr" fzf-git-reflog
 
 fzf-git-stash() {
     LBUFFER+=$(git stash --color list --no-decorate --format='%C(yellow)%gd %C(auto)%gs' | fzf-git-select)
 }
 zle -N fzf-git-stash
-bindkey "^G^S" fzf-git-stash
+bindkey "^Gs" fzf-git-stash
 
 fzf-git-tag() {
     LBUFFER+=$(git tag --color | fzf-git-select)
 }
 zle -N fzf-git-tag
-bindkey "^G^T" fzf-git-tag
+bindkey "^Gt" fzf-git-tag
 
 # TODO: Support more statuses
 # `cat` untracked files
@@ -310,7 +310,7 @@ fzf-git-status() {
     )
 }
 zle -N fzf-git-status
-bindkey "^G^G" fzf-git-status
+bindkey "^Gg" fzf-git-status
 
 # endregion
 
