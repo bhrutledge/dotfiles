@@ -246,39 +246,6 @@ source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
 # https://github.com/junegunn/fzf/wiki/Examples-(completion)
 # source "$(brew --prefix)/opt/fzf/shell/completion.zsh"
 
-# Show git objects (commit, branch, tag, etc) and copy selection
-# Assumes the object is the first column
-# Inspired by https://junegunn.kr/2016/07/fzf-git
-# TODO: Keybindings
-
-_fzf-git-select() {
-    git "${@:-hist}" --color |
-        fzf --multi --preview='git show --color {1}' |
-        cut -d ' ' -f 1 |
-        clip
-}
-
-alias gfh="_fzf-git-select hist"
-alias gft="_fzf-git-select tag"
-alias gfr="_fzf-git-select reflog --no-decorate --format='%C(yellow)%gd %C(auto)%gs'"
-alias gfs="_fzf-git-select stash list --no-decorate --format='%C(yellow)%gd %C(auto)%gs'"
-
-gfb() {
-    git branches --color |
-        fzf --multi --preview='git hist --color {1}' |
-        cut -d ' ' -f 1 |
-        clip
-}
-
-# TODO: Support `git (modified|new|staged|files)`
-# TODO: Support `--cached`
-gfd() {
-    git -c color.status=always stat |
-        fzf --multi --preview 'git diff --color=always {-1}' |
-        cut -c 4- |
-        clip
-}
-
 fzf-execute-widget() {
     local widget
     widget="$(zle -l | grep -v '^orig' | cut -d ' ' -f 1 | fzf --height 40%)"
@@ -289,6 +256,61 @@ fzf-execute-widget() {
 zle -N fzf-execute-widget
 bindkey '^[x' fzf-execute-widget
 bindkey '^[X' execute-named-cmd
+
+# Show git objects (commit, branch, tag, etc) and copy selection
+# Assumes the object is the first column
+# Inspired by https://junegunn.kr/2016/07/fzf-git
+# and https://gist.github.com/junegunn/8b572b8d4b5eddd8b85e5f4d40f17236
+
+fzf-git-select() {
+    fzf --multi --preview="git ${@:-show} --color {1}" |
+    cut -d ' ' -f 1 |
+    clip
+}
+
+fzf-git-branch() {
+    LBUFFER+=$(git branches --color | fzf-git-select hist)
+}
+zle -N fzf-git-branch
+bindkey "^G^B" fzf-git-branch
+
+fzf-git-hash() {
+    LBUFFER+=$(git hist --color | fzf-git-select)
+}
+zle -N fzf-git-hash
+bindkey "^G^H" fzf-git-hash
+
+fzf-git-reflog() {
+    LBUFFER+=$(git reflog --color --no-decorate --format='%C(yellow)%gd %C(auto)%gs' | fzf-git-select)
+}
+zle -N fzf-git-reflog
+bindkey "^G^R" fzf-git-reflog
+
+fzf-git-stash() {
+    LBUFFER+=$(git stash --color list --no-decorate --format='%C(yellow)%gd %C(auto)%gs' | fzf-git-select)
+}
+zle -N fzf-git-stash
+bindkey "^G^S" fzf-git-stash
+
+fzf-git-tag() {
+    LBUFFER+=$(git tag --color | fzf-git-select)
+}
+zle -N fzf-git-tag
+bindkey "^G^T" fzf-git-tag
+
+# TODO: Support more statuses
+# `cat` untracked files
+# Maybe use ls-files ala `git aliases`
+fzf-git-status() {
+    LBUFFER+=$(
+        git -c color.status=always stat |
+            fzf --multi --preview 'git diff --color HEAD -- {-1}' |
+            cut -c 4- |
+            clip
+    )
+}
+zle -N fzf-git-status
+bindkey "^G^G" fzf-git-status
 
 # endregion
 
