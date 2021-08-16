@@ -264,22 +264,15 @@ fzf-directory() {
 zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
-# TODO: Simplify via `fc -lnr 1` and `BUFFER=`
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
-# TODO: timestamp
 fzf-history() {
-    local selected num
-    selected=($(
-        fc -rl 1 |
-            perl -ne 'print unless $seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
-            fzf --height 40% -n2.. --query=$LBUFFER
-    ))
-    num=$selected[1]
-    if [[ -n $num ]]; then
-        zle vi-fetch-history -n $num
-    fi
-    # TODO: Why is this necessary?
-    zle reset-prompt
+    BUFFER=$(
+        fc -lnr 1 |
+            perl -ne 'print unless $seen{$_}++' |
+            fzf --height 40% --query=$LBUFFER
+    )
+    zle end-of-line
+    zle redisplay
 }
 zle -N fzf-history
 bindkey '^@r' fzf-history
