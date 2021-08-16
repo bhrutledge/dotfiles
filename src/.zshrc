@@ -222,7 +222,7 @@ status() {
 # https://github.com/junegunn/fzf/
 # TODO: Extract to .fzf.zsh
 
-export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0 --bind=ctrl-z:ignore"
+export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0 --bind=ctrl-z:ignore,ctrl-r:toggle-sort"
 
 # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
 # TODO: Extract common fd options
@@ -245,7 +245,7 @@ join-lines() {
 fzf-file() {
     LBUFFER+=$(
         fd --color always --hidden --follow --type f |
-            fzf --multi --preview 'bat --color always {}' |
+            fzf --multi --tiebreak=end --preview='bat --color always {}' |
             join-lines
     )
 }
@@ -256,7 +256,7 @@ bindkey '^@f' fzf-file
 fzf-directory() {
     LBUFFER+=$(
         fd --hidden --follow --type d |
-            fzf --multi --preview 'fd --color always --hidden --base-directory {} --list-details --max-depth 1' |
+            fzf --multi --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1' |
             join-lines
     )
 }
@@ -264,12 +264,11 @@ zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
 # TODO: `cd` if buffer is empty
-# TODO: --preview, but need to handle tilde and slashes
-# TODO: Remove zoxide
+# TODO: `--preview` ala fzf-directory, but need to handle tilde and slashes
 fzf-recent-directory() {
     LBUFFER+=$(
         cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
-            fzf --multi
+            fzf --multi --tiebreak=end
             join-lines
     )
 }
@@ -277,12 +276,11 @@ zle -N fzf-recent-directory
 bindkey '^@z' fzf-recent-directory
 
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
-# TODO: Prefer matches by order over relevancy
 fzf-history() {
     BUFFER=$(
         fc -lnr 1 |
             perl -ne 'print unless $seen{$_}++' |
-            fzf --height 40% --query=$LBUFFER
+            fzf --height=40% --tiebreak=index --query=$LBUFFER
     )
     zle end-of-line
     zle redisplay
@@ -379,13 +377,6 @@ if [[ ! -v PATH_SET ]]; then
 fi
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
-
-# TODO: Replace with fzf widget(s) based on `cdr -l`
-if (( $+commands[zoxide] )); then
-    eval "$(zoxide init zsh)"
-    alias zq="zoxide query"
-    alias zqi="zoxide query -i"
-fi
 
 # Needs to be last
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
