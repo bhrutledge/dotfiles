@@ -94,7 +94,6 @@ setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Recent-Directories
-# TODO: Remove in favor of zoxide
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 add-zsh-hook -Uz zsh_directory_name zsh_directory_name_cdr
@@ -264,7 +263,21 @@ fzf-directory() {
 zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
+# TODO: `cd` if buffer is empty
+# TODO: --preview, but need to handle tilde and slashes
+# TODO: Remove zoxide
+fzf-recent-directory() {
+    LBUFFER+=$(
+        cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
+            fzf --multi
+            join-lines
+    )
+}
+zle -N fzf-recent-directory
+bindkey '^@z' fzf-recent-directory
+
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
+# TODO: Prefer matches by order over relevancy
 fzf-history() {
     BUFFER=$(
         fc -lnr 1 |
