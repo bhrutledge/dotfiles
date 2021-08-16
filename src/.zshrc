@@ -221,35 +221,75 @@ status() {
 
 # region FUZZY FIND
 # https://github.com/junegunn/fzf/
+# TODO: Extract to .fzf.zsh
 
-export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0"
+export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0 --bind=ctrl-z:ignore"
 
 # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
-export FZF_DEFAULT_COMMAND="fd --hidden --follow --type f"
+# TODO: Extract common fd options
+export FZF_DEFAULT_COMMAND="fd --color always --hidden --follow"
 
+# Based on `$(brew --prefix)/opt/fzf/shell/key-bindings.zsh`
 # https://github.com/junegunn/fzf/#key-bindings-for-command-line
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
-# Overriding:
-# bindkey "^T" transpose-chars
-# bindkey "^[c" capitalize-word
-# TODO: Rewrite keybinding widgets with my preferences, bound to ^[ or ^@
-# TODO: history: execute, timestamp
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--no-height --preview 'bat --color always {}'"
-export FZF_ALT_C_COMMAND="fd --hidden --follow --type d"
-export FZF_ALT_C_OPTS="--no-height --preview 'fd --color always --base-directory {} --hidden -l -d1'"
-source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+# TODO: Add setopt, ret, and reset-prompt if necessary
+
+join-lines() {
+  local item
+  while read item; do
+    echo -n "${(q)item} "
+  done
+}
+
+# TODO: Add `ls -l` to preview
+fzf-file() {
+    LBUFFER+=$(
+        fd --color always --hidden --follow --type f |
+            fzf --multi --preview 'bat --color always {}' |
+            join-lines
+    )
+}
+zle -N fzf-file
+bindkey '^@f' fzf-file
+
+fzf-directory() {
+    LBUFFER+=$(
+        fd --hidden --follow --type d |
+            fzf --multi --preview 'fd --color always --hidden --base-directory {} --list-details --max-depth 1' |
+            join-lines
+    )
+}
+zle -N fzf-directory
+bindkey '^@d' fzf-directory
+
+# TODO: execute; https://github.com/junegunn/fzf/issues/477
+# TODO: timestamp
+fzf-history() {
+    selected=($(
+        fc -rl 1 |
+            perl -ne 'print unless $seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
+            fzf --height 40% -n2.. --query=$LBUFFER
+    ))
+    num=$selected[1]
+    if [[ -n $num ]]; then
+        zle vi-fetch-history -n $num
+    fi
+    zle reset-prompt
+}
+zle -N fzf-history
+bindkey '^@r' fzf-history
 
 fzf-execute-widget() {
     local widget
     widget="$(zle -l | grep -v '^orig' | cut -d ' ' -f 1 | fzf --height 40%)"
     zle redisplay
     # This doesn't working for execute(-last)-named-cmd
-    [[ -n $widget ]] && zle "$widget"
+    if [[ -n $widget ]]; then
+        zle "$widget"
+    fi
 }
 zle -N fzf-execute-widget
-bindkey '^[x' fzf-execute-widget
-bindkey '^[X' execute-named-cmd
+bindkey '^@x' fzf-execute-widget
 
 # Show git objects (commit, branch, tag, etc) and copy selection
 # Assumes the object is the first column
@@ -258,8 +298,8 @@ bindkey '^[X' execute-named-cmd
 
 fzf-git-select() {
     fzf --multi --preview="git ${@:-show} --color {1}" |
-    cut -d ' ' -f 1 |
-    clip
+        cut -d ' ' -f 1 |
+        join-lines
 }
 
 fzf-git-branch() {
@@ -300,7 +340,7 @@ fzf-git-status() {
         git -c color.status=always stat |
             fzf --multi --preview 'git diff --color HEAD -- {-1}' |
             cut -c 4- |
-            clip
+            join-lines
     )
 }
 zle -N fzf-git-status
@@ -328,6 +368,7 @@ fi
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
+# TODO: Replace with fzf widget(s) based on `cdr -l`
 if (( $+commands[zoxide] )); then
     eval "$(zoxide init zsh)"
     alias zq="zoxide query"
