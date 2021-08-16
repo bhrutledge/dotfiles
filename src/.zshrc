@@ -166,12 +166,12 @@ bindkey "^W" kill-region
 bindkey "^[q" push-line-or-edit
 bindkey "^[Q" push-input
 
+# TODO: pbcopy-kill-region
 pbcopy-region-as-kill () {
     zle copy-region-as-kill
     print -rn $CUTBUFFER | pbcopy
 }
 zle -N pbcopy-region-as-kill
-bindkey "^[W" pbcopy-region-as-kill
 bindkey "^[w" pbcopy-region-as-kill
 
 # endregion
@@ -242,6 +242,7 @@ join-lines() {
 }
 
 # TODO: Add `ls -l` to preview
+# TODO: `$EDITOR` if buffer is empty
 fzf-file() {
     LBUFFER+=$(
         fd --color always --hidden --follow --type f |
@@ -252,6 +253,7 @@ fzf-file() {
 zle -N fzf-file
 bindkey '^@f' fzf-file
 
+# TODO: `cd` if buffer is empty
 fzf-directory() {
     LBUFFER+=$(
         fd --hidden --follow --type d |
@@ -262,9 +264,11 @@ fzf-directory() {
 zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
+# TODO: Simplify via `fc -lnr 1` and `BUFFER=`
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
 # TODO: timestamp
 fzf-history() {
+    local selected num
     selected=($(
         fc -rl 1 |
             perl -ne 'print unless $seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
@@ -274,6 +278,7 @@ fzf-history() {
     if [[ -n $num ]]; then
         zle vi-fetch-history -n $num
     fi
+    # TODO: Why is this necessary?
     zle reset-prompt
 }
 zle -N fzf-history
@@ -282,9 +287,10 @@ bindkey '^@r' fzf-history
 fzf-execute-widget() {
     local widget
     widget="$(zle -l | grep -v '^orig' | cut -d ' ' -f 1 | fzf --height 40%)"
+    # TODO: Compare this to `reset-prompt` and `-R`
     zle redisplay
-    # This doesn't working for execute(-last)-named-cmd
     if [[ -n $widget ]]; then
+        # This doesn't work for execute(-last)-named-cmd
         zle "$widget"
     fi
 }
