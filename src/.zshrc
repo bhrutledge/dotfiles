@@ -240,12 +240,6 @@ export FZF_ALT_C_COMMAND="fd --hidden --follow --type d"
 export FZF_ALT_C_OPTS="--no-height --preview 'fd --color always --base-directory {} --hidden -l -d1'"
 source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
 
-# TODO: Configure completion
-# https://github.com/junegunn/fzf/#fuzzy-completion-for-bash-and-zsh
-# https://github.com/junegunn/fzf/wiki/Configuring-fuzzy-completion
-# https://github.com/junegunn/fzf/wiki/Examples-(completion)
-# source "$(brew --prefix)/opt/fzf/shell/completion.zsh"
-
 fzf-execute-widget() {
     local widget
     widget="$(zle -l | grep -v '^orig' | cut -d ' ' -f 1 | fzf --height 40%)"
