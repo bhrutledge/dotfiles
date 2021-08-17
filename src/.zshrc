@@ -241,7 +241,7 @@ join-lines() {
 }
 
 # TODO: Add `ls -l` to preview
-# TODO: `$EDITOR` if buffer is empty
+# TODO: `$EDITOR` or `open` if BUFFER is empty
 fzf-file() {
     LBUFFER+=$(
         fd --color always --hidden --follow --type f |
@@ -252,25 +252,43 @@ fzf-file() {
 zle -N fzf-file
 bindkey '^@f' fzf-file
 
-# TODO: `cd` if buffer is empty
 fzf-directory() {
-    LBUFFER+=$(
+    local selection
+    # TODO: Only use --multi if not cd-ing
+    selection=$(
         fd --hidden --follow --type d |
             fzf --multi --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1' |
             join-lines
     )
+    [[ -n "$selection" ]] || return;
+
+    if [[ -z "$BUFFER" ]]; then
+        BUFFER="cd $selection"
+        zle accept-line
+    else
+        LBUFFER+=$selection;
+    fi
 }
 zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
-# TODO: `cd` if buffer is empty
+# TODO: Share logic w/ fzf-directory
 # TODO: `--preview` ala fzf-directory, but need to handle tilde and slashes
 fzf-recent-directory() {
-    LBUFFER+=$(
+    local selection
+    selection=$(
         cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
             fzf --multi --tiebreak=end
             join-lines
     )
+    [[ -n "$selection" ]] || return;
+
+    if [[ -z "$BUFFER" ]]; then
+        BUFFER="cd $selection"
+        zle accept-line
+    else
+        LBUFFER+=$selection;
+    fi
 }
 zle -N fzf-recent-directory
 bindkey '^@z' fzf-recent-directory
@@ -305,6 +323,7 @@ bindkey '^@x' fzf-execute-widget
 # Assumes the object is the first column
 # Inspired by https://junegunn.kr/2016/07/fzf-git
 # and https://gist.github.com/junegunn/8b572b8d4b5eddd8b85e5f4d40f17236
+# TODO: Add default commands ala `fzf-directory`
 
 fzf-git-select() {
     fzf --multi --preview="git ${@:-show} --color {1}" |
@@ -313,6 +332,7 @@ fzf-git-select() {
 }
 
 fzf-git-branch() {
+    # TODO: Exclude current branch
     LBUFFER+=$(git branches --color | fzf-git-select hist)
 }
 zle -N fzf-git-branch
