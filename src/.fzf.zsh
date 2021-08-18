@@ -33,11 +33,9 @@ bindkey '^@f' fzf-file
 
 fzf-directory() {
     local selection
-    # TODO: Only use --multi if not cd-ing
     selection=$(
         fd --hidden --follow --type d |
-            fzf --multi --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1' |
-            join-lines
+            fzf --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
     )
     [[ -n "$selection" ]] || return;
 
@@ -57,8 +55,7 @@ fzf-recent-directory() {
     local selection
     selection=$(
         cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
-            fzf --multi --tiebreak=end
-            join-lines
+            fzf --tiebreak=end
     )
     [[ -n "$selection" ]] || return;
 
@@ -70,7 +67,7 @@ fzf-recent-directory() {
     fi
 }
 zle -N fzf-recent-directory
-bindkey '^@z' fzf-recent-directory
+bindkey '^@-' fzf-recent-directory
 
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
 fzf-history() {
