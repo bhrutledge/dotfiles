@@ -33,10 +33,18 @@ bindkey '^@f' fzf-file
 
 fzf-directory() {
     local selection
-    selection=$(
-        fd --hidden --follow --type d |
-            fzf --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
-    )
+    if [[ $WIDGET == *recent* ]]; then
+        # TODO: `--preview`, but need to handle tilde and slashes
+        selection=$(
+            cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
+                fzf --tiebreak=end
+        )
+    else
+        selection=$(
+            fd --hidden --follow --type d |
+                fzf --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
+        )
+    fi
     [[ -n "$selection" ]] || return;
 
     if [[ -z "$BUFFER" ]]; then
@@ -46,27 +54,11 @@ fzf-directory() {
         LBUFFER+=$selection;
     fi
 }
+
 zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
-# TODO: Share logic w/ fzf-directory
-# TODO: `--preview` ala fzf-directory, but need to handle tilde and slashes
-fzf-recent-directory() {
-    local selection
-    selection=$(
-        cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
-            fzf --tiebreak=end
-    )
-    [[ -n "$selection" ]] || return;
-
-    if [[ -z "$BUFFER" ]]; then
-        BUFFER="cd $selection"
-        zle accept-line
-    else
-        LBUFFER+=$selection;
-    fi
-}
-zle -N fzf-recent-directory
+zle -N fzf-recent-directory fzf-directory
 bindkey '^@-' fzf-recent-directory
 
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
