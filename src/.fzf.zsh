@@ -34,24 +34,28 @@ bindkey '^@f' fzf-file
 fzf-directory() {
     local selection
     if [[ $WIDGET == *recent* ]]; then
-        # TODO: `--preview`, but need to handle tilde and slashes
         selection=$(
             cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
-                fzf --tiebreak=end
+                while read -r dir; do echo ${(Q)${~dir}}; done |
+                fzf --tiebreak=end --preview='
+                    fd --base-directory {} --color always --hidden --list-details --max-depth 1
+                '
         )
     else
         selection=$(
             fd --hidden --follow --type d |
-                fzf --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
+                fzf --tiebreak=end --preview='
+                    fd --base-directory {} --color always --hidden --list-details --max-depth 1
+                '
         )
     fi
     [[ -n "$selection" ]] || return;
 
     if [[ -z "$BUFFER" ]]; then
-        BUFFER="cd $selection"
+        BUFFER="cd ${(q)selection}"
         zle accept-line
     else
-        LBUFFER+=$selection;
+        LBUFFER+=${(q)selection}
     fi
 }
 
