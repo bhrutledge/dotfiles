@@ -12,10 +12,10 @@ export FZF_DEFAULT_COMMAND="fd --color always --hidden --follow"
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
 # TODO: Add setopt, ret, and reset-prompt if necessary
 
-join-lines() {
-  local item
-  while read item; do
-    echo -n "${(q)item} "
+join-quoted-lines() {
+  local line
+  while read line; do
+    echo -n "${(q)line} "
   done
 }
 
@@ -25,7 +25,7 @@ fzf-file() {
     LBUFFER+=$(
         fd --color always --hidden --follow --type f |
             fzf --multi --tiebreak=end --preview='bat --color always {}' |
-            join-lines
+            join-quoted-lines
     )
 }
 zle -N fzf-file
@@ -33,22 +33,10 @@ bindkey '^@f' fzf-file
 
 fzf-directory() {
     local selection
-    if [[ $WIDGET == *recent* ]]; then
-        selection=$(
-            cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
-                while read -r dir; do echo ${(Q)${~dir}}; done |
-                fzf --tiebreak=end --preview='
-                    fd --base-directory {} --color always --hidden --list-details --max-depth 1
-                '
-        )
-    else
-        selection=$(
-            fd --hidden --follow --type d |
-                fzf --tiebreak=end --preview='
-                    fd --base-directory {} --color always --hidden --list-details --max-depth 1
-                '
-        )
-    fi
+    selection=$(
+        fd --hidden --follow --type d |
+            fzf --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
+    )
     [[ -n "$selection" ]] || return;
 
     if [[ -z "$BUFFER" ]]; then
@@ -58,11 +46,27 @@ fzf-directory() {
         LBUFFER+=${(q)selection}
     fi
 }
-
 zle -N fzf-directory
 bindkey '^@d' fzf-directory
 
-zle -N fzf-recent-directory fzf-directory
+# TODO: Extract "execute or append" logic shared w/ fzf-directory
+fzf-recent-directory() {
+    local selection
+    selection=$(
+        cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
+            fzf --tiebreak=end
+    )
+    [[ -n "$selection" ]] || return;
+
+    # Don't need (q) because `cdr -l` is already quoted
+    if [[ -z "$BUFFER" ]]; then
+        BUFFER="cd $selection"
+        zle accept-line
+    else
+        LBUFFER+=$selection;
+    fi
+}
+zle -N fzf-recent-directory
 bindkey '^@-' fzf-recent-directory
 
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
@@ -100,7 +104,7 @@ bindkey '^@x' fzf-execute-widget
 fzf-git-select() {
     fzf --multi --preview="git ${@:-show} --color {1}" |
         cut -d ' ' -f 1 |
-        join-lines
+        join-quoted-lines
 }
 
 fzf-git-branch() {
@@ -142,7 +146,7 @@ fzf-git-status() {
         git -c color.status=always stat |
             fzf --multi --preview 'git diff --color HEAD -- {-1}' |
             cut -c 4- |
-            join-lines
+            join-quoted-lines
     )
 }
 zle -N fzf-git-status
