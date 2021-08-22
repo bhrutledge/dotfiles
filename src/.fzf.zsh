@@ -108,8 +108,11 @@ fzf-git-select() {
 }
 
 fzf-git-branch() {
-    # TODO: Exclude current branch
-    LBUFFER+=$(git branches --color | fzf-git-select hist)
+    local selection
+    selection=$(git branches --color | fzf-git-select hist)
+    [[ -n "$selection" ]] || return;
+
+    LBUFFER=${LBUFFER:-'git switch '}$selection
 }
 zle -N fzf-git-branch
 bindkey "^Gb" fzf-git-branch
@@ -138,10 +141,9 @@ fzf-git-tag() {
 zle -N fzf-git-tag
 bindkey "^Gt" fzf-git-tag
 
-# TODO: Support more statuses
-# `cat` untracked files
+# TODO: Preview untracked files
 # Maybe use ls-files ala `git aliases`
-fzf-git-status() {
+fzf-git-diff() {
     LBUFFER+=$(
         git -c color.status=always stat |
             fzf --multi --preview 'git diff --color HEAD -- {-1}' |
@@ -149,5 +151,5 @@ fzf-git-status() {
             join-quoted-lines
     )
 }
-zle -N fzf-git-status
-bindkey "^Gg" fzf-git-status
+zle -N fzf-git-diff
+bindkey "^Gd" fzf-git-diff
