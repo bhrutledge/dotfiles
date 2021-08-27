@@ -113,11 +113,11 @@ fzf-git-branch() {
     [[ -n "$selection" ]] || return;
 
     if [[ -z "$BUFFER" ]]; then
-        # TODO: Use rev-parse to allow branches with slashes
-        # selection=$(git rev-parse --symbolic-full-name $selection)
-        # selection=${selection##refs/remotes/*/}
-        # selection=${selection##refs/heads/}
-        selection=${selection##*/}
+        # Get the branch name, which could be remote and include slashes
+        # Using eval to avoid "ambiguous argument" error when using variable
+        selection=$(eval git rev-parse --symbolic-full-name $selection)
+        selection=${selection##refs/heads/}
+        selection=${selection##refs/remotes/*/}
         BUFFER="git switch $selection"
         zle end-of-line
         # zle accept-line
