@@ -1,6 +1,6 @@
 [alias]
     aliases = config --get-regexp ^alias
-    branches = branch --sort=-committerdate --sort=refname:rstrip=1 --format='\
+    branches = branch --all --sort=-committerdate --sort=refname:rstrip=1 --format='\
 %(refname:short) \
 %(color:dim)%(committerdate:short)%(color:reset) \
 %(color:red)%(upstream:trackshort)\

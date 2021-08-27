@@ -112,7 +112,18 @@ fzf-git-branch() {
     selection=$(git branches --color | fzf-git-select hist)
     [[ -n "$selection" ]] || return;
 
-    LBUFFER=${LBUFFER:-'git switch '}$selection
+    if [[ -z "$BUFFER" ]]; then
+        # TODO: Use rev-parse to allow branches with slashes
+        # selection=$(git rev-parse --symbolic-full-name $selection)
+        # selection=${selection##refs/remotes/*/}
+        # selection=${selection##refs/heads/}
+        selection=${selection##*/}
+        BUFFER="git switch $selection"
+        zle end-of-line
+        # zle accept-line
+    else
+        LBUFFER+=$selection;
+    fi
 }
 zle -N fzf-git-branch
 bindkey "^Gb" fzf-git-branch
