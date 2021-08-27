@@ -119,8 +119,7 @@ fzf-git-branch() {
         selection=${selection##refs/heads/}
         selection=${selection##refs/remotes/*/}
         BUFFER="git switch $selection"
-        zle end-of-line
-        # zle accept-line
+        zle accept-line
     else
         LBUFFER+=$selection;
     fi
