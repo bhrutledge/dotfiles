@@ -1,7 +1,7 @@
 # Fuzzy Find
 # https://github.com/junegunn/fzf/
 
-export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0 --bind=ctrl-z:ignore,ctrl-r:toggle-sort"
+export FZF_DEFAULT_OPTS="--ansi --reverse --exit-0 --bind=ctrl-z:ignore,ctrl-r:toggle-sort --preview-window '60%'"
 
 # https://github.com/sharkdp/fd/blob/master/README.md#using-fd-with-fzf
 # TODO: Extract common fd options
@@ -99,7 +99,6 @@ bindkey '^@x' fzf-execute-widget
 # Assumes the object is the first column
 # Inspired by https://junegunn.kr/2016/07/fzf-git
 # and https://gist.github.com/junegunn/8b572b8d4b5eddd8b85e5f4d40f17236
-# TODO: Add default commands ala `fzf-directory`
 
 fzf-git-select() {
     fzf --multi --preview="git ${@:-show} --color {1}" |
@@ -140,7 +139,7 @@ zle -N fzf-git-reflog
 bindkey "^Gr" fzf-git-reflog
 
 fzf-git-stash() {
-    LBUFFER+=$(git stash --color list --no-decorate --format='%C(yellow)%gd %C(auto)%gs' | fzf-git-select)
+    LBUFFER+=$(git stash list --color --no-decorate --format='%C(yellow)%gd %C(auto)%gs' | fzf-git-select)
 }
 zle -N fzf-git-stash
 bindkey "^Gs" fzf-git-stash
