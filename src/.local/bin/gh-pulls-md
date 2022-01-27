@@ -36,6 +36,7 @@ query="
                     }
                 }
                 reviewDecision
+                isDraft
             }
         }
     }
@@ -46,6 +47,7 @@ gh api graphql -f query="$query" |
     jq -r '
 (
     .data.search.nodes[] |
+    .title = (if .isDraft then "DRAFT " else "" end) + .title |
     [
         "- [ ]",
         (.updatedAt | fromdate | strflocaltime("%m/%d")),
