@@ -159,19 +159,23 @@ bindkey '^[;' copy-earlier-word
 bindkey "^Xr" history-beginning-search-backward
 bindkey "^Xs" history-beginning-search-forward
 
-bindkey "^W" kill-region
-
 # Overriding push-line
 bindkey "^[q" push-line-or-edit
 bindkey "^[Q" push-input
 
-# TODO: pbcopy-kill-region
-pbcopy-region-as-kill () {
+pb-copy-region-as-kill () {
     zle copy-region-as-kill
-    print -rn $CUTBUFFER | pbcopy
+    print -rn -- $CUTBUFFER | pbcopy
 }
-zle -N pbcopy-region-as-kill
-bindkey "^[w" pbcopy-region-as-kill
+zle -N pb-copy-region-as-kill
+bindkey "^[w" pb-copy-region-as-kill
+
+pb-kill-region () {
+    zle kill-region
+    print -rn -- $CUTBUFFER | pbcopy
+}
+zle -N pb-kill-region
+bindkey "^W" pb-kill-region
 
 # endregion
 
