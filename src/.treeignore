@@ -5,7 +5,10 @@ __*
 .tox
 *.egg-info
 *.pyc
-*cache
+__pycache__
+.pytest_cache
+.mypy_cache
+.sass-cache
 *venv*
 htmlcov
 node_modules
