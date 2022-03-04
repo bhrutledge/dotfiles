@@ -13,3 +13,6 @@ echo "$@" |
     jq -r ".items[].repository.html_url" |
     sort -f |
     uniq
+
+# TODO: Add stars
+# TODO: Optionally show search results
