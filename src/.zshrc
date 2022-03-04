@@ -196,7 +196,12 @@ alias today='date "+%Y%m%d"'
 #     ls -l | clip
 alias clip='tee >(pbcopy)'
 
-alias tree='tree -I "$(paste -d\| -s $HOME/.treeignore)"'
+# TODO: Remove .treeignore
+# alias tree='tree -I "$(paste -d\| -s $HOME/.treeignore)"'
+
+fdtree () {
+    fd "$@" | as-tree
+}
 
 # Alert after long-running commands
 #     pytest; status

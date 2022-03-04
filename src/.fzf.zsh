@@ -80,7 +80,7 @@ fzf-history() {
     zle redisplay
 }
 zle -N fzf-history
-bindkey '^@r' fzf-history
+bindkey '^r' fzf-history
 
 fzf-execute-widget() {
     local widget
