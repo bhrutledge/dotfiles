@@ -24,7 +24,7 @@ join-quoted-lines() {
 fzf-file() {
     LBUFFER+=$(
         fd --color always --hidden --follow --type f |
-            fzf --multi --tiebreak=end --preview='bat --color always {}' |
+            fzf --multi --scheme=path --tiebreak=end --preview='bat --color always {}' |
             join-quoted-lines
     )
 }
@@ -35,7 +35,7 @@ fzf-directory() {
     local selection
     selection=$(
         fd --hidden --follow --type d |
-            fzf --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
+            fzf --scheme=path --tiebreak=end --preview='fd --color always --hidden --base-directory {} --list-details --max-depth 1'
     )
     [[ -n "$selection" ]] || return;
 
@@ -54,7 +54,7 @@ fzf-recent-directory() {
     local selection
     selection=$(
         cdr -l | tr -s ' ' | cut -d ' ' -f 2- |
-            fzf --tiebreak=end
+            fzf --scheme=path --tiebreak=end
     )
     [[ -n "$selection" ]] || return;
 
@@ -71,11 +71,21 @@ bindkey '^@-' fzf-recent-directory
 
 # TODO: execute; https://github.com/junegunn/fzf/issues/477
 fzf-history() {
-    BUFFER=$(
-        fc -lnr 1 |
-            perl -ne 'print unless $seen{$_}++' |
-            fzf --height=40% --tiebreak=index --query=$LBUFFER
-    )
+    # Select a line from de-duped history
+    # Assign selected line to an array; the first element should be the history line number
+    # https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh#L97-L111
+    local selected num
+    selected=($(
+        fc -lr 1 |
+            awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' |
+            fzf --height=40% --scheme=history --with-nth=2.. --query=$LBUFFER
+    ))
+    if [ -n "$selected" ]; then
+        num=$selected[1]
+        if [ -n "$num" ]; then
+            zle vi-fetch-history -n $num
+        fi
+    fi
     zle end-of-line
     zle redisplay
 }
@@ -127,7 +137,7 @@ zle -N fzf-git-branch
 bindkey "^Gb" fzf-git-branch
 
 fzf-git-hash() {
-    LBUFFER+=$(git hist --color | fzf-git-select)
+    LBUFFER+=$(git hist -n 50 --color | fzf-git-select)
 }
 zle -N fzf-git-hash
 bindkey "^Gh" fzf-git-hash
