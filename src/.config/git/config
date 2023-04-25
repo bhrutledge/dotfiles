@@ -13,7 +13,7 @@
     sha = rev-parse HEAD
     root = rev-parse --show-toplevel
     stat = status --short
-    hist = log --pretty='format:%C(auto)%h %C(dim)%cs %C(auto)%s%d' -n 50
+    hist = log --pretty='format:%C(auto)%h %C(dim)%cs %C(auto)%s%d' -n 10
     # File lists
     staged = diff --name-only --staged
     modified = ls-files --modified
@@ -23,6 +23,10 @@
     publish = push --set-upstream origin HEAD
     upstream = rev-parse --abbrev-ref @{upstream}
     sync = !git pull --ff-only upstream $(git head) && git publish
+    # Misc
+    changelog = git log $(git describe --tags --abbrev=0)..HEAD --first-parent --pretty=%s
+    fixup = commit --fixup
+    amend = commit --amend --no-edit
 [difftool]
     prompt = false
 [mergetool]

@@ -49,7 +49,7 @@ gh api graphql -f query="$query" |
     .data.search.nodes[] |
     .title = (if .isDraft then "DRAFT " else "" end) + .title |
     [
-        "- [ ]",
+        "- ",
         (.updatedAt | fromdate | strflocaltime("%m/%d")),
         (
             .reviewDecision // "" |
