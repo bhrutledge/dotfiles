@@ -225,6 +225,10 @@ status() {
     notify "$message" "$sound"
 }
 
+# Misc
+
+alias ports="sudo lsof -P -i 4TCP:1-10000 -s TCP:LISTEN +c 0"
+
 # endregion
 
 # region ADDONS

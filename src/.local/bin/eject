@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+diskutil list external physical |
+    grep -oE '/dev/disk[0-9]+' |
+    parallel diskutil eject
