@@ -1,3 +1,5 @@
+tap "ellie/atuin"
+brew "atuin"
 brew "as-tree"
 brew "bat"
 brew "choose-rust"

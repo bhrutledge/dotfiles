@@ -253,6 +253,8 @@ fi
 
 (( $+commands[fzf] )) && [[ -e "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 
+(( $+commands[atuin] )) && eval "$(atuin init zsh --disable-up-arrow)"
+
 # Needs to be last
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
