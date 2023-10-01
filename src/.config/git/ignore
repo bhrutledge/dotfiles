@@ -1,6 +1,6 @@
 .DS_Store
 .envrc
-.vscode/
+.vscode/settings.json
 .ignore
 .ipynb_checkpoints/
 LFTM
