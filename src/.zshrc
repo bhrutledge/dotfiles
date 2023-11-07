@@ -239,13 +239,45 @@ if [[ ! -v PATH_SET ]]; then
     PATH="$HOME/.local/bin:$PATH"
     PATH="$(python3 -m site --user-base)/bin:$PATH"
 
+    # Lazy load to speed up new terminals
+    # https://frederic-hemberger.de/notes/speeding-up-initial-zsh-startup-with-lazy-loading/
+    # Setting PATH to ensure that proper versions are still used
+    # TODO: Remove shims entries from PATH before init to avoid duplicates;
+    # Maybe replace PATH_SET with `typeset -aU path` at end of this file?
+
     if (( $+commands[pyenv] )); then
-        eval "$(pyenv init --path)"
-        eval "$(pyenv init -)"
+        # https://github.com/kadaan/zsh-pyenv-lazy/blob/master/pyenv-lazy.plugin.zsh
+        local PYENV_SHIMS="${PYENV_ROOT:-${HOME}/.pyenv}/shims"
+        export PATH="${PYENV_SHIMS}:${PATH}"
+        pyenv() {
+            unfunction "$0"
+            eval "$(pyenv init --path)"
+            eval "$(pyenv init -)"
+            $0 "$@"
+        }
     fi
 
-    (( $+commands[nodenv] )) && eval "$(nodenv init -)"
-    (( $+commands[rbenv] )) && eval "$(rbenv init -)"
+    if (( $+commands[nodenv] )); then
+        # https://github.com/kadaan/zsh-nodenv-lazy/blob/master/nodenv-lazy.plugin.zsh
+        local NODENV_SHIMS="${NODENV_ROOT:-${HOME}/.nodenv}/shims"
+        export PATH="${NODENV_SHIMS}:${PATH}"
+        nodenv() {
+            unfunction "$0"
+            eval "$(nodenv init -)"
+            $0 "$@"
+        }
+    fi
+
+    if (( $+commands[rbenv] )); then
+        # https://github.com/kadaan/zsh-rbenv-lazy/blob/master/rbenv-lazy.plugin.zsh
+        local RBENV_SHIMS="${RBENV_ROOT:-${HOME}/.rbenv}/shims"
+        export PATH="${RBENV_SHIMS}:${PATH}"
+        rbenv() {
+            unfunction "$0"
+            eval "$(rbenv init -)"
+            $0 "$@"
+        }
+    fi
 
     export PATH_SET=1
 fi
