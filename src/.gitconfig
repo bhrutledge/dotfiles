@@ -16,10 +16,10 @@
 [rebase]
     autoSquash = true
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
 [alias]
     aliases = config --get-regexp ^alias
     branches = branch --all --sort=-committerdate --sort=refname:rstrip=1 --format='\
