@@ -3,6 +3,7 @@
 # https://zsh.sourceforge.io/Doc/Release/Options.html
 unsetopt BEEP
 unsetopt FLOW_CONTROL
+setopt INTERACTIVE_COMMENTS
 
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Accessing-On_002dLine-Help
 HELPDIR=/usr/share/zsh/$ZSH_VERSION/help
@@ -251,8 +252,7 @@ if [[ ! -v PATH_SET ]]; then
         export PATH="${PYENV_SHIMS}:${PATH}"
         pyenv() {
             unfunction "$0"
-            eval "$(pyenv init --path)"
-            eval "$(pyenv init -)"
+            eval "$(pyenv init - zsh)"
             $0 "$@"
         }
     fi
@@ -285,6 +285,8 @@ fi
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
 (( $+commands[fzf] )) && [[ -e "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+
+(( $+commands[gh] )) && eval "$(gh copilot alias -- zsh)"
 
 # Needs to be last
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
