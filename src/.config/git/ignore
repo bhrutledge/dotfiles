@@ -5,3 +5,5 @@
 .ipynb_checkpoints/
 LFTM
 .gist
+CLAUDE.local.md
+.claude/settings.local.json
