@@ -1,43 +1,98 @@
-" Settings based on :help nvim-defaults
-" https://github.com/noahfrederick/vim-neovim-defaults
+" CORE SETUP {{{
 
+" Force Vim mode instead of Vi compatibility
+set nocompatible
+" Use UTF-8 encoding
+set encoding=utf-8
+" Remember 10000 commands in history
+set history=10000
+" Don't save options in session files
+set sessionoptions-=options
+" Fast terminal connection
+set ttyfast
+" Save and restore global variables
+set viminfo+=!
+
+" Enable filetype detection, plugins, and indentation
 filetype plugin indent on
+
+" }}}
+
+" EDITING BEHAVIOR {{{
+
+" Copy indent from current line when starting new line
+set autoindent
+" Allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+" Use spaces instead of tabs, 4 spaces per tab
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+" Make <Tab> and <Backspace> work with spaces
+set smarttab
+" Wrap long lines at word boundaries
+set linebreak
+" Auto-formatting options: text, comments, auto-wrap, remove comment leader on join
+set formatoptions=tcqj
+" Don't scan included files for completion
+set complete-=i
+" Completion menu behavior: show longest match, always show menu
+set completeopt=longest,menuone
+
+" }}}
+
+" SEARCH AND NAVIGATION {{{
+
+" Automatically read files when changed outside vim
+set autoread
+" Highlight search matches
+set hlsearch
+" Show matches as you type search pattern
+set incsearch
+" Search files in working directory, current file directory, and subdirectories
+set path=.,,**
+" Look for tags files in current directory and up the tree
+set tags=./tags;,tags
+
+" Enhanced % matching
+packadd! matchit
+
+" }}}
+
+" UI AND DISPLAY {{{
 
 syntax enable
 set background=dark
-" TODO: This looks weird in macOS terminal?
 " set termguicolors
 
-set autoindent
-set autoread
-set backspace=indent,eol,start
-set complete-=i
+" Show as much as possible of the last line
 set display=lastline
-set encoding=utf-8
-set formatoptions=tcqj
-set history=10000
-set hlsearch
-set incsearch
+" Always show status line
 set laststatus=2
-set listchars=tab:>\ ,trail:-,nbsp:+
-set mouse=a
-set nrformats=hex
-set sessionoptions-=options
+" Show line numbers
+set number
+" Show cursor position in status line
 set ruler
-set smarttab
-set tabpagemax=50
-set tags=./tags;,tags
-set ttyfast
-set viminfo+=!
+" Keep 10 lines visible above/below cursor
+set scrolloff=10
+" New splits open to the right and below
+set splitright splitbelow
+" Show tabs, trailing spaces, and non-breaking spaces
+set listchars=tab:>\ ,trail:-,nbsp:+
+" Enable mouse in all modes
+set mouse=a
+
+" Set terminal title: file.txt + (~/p/t/dir)
+set title titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
+
+" }}}
+
+" COMPLETION AND WILDCARDS {{{
+
+" Enhanced command-line completion
 set wildmenu
+" Use popup menu for command completion
+set wildoptions=pum
 
-packadd! matchit
-
-" SETTINGS {{{
-
-" Search files in working directory, current file directory, and subdirectories
-set path=.,,**
-
+" Ignore compiled files and common directories
 set wildignore+=*.o,*.obj,*.pyc,*.map
 set wildignore+=*/.git/*
 set wildignore+=*/eggs/*
@@ -49,28 +104,22 @@ set wildignore+=*/dist/*
 set wildignore+=*/.sass-cache/*
 set wildignore+=tags
 
-set wildoptions+=pum
+" }}}
 
-set number
-set expandtab tabstop=4 shiftwidth=4 softtabstop=4
-set scrolloff=10
-set splitright splitbelow
-set linebreak
+" NETRW FILE BROWSER {{{
 
-" Set terminal title: file.txt + (~/p/t/dir)
-" TODO: Maybe file.txt + ($PWD)?
-set title titlestring=%t%(\ %M%)%(\ (%{pathshorten(expand('%:~:h'))})%)
-
-set completeopt=longest,menuone
-
+" File browser buffer settings: no modify, read-only, relative line numbers
 let g:netrw_bufsettings = "noma nomod nobl nowrap ro rnu"
+" Hide the banner
 let g:netrw_banner = 0
+" Tree-style listing
 let g:netrw_liststyle = 3
+" Open files in vertical split
 let g:netrw_altv = 1
+" Size of netrw window (negative = percentage)
 let g:netrw_winsize = -40
 
 " }}}
-
 
 " MAPPINGS {{{
 
@@ -83,21 +132,19 @@ nnoremap <leader>ss :syntax sync fromstart<CR>
 " Remove trailing whitespace
 nnoremap <leader>sw :%s/\s\+$//<CR>:let @/=''<CR>
 
-" Clear search (see unimpaired for `:set hlsearch` toggles)
+" Clear search highlighting
 nnoremap <silent> <leader>/ :let @/=''<CR>
 
 " Set working directory to current file directory
 nnoremap <leader>ch :lcd %:p:h<CR>
 
-" Insert current file name/path/directory
-" TODO: These might not be necessary; the expand args might be sufficient
+" Insert current file name/path/directory in command line
 cnoremap ;t <c-r>=expand("%:t")<CR>
 cnoremap ;p <c-r>=expand("%:p")<CR>
 cnoremap ;h <c-r>=expand("%:p:h")<CR>/
 cnoremap ;H <c-r>=expand("%:.:h")<CR>/
 
-" Yank current file name/path/directory
-" TODO: Use a single map that takes expand args
+" Yank current file name/path/directory to unnamed register
 nnoremap <leader>yf :let @"=@% \| echo @"<CR>
 nnoremap <leader>yt :let @"=expand("%:t") \| echo @"<CR>
 nnoremap <leader>yp :let @"=expand("%:p") \| echo @"<CR>
@@ -105,7 +152,6 @@ nnoremap <leader>yh :let @"=expand("%:p:h") \| echo @"<CR>
 nnoremap <leader>yH :let @"=expand("%:.:h") \| echo @"<CR>
 
 " Copy unnamed register to clipboard
-" TODO: echo first X chars
 nnoremap <leader>cy :let @+=@"<CR>
 
 " Open vertical windows
@@ -117,20 +163,15 @@ nnoremap <leader>td :echo strftime("%l:%M %m/%d")<CR>
 " Friendlier grep: don't jump, show quickfix instead of full screen output
 command! -nargs=+ Grep execute 'silent grep! <args>' | redraw! | cwindow
 
+" Use ripgrep if available
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
 " }}}
 
-
 " STATUS LINE {{{
-" https://shapeshed.com/vim-statuslines/
-" http://learnvimscriptthehardway.stevelosh.com/chapters/17.html
-" TODO: Highlighting
-" TODO: Max widths
-" TODO: Whitespace/Indent warning
-" TODO: http://vim.wikia.com/wiki/Display_date-and-time_on_status_line
 
 " path/to/file[+]
 set statusline=\ %.30f%m
@@ -151,14 +192,13 @@ set statusline+=[%{&fileformat}]
 set statusline+=\ %#StatusLineNC#
 set statusline+=\ %P\ %4l\ %3c\ 
 
+" Don't show ruler (position info) since it's in statusline
 set noruler
 
 " }}}
 
+" FILE TYPE SETTINGS {{{
 
-" AUTOCOMMANDS {{{
-
-" TODO: When this gets big, consider moving to after/ftplugin/<filetype>.vim
 augroup filetypes
     autocmd!
     autocmd FileType help setlocal relativenumber textwidth=0
@@ -170,4 +210,4 @@ augroup filetypes
     autocmd BufNewFile,BufRead .*envrc set filetype=sh
 augroup END
 
-" }}}
+" }}
