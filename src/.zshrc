@@ -26,7 +26,22 @@ export BAT_THEME="Visual Studio Dark+"
 # endregion
 
 # region PROMPT
+# https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+# https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion
+setopt PROMPT_SUBST
 
+# Blank line before prompt
+PROMPT='
+'
+
+# User and host (if using SSH)
+PROMPT+='${SSH_CLIENT+"%F{magenta}%m%f:"}'
+
+# Current directory
+PROMPT+='%B%F{blue}%~%f%b'
+
+# Git status (if in a repo)
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
 source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -35,27 +50,28 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWCOLORHINTS=1
 GIT_PS1_SHOWUPSTREAM='verbose'
 GIT_PS1_DESCRIBE_STYLE='branch'
+PROMPT+='$(__git_ps1 " [%s]")'
 
-# https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
-# https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion
-setopt PROMPT_SUBST
-# Blank line before prompt
-PROMPT='
-'
-# User and host (if using SSH)
-PROMPT+='${SSH_CLIENT+"%F{magenta}%m%f:"}'
-# Current directory
-PROMPT+='%B%F{blue}%~%f%b'
-# Git status (if in a repo)
-PROMPT+='$(__git_ps1 " (%s)")'
-# Python virtualenv (if set)
+# Python virtual environment (if set)
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-PROMPT+='${VIRTUAL_ENV+ (${VIRTUAL_ENV:t2})}'
+function virtual_env_name() {
+    local venv_parent="${VIRTUAL_ENV:h}"
+    if [[ $PWD == $venv_parent* ]]; then
+        # Within project, show `venv`
+        echo ${VIRTUAL_ENV:t}
+    else
+        # Outside project, show `project/venv`
+        echo ${VIRTUAL_ENV:t2}
+    fi
+}
+PROMPT+='%F{245}${VIRTUAL_ENV+ ($(virtual_env_name))}%f'
+
 # AWS profile (if set)
-PROMPT+='${AWS_PROFILE+ (${AWS_PROFILE})}'
-# Return code of last command if non-zero
+PROMPT+='%F{208}${AWS_PROFILE+ ${AWS_PROFILE}}%f'
+
+# Return code of last command (if non-zero)
 PROMPT+='%(?.. %F{red}%?%f)'
+
 # New line and prompt character
 PROMPT+='
 %# '
