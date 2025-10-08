@@ -151,6 +151,9 @@ setopt HIST_IGNORE_SPACE
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#ZLE-Functions
 # https://zsh.sourceforge.io/Guide/zshguide04.html
 
+# Ensure emacs keybindings (VS Code seems to default to vi?)
+bindkey -e
+
 bindkey '^[k' describe-key-briefly
 
 autoload -U edit-command-line
