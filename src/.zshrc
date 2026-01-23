@@ -314,8 +314,6 @@ fi
 
 (( $+commands[fzf] )) && [[ -e "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 
-(( $+commands[gh] )) && eval "$(gh copilot alias -- zsh)"
-
 # Needs to be last
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
