@@ -9,7 +9,3 @@ brew bundle install --no-lock --verbose
 ```
 
 To overwrite existing files, replace `-b` with `-f`.
-
-## TODO
-
-- Single Python script in `src/bin` for linking/adding/removing/pruning
