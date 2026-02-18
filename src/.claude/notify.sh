@@ -9,8 +9,8 @@
 #
 # Install this script:
 #
-# chmod 755 claude-notify.sh
-# cp claude-notify.sh ~/.local/bin/
+# chmod 755 notify.sh
+# cp notify.sh ~/.local/bin/
 #
 # In ~/.claude/settings.json:
 #
@@ -22,7 +22,7 @@
 #         "hooks": [
 #           {
 #             "type": "command",
-#             "command": "~/.local/bin/claude-notify.sh"
+#             "command": "~/.claude/notify.sh"
 #           }
 #         ]
 #       }
@@ -38,7 +38,7 @@ set -euo pipefail
 #   "transcript_path": "/Users/brianrutledge/.claude/projects/-Users-brianrutledge-Dev-demo-project/6e0810cd-640e-422f-b339-a4419b76a528.jsonl",
 #   "hook_event_name": "Notification",
 #   "message": "Claude needs your permission to use Bash",
-#   "cwd": "/Users/brianrutledge/Dev/demo-project",
+#   "cwd": "/Users/brianrutledge/Dev/demo-project"
 # }
 input=$(cat)
 subtitle=$(echo "$input" | jq -r --arg home "$HOME" '.cwd | sub($home; "~")')
